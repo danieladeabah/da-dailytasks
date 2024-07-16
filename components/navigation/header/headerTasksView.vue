@@ -1,5 +1,5 @@
 <template>
-  <HeaderSlot>
+  <UiKitsUiSlotsHeaderSlot>
     <span>
       <NuxtLink to="/" class="text-2xl font-bold"
         ><img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt=""
@@ -12,9 +12,5 @@
         In Progress
       </button>
     </span>
-  </HeaderSlot>
+  </UiKitsUiSlotsHeaderSlot>
 </template>
-
-<script setup lang="ts">
-import HeaderSlot from "./headerSlot.vue";
-</script>

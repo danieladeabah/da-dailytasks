@@ -1,31 +1,38 @@
 <template>
-  <ProjectActivitySlot>
-    <div class="flex flex-col px-5 py-10">
+  <UiKitsUiSlotsProjectActivitySlot>
+    <div class="flex flex-col px-5 pb-5">
       <div class="flex justify-end">
         <button
-          class="py-1 rounded-xl bg-gray-200 w-[120px] text-[#000] font-semibold"
+          class="py-1 mb-4 rounded-xl bg-gray-200 w-[120px] text-[#000] font-semibold"
         >
-          Sep 20
+          28 Sep 20
         </button>
       </div>
       <div class="flex items-center justify-center">
-        <span
-          class="w-[250px] h-[250px] rounded-full border-[#4E3EC8] border"
-        ></span>
+        <UiKitsChartsLayout />
       </div>
-      <div class="flex items-center justify-center my-5">
+      <div class="flex items-center justify-center my-2">
         <div class="flex items-center justify-between gap-10 w-fit">
           <div class="flex items-center gap-2">
-            <span class="bg-[#4E3EC8] h-2 w-2 rounded-full"></span> Done
+            <span
+              class="bg-[#4E3EC8] w-3 h-3 shadow-md border-2 border-white rounded-full"
+            ></span>
+            Done
+          </div>
+          <div class="flex items-center gap-2 truncate">
+            <span
+              class="bg-[#FDCA40] w-3 h-3 shadow-md border-2 border-white rounded-full"
+            ></span>
+            In Progress
           </div>
           <div class="flex items-center gap-2">
-            <span class="bg-[#FDCA40] h-2 w-2 rounded-full"></span> In Progress
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="bg-[#F17105] h-2 w-2 rounded-full"></span> Pending
+            <span
+              class="bg-[#F17105] w-3 h-3 shadow-md border-2 border-white rounded-full"
+            ></span>
+            Pending
           </div>
         </div>
       </div>
     </div>
-  </ProjectActivitySlot>
+  </UiKitsUiSlotsProjectActivitySlot>
 </template>

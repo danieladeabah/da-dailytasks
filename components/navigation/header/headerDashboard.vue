@@ -1,5 +1,5 @@
 <template>
-  <HeaderSlot>
+  <UiKitsUiSlotsHeaderSlot>
     <span>
       <NuxtLink to="/" class="text-2xl font-bold">Dashboard</NuxtLink>
     </span>
@@ -10,9 +10,5 @@
         alt=""
       />
     </span>
-  </HeaderSlot>
+  </UiKitsUiSlotsHeaderSlot>
 </template>
-
-<script setup lang="ts">
-import HeaderSlot from "./headerSlot.vue";
-</script>

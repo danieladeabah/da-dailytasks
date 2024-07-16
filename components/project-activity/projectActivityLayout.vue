@@ -1,9 +1,4 @@
 <template>
-  <StatsView />
-  <ActivitiesLists />
+  <ProjectActivityStatsView />
+  <ProjectActivityActivitiesLists />
 </template>
-
-<script setup lang="ts">
-import ActivitiesLists from "./activitiesLists.vue";
-import StatsView from "./statsView.vue";
-</script>
