@@ -1,4 +1,6 @@
-# Daily Tasks
+# Daniel Adeabah - Frontend Developer
+
+## Personal website
 
 ---
 
