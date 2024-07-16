@@ -1,10 +1,9 @@
-# Daniel Adeabah - Frontend Developer
-
-## Personal website
+# DailyTasks App
 
 ---
 
 ## Built with
+
 - Nuxt 3 and Vue.js
 
 ---
