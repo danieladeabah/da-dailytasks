@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 useHead({
-  title: "Daniel Adeabah",
+  title: "DailyTasks App",
   link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   meta: [
     { name: "description", content: "DailyTasks App | Daniel Adeabah" },
