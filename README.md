@@ -1,6 +1,4 @@
-# Daniel Adeabah - Frontend Developer
-
-## Personal website
+# DailyTasks App
 
 ---
 
