@@ -1,0 +1,32 @@
+{
+  "dashboard": {
+    "assignTo": "Assign To",
+    "deadline": "Deadline:",
+    "tasksProgress": "Tasks Progress"
+},
+"createATask": {
+    "formDescription": "Fill out the form to add a task and assign a team members",
+    "formEditDescription": "Edit task name and assign a team members",
+    "addTaskFormDescription": "Enter task name and assign a team members",
+    "buttonAssign": "Assign",
+    "buttonEdit": "Edit",
+    "taskName": "Task Name",
+    "deadline": "Deadline",
+    "description": "Description",
+    "buttonAddTask": "Add Task"
+  },
+  "userInfo": {
+    "loggedIn": "Signed in as"
+  },
+  "projectActivity": {
+    "projectActivity": "Project Activity",
+    "browse": "Browse",
+    "completed": "Completed",
+    "deadline": "Deadline:",
+    "statsView": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "done": "Done"
+    }
+  }
+}
