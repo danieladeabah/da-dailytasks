@@ -20,19 +20,19 @@
             <span
               class="bg-[#4E3EC8] w-3 h-3 shadow-md border-2 border-white rounded-full"
             ></span>
-            {{ texts.statsView.done }}
+            {{ texts_c.statsView.done }}
           </div>
           <div class="flex items-center gap-2 truncate">
             <span
               class="bg-[#FDCA40] w-3 h-3 shadow-md border-2 border-white rounded-full"
             ></span>
-            {{ texts.statsView.inProgress }}
+            {{ texts_c.statsView.inProgress }}
           </div>
           <div class="flex items-center gap-2">
             <span
               class="bg-[#F17105] w-3 h-3 shadow-md border-2 border-white rounded-full"
             ></span>
-            {{ texts.statsView.inProgress }}
+            {{ texts_c.statsView.inProgress }}
           </div>
         </div>
       </div>
@@ -41,5 +41,5 @@
 </template>
 
 <script setup lang="ts">
-import { projectActivity as texts } from "~~/texts/texts.json";
+import { projectActivity as texts_c } from "~~/texts/texts.json";
 </script>

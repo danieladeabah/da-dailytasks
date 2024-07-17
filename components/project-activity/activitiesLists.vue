@@ -1,16 +1,16 @@
 <template>
   <UiKitsHorizontalLine />
   <UiKitsUiSlotsProjectActivitySlot>
-    <h1 class="text-2xl font-bold">{{ texts.projectActivity }}</h1>
+    <h1 class="text-2xl font-bold">{{ texts_c.projectActivity }}</h1>
     <div class="flex items-center gap-10 py-3">
       <UButton
         class="flex items-center justify-center py-1 rounded-2xl bg-[#4E3EC8] w-[120px] text-[#fff] font-semibold hover:bg-[#6e5ee4]"
       >
-        {{ texts.browse }}
+        {{ texts_c.browse }}
       </UButton>
       <UButton
         class="flex items-center justify-center py-1 rounded-2xl bg-[#fff] w-[120px] text-[#000] font-semibold hover:bg-[#f1f0fa] shadow-none"
-        >{{ texts.completed }}</UButton
+        >{{ texts_c.completed }}</UButton
       >
     </div>
     <div class="flex flex-col gap-5">
@@ -22,7 +22,7 @@
       >
         <div>
           <p>{{ task.title }}</p>
-          <p class="text-gray-400">{{ texts.deadline }} {{ task.deadline }}</p>
+          <p class="text-gray-400">{{ texts_c.deadline }} {{ task.deadline }}</p>
           <div class="flex items-center my-2">
             <img
               v-for="(member, idx) in task.team"
@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { projectActivity as texts } from "~~/texts/texts.json";
+import { projectActivity as texts_c } from "~~/texts/texts.json";
 import { getProgressColor } from "../../utils/progressColor";
 
 const tasks = [

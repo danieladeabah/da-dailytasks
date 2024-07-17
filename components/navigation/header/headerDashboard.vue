@@ -14,7 +14,7 @@
 
         <template #account="{ item }">
           <div class="text-left">
-            <p>{{ texts.loggedIn }}</p>
+            <p>{{ texts_b.loggedIn }}</p>
             <p class="truncate font-medium text-gray-900 dark:text-white">
               {{ item.label }}
             </p>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { userInfo as texts } from "~~/texts/texts.json";
+import { userInfo as texts_b } from "~~/texts/texts.json";
 
 const items = [
   [

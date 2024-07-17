@@ -20,13 +20,13 @@
     v-model="createATasks"
     @closeDialog="createATasks = false"
   >
-    <label class="font-bold" for="taskName">{{ texts.taskName }}</label>
+    <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
     <UInput placeholder="Task Name" v-model="taskName" />
 
-    <label class="font-bold" for="deadline">{{ texts.deadline }}</label>
+    <label class="font-bold" for="deadline">{{ texts_a.deadline }}</label>
     <UInput type="date" placeholder="Deadline" v-model="deadline" />
 
-    <label class="font-bold" for="description">{{ texts.description }}</label>
+    <label class="font-bold" for="description">{{ texts_a.description }}</label>
     <UTextarea
       placeholder="Task Description"
       :rows="10"
@@ -39,14 +39,14 @@
         color="blue"
         variant="solid"
         @click="createATaskSubmit"
-        >{{ texts.buttonAddTask }}</UButton
+        >{{ texts_a.buttonAddTask }}</UButton
       >
     </div>
   </UiKitsUiSlotsFormModelSlot>
 </template>
 
 <script setup lang="ts">
-import { createATask as texts } from "~~/texts/texts.json";
+import { createATask as texts_a } from "~~/texts/texts.json";
 
 const createATasks = ref(false);
 const taskName = ref("");
