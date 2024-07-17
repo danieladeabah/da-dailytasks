@@ -1,7 +1,8 @@
 <template>
   <UiKitsUiSlotsHeaderSlot>
     <span>
-      <NuxtLink to="/" class="text-2xl font-bold">Daniel Adeabah</NuxtLink>
+      <NuxtLink to="/" class="text-2xl font-bold">Good afternoon</NuxtLink>
+      <p>{{ new Date().toDateString() }}</p>
     </span>
     <span>
       <UDropdown
@@ -13,7 +14,7 @@
 
         <template #account="{ item }">
           <div class="text-left">
-            <p>Signed in as</p>
+            <p>{{ texts.loggedIn }}</p>
             <p class="truncate font-medium text-gray-900 dark:text-white">
               {{ item.label }}
             </p>
@@ -34,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import { userInfo as texts } from "~~/texts/texts.json";
+
 const items = [
   [
     {

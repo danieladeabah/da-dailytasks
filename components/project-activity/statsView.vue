@@ -20,22 +20,26 @@
             <span
               class="bg-[#4E3EC8] w-3 h-3 shadow-md border-2 border-white rounded-full"
             ></span>
-            Done
+            {{ texts.statsView.done }}
           </div>
           <div class="flex items-center gap-2 truncate">
             <span
               class="bg-[#FDCA40] w-3 h-3 shadow-md border-2 border-white rounded-full"
             ></span>
-            In Progress
+            {{ texts.statsView.inProgress }}
           </div>
           <div class="flex items-center gap-2">
             <span
               class="bg-[#F17105] w-3 h-3 shadow-md border-2 border-white rounded-full"
             ></span>
-            To Do
+            {{ texts.statsView.inProgress }}
           </div>
         </div>
       </div>
     </div>
   </UiKitsUiSlotsProjectActivitySlot>
 </template>
+
+<script setup lang="ts">
+import { projectActivity as texts } from "~~/texts/texts.json";
+</script>

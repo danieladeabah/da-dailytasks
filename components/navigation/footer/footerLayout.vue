@@ -6,37 +6,65 @@
       <UButton
         class="flex items-center justify-center fixed bg-[#4E3EC8] hover:bg-[#6e5ee4] h-12 w-12 rounded-full font-extrabold hover:shadow-2xl"
         trailing-icon="i-heroicons-plus-20-solid"
-        @click="createTaskModal = true"
+        @click="createTaskModal"
       >
       </UButton>
     </div>
   </footer>
 
-  <div>
-    <UModal v-model="createTaskModal">
-      <div class="p-4">
-        <h1 class="text-2xl font-bold">Add New Task</h1>
-        <div class="flex flex-col gap-4 my-2">
-          <label class="font-bold" for="taskName">Task Name</label>
-          <UInput placeholder="Task Name" />
+  <!-- Create Task Modal -->
+  <UiKitsUiSlotsFormModelSlot
+    form-title="Create Task"
+    @close-modal="createTaskModal"
+    v-if="createATasks"
+    v-model="createATasks"
+    @closeDialog="createATasks = false"
+  >
+    <label class="font-bold" for="taskName">{{ texts.taskName }}</label>
+    <UInput placeholder="Task Name" v-model="taskName" />
 
-          <label class="font-bold" for="deadline">Deadline</label>
-          <UInput type="date" placeholder="Deadline" />
+    <label class="font-bold" for="deadline">{{ texts.deadline }}</label>
+    <UInput type="date" placeholder="Deadline" v-model="deadline" />
 
-          <label class="font-bold" for="description">Description</label>
-          <UTextarea placeholder="Task Description" :rows="10" />
+    <label class="font-bold" for="description">{{ texts.description }}</label>
+    <UTextarea
+      placeholder="Task Description"
+      :rows="10"
+      v-model="description"
+    />
 
-          <div class="flex justify-end">
-            <UButton class="w-fit" color="blue" variant="solid"
-              >Add Task</UButton
-            >
-          </div>
-        </div>
-      </div>
-    </UModal>
-  </div>
+    <div class="flex justify-end">
+      <UButton
+        class="w-fit"
+        color="blue"
+        variant="solid"
+        @click="createATaskSubmit"
+        >{{ texts.buttonAddTask }}</UButton
+      >
+    </div>
+  </UiKitsUiSlotsFormModelSlot>
 </template>
 
 <script setup lang="ts">
-const createTaskModal = ref(false);
+import { createATask as texts } from "~~/texts/texts.json";
+
+const createATasks = ref(false);
+const taskName = ref("");
+const deadline = ref("");
+const description = ref("");
+
+const createTaskModal = () => {
+  createATasks.value = !createATasks.value;
+
+  if (createATasks.value) {
+    taskName.value = "";
+    deadline.value = "";
+    description.value = "";
+  }
+};
+
+const createATaskSubmit = () => {
+  // Logic to create task
+  createTaskModal();
+};
 </script>

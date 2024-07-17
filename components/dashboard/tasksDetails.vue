@@ -15,7 +15,7 @@
           alt="Notification Icon"
         />
         <p>
-          Deadline:
+          {{ texts.deadline }}
           <span class="text-[#000] font-semibold">{{ task.deadline }}</span>
         </p>
       </div>
@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { dashboard as texts } from "~~/texts/texts.json";
 import { getProgressColor } from "../../utils/progressColor";
 
 const task = {

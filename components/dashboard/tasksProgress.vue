@@ -2,8 +2,8 @@
   <UiKitsHorizontalLine />
   <UiKitsUiSlotsDashboardSlot>
     <template #header>
-      <h1 class="font-bold">Task Progress</h1>
-      <UDropdown :items="options" :popper="{ arrow: true }">
+      <h1 class="font-bold">{{ texts.tasksProgress }}</h1>
+      <UDropdown :items="dropdownLists" :popper="{ arrow: true }">
         <UButton
           color="white"
           variant="ghost"
@@ -17,16 +17,61 @@
       :task="task"
     />
   </UiKitsUiSlotsDashboardSlot>
+
+  <!-- Add Task Modal -->
+  <UiKitsUiSlotsFormModelSlot
+    form-title="Add Task"
+    @close-modal="addTaskModel"
+    v-if="addATasks"
+    v-model="addATasks"
+    @closeDialog="addATasks = false"
+  >
+    <label class="text-sm text-gray-400" for="taskName">{{
+      texts_a.addTaskFormDescription
+    }}</label>
+    <UInput placeholder="Task Name" />
+
+    <DashboardAssignedToUsers
+      v-for="(user, index) in users"
+      :key="index"
+      :user="user"
+    />
+
+    <div class="flex justify-end">
+      <UButton
+        class="w-fit"
+        color="blue"
+        variant="solid"
+        @click="addATasksubmit"
+        >Add</UButton
+      >
+    </div>
+  </UiKitsUiSlotsFormModelSlot>
 </template>
 
 <script setup lang="ts">
-const options = [
+import {
+  dashboard as texts,
+  createATask as texts_a,
+} from "~~/texts/texts.json";
+const addATasks = ref(false);
+
+const addTaskModel = () => {
+  addATasks.value = !addATasks.value;
+};
+
+const addATasksubmit = () => {
+  // Logic to add task
+  addTaskModel();
+};
+
+const dropdownLists = [
   [
     {
-      label: "Create Task",
-    },
-    {
-      label: "Delete Tasks",
+      label: "Add Task",
+      click: () => {
+        addTaskModel();
+      },
     },
   ],
 ];
@@ -138,6 +183,91 @@ const tasks = [
     name: "Launch New Website",
     avatars: [
       "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
+    ],
+  },
+];
+
+const users = [
+  {
+    id: 1,
+    name: "Jacob Doe",
+    avatars: [
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    ],
+  },
+  {
+    id: 2,
+    name: "Fiz Danielz",
+    avatars: [
+      "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
+    ],
+  },
+  {
+    id: 3,
+    name: "Steve Jobs",
+    avatars: [
+      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
+    ],
+  },
+  {
+    id: 4,
+    name: "Mark Smith",
+    avatars: [
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    ],
+  },
+  {
+    id: 5,
+    name: "Ellon Musk",
+    avatars: [
+      "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
+    ],
+  },
+  {
+    id: 6,
+    name: "Jane Cooper",
+    avatars: [
+      "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
+    ],
+  },
+  {
+    id: 7,
+    name: "Daniel Adeabah",
+    avatars: ["https://avatars.githubusercontent.com/u/124435531?v=4"],
+  },
+  {
+    id: 8,
+    name: "Mark Zuckerberg",
+    avatars: [
+      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
+    ],
+  },
+  {
+    id: 9,
+    name: "Ellen Devis",
+    avatars: [
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    ],
+  },
+  {
+    id: 10,
+    name: "Will Smith",
+    avatars: [
+      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
+    ],
+  },
+  {
+    id: 11,
+    name: "Emma Watson",
+    avatars: [
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    ],
+  },
+  {
+    id: 12,
+    name: "Frank Ocean",
+    avatars: [
       "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
     ],
   },
