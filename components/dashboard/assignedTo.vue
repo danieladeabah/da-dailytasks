@@ -30,8 +30,6 @@
     <label class="text-sm text-gray-400" for="taskName">{{
       texts_a.formDescription
     }}</label>
-    <UInput placeholder="Task Name" />
-
     <div
       v-for="(option, index) in options"
       :key="index"
