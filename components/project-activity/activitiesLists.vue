@@ -6,7 +6,7 @@
       <UButton
         class="flex items-center justify-center py-1 rounded-2xl bg-[#4E3EC8] w-[120px] text-[#fff] font-semibold hover:bg-[#6e5ee4]"
       >
-      {{ texts.browse }}
+        {{ texts.browse }}
       </UButton>
       <UButton
         class="flex items-center justify-center py-1 rounded-2xl bg-[#fff] w-[120px] text-[#000] font-semibold hover:bg-[#f1f0fa] shadow-none"
@@ -17,7 +17,7 @@
       <NuxtLink
         v-for="(task, index) in tasks"
         :key="index"
-        :to="'/tasksview'"
+        :to="'/tasks-page/' + task.id"
         class="flex items-center justify-between border p-5 rounded-xl"
       >
         <div>
