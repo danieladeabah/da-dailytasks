@@ -52,7 +52,15 @@
       :user="user"
     />
 
-    <div class="flex justify-end">
+    <div class="flex items-center justify-between">
+      <UDropdown :items="deleteOptions" :popper="{ arrow: true }">
+        <UButton
+          label="Remove"
+          color="white"
+          variant="ghost"
+          class="py-2 rounded-md bg-[#FFF] w-[120px] text-[#c42727] font-semibold"
+        />
+      </UDropdown>
       <UButton
         class="w-fit"
         color="blue"
@@ -92,6 +100,17 @@ watch(
     isChecked.value = value;
   }
 );
+
+const deleteOptions = [
+  [
+    {
+      label: "Yes, Remove",
+    },
+    {
+      label: "Cancel",
+    },
+  ],
+];
 
 const users = [
   {
