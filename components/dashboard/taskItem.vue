@@ -1,8 +1,12 @@
 <template>
-  <label class="flex items-center justify-between cursor-pointer">
+  <label class="flex items-center justify-between" for="switch">
     <div class="flex items-center gap-2" :class="{ 'line-through': isChecked }">
-      <input type="checkbox" v-model="isChecked" />
-      {{ task.name }}
+      <UCheckbox
+        v-model="isChecked"
+        :label="task.name"
+        color="sky"
+        id="switch"
+      />
     </div>
     <div class="flex items-center">
       <img

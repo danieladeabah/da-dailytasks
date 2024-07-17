@@ -3,13 +3,15 @@
   <UiKitsUiSlotsProjectActivitySlot>
     <h1 class="text-2xl font-bold">Project Activity</h1>
     <div class="flex items-center gap-10 py-3">
-      <button
-        class="py-1 rounded-2xl bg-[#4E3EC8] w-[120px] text-[#fff] font-semibold"
+      <UButton
+        class="flex items-center justify-center py-1 rounded-2xl bg-[#4E3EC8] w-[120px] text-[#fff] font-semibold hover:bg-[#6e5ee4]"
       >
-        Pending
-      </button>
-      <button>In Progress</button>
-      <button>Done</button>
+        Browse
+      </UButton>
+      <UButton
+        class="flex items-center justify-center py-1 rounded-2xl bg-[#fff] w-[120px] text-[#000] font-semibold hover:bg-[#f1f0fa] shadow-none"
+        >Completed</UButton
+      >
     </div>
     <div class="flex flex-col gap-5">
       <NuxtLink
@@ -32,8 +34,8 @@
           </div>
         </div>
         <div>
-          <button
-            class="relative py-1 rounded-full w-[60px] h-[60px] text-[#000] font-semibold border-4 progressTasksColor"
+          <UButton
+            class="relative py-1 rounded-full w-[60px] h-[60px] text-[#000] font-semibold progressTasksColor"
             :style="{
               backgroundImage: `linear-gradient(to right, ${getProgressColor(
                 task.progress
@@ -41,7 +43,7 @@
             }"
           >
             {{ task.progress }}%
-          </button>
+          </UButton>
         </div>
       </NuxtLink>
     </div>
@@ -150,4 +152,3 @@ const tasks = [
   },
 ];
 </script>
-

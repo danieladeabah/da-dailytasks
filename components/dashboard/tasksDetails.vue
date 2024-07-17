@@ -11,7 +11,7 @@
       >
         <img
           src="/assets/icons/bellIcon.svg"
-          class="w-3 h-3"
+          class="w-5 h-5"
           alt="Notification Icon"
         />
         <p>
@@ -21,7 +21,7 @@
       </div>
       <div>
         <button
-          class="relative py-1 rounded-full w-[60px] h-[60px] text-[#000] font-semibold border-4 progressTasksColor"
+          class="relative py-1 rounded-full w-[60px] h-[60px] text-[#000] font-semibold progressTasksColor"
           :style="{
             backgroundImage: `linear-gradient(to right, ${getProgressColor(
               task.progress

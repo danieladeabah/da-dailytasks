@@ -6,11 +6,31 @@
       /></NuxtLink>
     </span>
     <span>
-      <button
-        class="py-1 rounded-md bg-[#FEF1E6] w-[120px] text-[#df9458] font-semibold"
-      >
-        In Progress
-      </button>
+      <UDropdown :items="options" :popper="{ arrow: true }">
+        <UButton
+          label="In Progress"
+          color="white"
+          variant="ghost"
+          trailing-icon="i-heroicons-chevron-down-20-solid"
+          class="py-2 rounded-md bg-[#FEF1E6] w-[120px] text-[#df9458] font-semibold"
+        />
+      </UDropdown>
     </span>
   </UiKitsUiSlotsHeaderSlot>
 </template>
+
+<script setup lang="ts">
+const options = [
+  [
+    {
+      label: "To-Do",
+    },
+    {
+      label: "In Progress",
+    },
+    {
+      label: "Done",
+    },
+  ],
+];
+</script>

@@ -3,11 +3,21 @@
   <UiKitsUiSlotsDashboardSlot>
     <template #header>
       <h1 class="font-bold">Assigned To</h1>
-      <img src="/assets/icons/moreIcon.svg" class="w-5 h-5" alt="More options" />
+      <UDropdown :items="options" :popper="{ arrow: true }">
+        <UButton
+          color="white"
+          variant="ghost"
+          trailing-icon="i-heroicons-chevron-down-20-solid"
+        />
+      </UDropdown>
     </template>
     <div class="flex items-center space-x-2">
-      <UiKitsUserAvatar v-for="(user, index) in users" :key="user.id" :src="user.avatar"
-        :alt="'User avatar ' + (index + 1)" />
+      <UiKitsUserAvatar
+        v-for="(user, index) in users"
+        :key="user.id"
+        :src="user.avatar"
+        :alt="'User avatar ' + (index + 1)"
+      />
     </div>
   </UiKitsUiSlotsDashboardSlot>
 </template>
@@ -34,5 +44,16 @@ const users = [
     avatar:
       "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
   },
+];
+
+const options = [
+  [
+    {
+      label: "Assign",
+    },
+    {
+      label: "Unassign",
+    },
+  ],
 ];
 </script>

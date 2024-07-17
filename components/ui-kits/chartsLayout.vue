@@ -11,7 +11,7 @@ const data = {
   labels: ["Todo", "In Progress", "Done"],
   datasets: [
     {
-      data: [40, 40, 20],
+      data: [50, 30, 20],
       backgroundColor: ["#F17105", "#FDCA40", "#4E3EC8"],
       hoverOffset: 4,
     },

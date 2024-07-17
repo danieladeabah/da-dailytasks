@@ -1,14 +1,58 @@
 <template>
   <UiKitsUiSlotsHeaderSlot>
     <span>
-      <NuxtLink to="/" class="text-2xl font-bold">Dashboard</NuxtLink>
+      <NuxtLink to="/" class="text-2xl font-bold">Daniel Adeabah</NuxtLink>
     </span>
     <span>
-      <img
-        src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-        class="w-7 h-7 object-cover rounded-full"
-        alt=""
-      />
+      <UDropdown
+        :items="items"
+        :ui="{ item: { disabled: 'cursor-text select-text' } }"
+        :popper="{ placement: 'bottom-start' }"
+      >
+        <UAvatar src="https://avatars.githubusercontent.com/u/124435531?v=4" />
+
+        <template #account="{ item }">
+          <div class="text-left">
+            <p>Signed in as</p>
+            <p class="truncate font-medium text-gray-900 dark:text-white">
+              {{ item.label }}
+            </p>
+          </div>
+        </template>
+
+        <template #item="{ item }">
+          <span class="truncate">{{ item.label }}</span>
+
+          <UIcon
+            :name="item.icon"
+            class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
+          />
+        </template>
+      </UDropdown>
     </span>
   </UiKitsUiSlotsHeaderSlot>
 </template>
+
+<script setup lang="ts">
+const items = [
+  [
+    {
+      label: "danieladeabaa@gmail.com",
+      slot: "account",
+      disabled: true,
+    },
+  ],
+  [
+    {
+      label: "Settings",
+      icon: "i-heroicons-cog-8-tooth",
+    },
+  ],
+  [
+    {
+      label: "Sign out",
+      icon: "i-heroicons-arrow-left-on-rectangle",
+    },
+  ],
+];
+</script>
