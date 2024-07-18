@@ -22,7 +22,9 @@
       >
         <div>
           <p>{{ task.title }}</p>
-          <p class="text-gray-400">{{ texts_c.deadline }} {{ task.deadline }}</p>
+          <p class="text-gray-400">
+            {{ texts_c.deadline }} {{ task.deadline }}
+          </p>
           <div class="flex items-center my-2">
             <img
               v-for="(member, idx) in task.team"
@@ -53,10 +55,13 @@
 <script setup lang="ts">
 import { projectActivity as texts_c } from "~~/texts/texts.json";
 import { getProgressColor } from "../../utils/progressColor";
+import { encodeBase62 } from "@/utils/encodeBase62";
+
+const uniqueID = encodeBase62(Date.now()).slice(0, 6);
 
 const tasks = [
   {
-    id: 1,
+    id: uniqueID,
     title: "Job Search Platform UI",
     deadline: "28 Sep 2024",
     team: [
@@ -80,7 +85,7 @@ const tasks = [
     progress: 78,
   },
   {
-    id: 2,
+    id: uniqueID,
     title: "Create a Landing Page",
     deadline: "28 Sep 2024",
     team: [
@@ -104,7 +109,7 @@ const tasks = [
     progress: 10,
   },
   {
-    id: 3,
+    id: uniqueID,
     title: "Widget Development",
     deadline: "28 Sep 2024",
     team: [
@@ -128,7 +133,7 @@ const tasks = [
     progress: 58.5,
   },
   {
-    id: 4,
+    id: uniqueID,
     title: "General Project Management",
     deadline: "28 Sep 2024",
     team: [
