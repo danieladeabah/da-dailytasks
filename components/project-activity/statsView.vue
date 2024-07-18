@@ -32,7 +32,7 @@
             <span
               class="bg-[#F17105] w-3 h-3 shadow-md border-2 border-white rounded-full"
             ></span>
-            {{ texts_c.statsView.inProgress }}
+            {{ texts_c.statsView.todo }}
           </div>
         </div>
       </div>
