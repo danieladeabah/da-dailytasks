@@ -104,7 +104,9 @@ import { getProgressColor } from "@/utils/progressColor";
 
 const tasksStore = useTasksStore();
 
-const tasks = computed(() => tasksStore.tasks);
+const tasks = computed(() =>
+  tasksStore.tasks.filter((task) => task.progress !== 100)
+);
 const completedTasks = computed(() =>
   tasksStore.tasks.filter((task) => task.progress === 100)
 );

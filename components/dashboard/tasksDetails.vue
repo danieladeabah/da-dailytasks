@@ -67,13 +67,14 @@
     @closeDialog="tasksStore.toggleCreateTaskModal()"
   >
     <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
-    <UInput v-model="taskName" maxLength="100" />
+    <UInput placeholder="Task Name" v-model="taskName" maxLength="100" />
 
     <label class="font-bold" for="deadline">{{ texts_a.deadline }}</label>
     <UInput
       type="date"
       placeholder="Deadline"
       v-model="deadline"
+      :min="minDate"
       maxLength="10"
     />
 
@@ -104,9 +105,11 @@ import {
 } from "~~/texts/texts.json";
 import { getProgressColor } from "../../utils/progressColor";
 import { useTasksStore } from "@/store/tasks";
+import type { Task } from "@/types/types";
 
 const tasksStore = useTasksStore();
 const route = useRoute();
+const minDate = ref(getMinDate());
 
 const task = computed(() => {
   const taskId = Array.isArray(route.params.tasksindex)
@@ -149,7 +152,7 @@ const editATaskSubmit = () => {
   };
 
   if (task.value) {
-    tasksStore.updateTask(task.value.id, updatedTask);
+    tasksStore.updateTask(task.value.id, updatedTask as Task);
   }
 
   tasksStore.toggleCreateTaskModal();

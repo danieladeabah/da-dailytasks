@@ -13,7 +13,7 @@
     <div class="flex items-center space-x-2 overflow-auto">
       <template v-if="users.length > 0">
         <UiKitsUserAvatar
-          v-for="(user) in users"
+          v-for="user in users"
           :key="user.id"
           :src="user.image"
           :alt="user.name"
@@ -108,18 +108,12 @@ const options = ref([
     email: "",
     image: "",
   },
-  {
-    id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
-    name: "",
-    email: "",
-    image: "",
-  },
 ]);
 
 watch(
   [options],
   () => {
-    options.value.length >= 2 &&
+    options.value.length >= 1 &&
       options.value.length <= 9 &&
       options.value.every(
         (option) => option.name && option.email && option.image
@@ -139,7 +133,7 @@ const addOption = () => {
 };
 
 const removeOption = (index: number) => {
-  if (options.value.length > 2) options.value.splice(index, 1);
+  if (options.value.length > 1) options.value.splice(index, 1);
   else {
     options.value[index].name = "";
     options.value[index].email = "";
@@ -162,12 +156,6 @@ const assignToModel = () => {
       }));
     } else {
       options.value = [
-        {
-          id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
-          name: "",
-          email: "",
-          image: "",
-        },
         {
           id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
           name: "",

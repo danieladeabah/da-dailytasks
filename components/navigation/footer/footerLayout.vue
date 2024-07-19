@@ -21,13 +21,14 @@
     @closeDialog="tasksStore.toggleCreateTaskModal()"
   >
     <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
-    <UInput v-model="taskName" maxLength="100" />
+    <UInput placeholder="Task Name" v-model="taskName" maxLength="100" />
 
     <label class="font-bold" for="deadline">{{ texts_a.deadline }}</label>
     <UInput
       type="date"
       placeholder="Deadline"
       v-model="deadline"
+      :min="minDate"
       maxLength="10"
     />
 
@@ -45,7 +46,8 @@
         color="blue"
         variant="solid"
         @click="createATaskSubmit"
-        >{{ texts_a.buttonAddTask }}
+      >
+        {{ texts_a.buttonAddTask }}
       </UButton>
     </div>
   </UiKitsUiSlotsFormModelSlot>
@@ -62,6 +64,7 @@ const createATasks = computed(() => tasksStore.createATasks);
 const taskName = ref("");
 const deadline = ref("");
 const description = ref("");
+const minDate = ref(getMinDate());
 
 const createTaskModal = () => {
   tasksStore.toggleCreateTaskModal();
