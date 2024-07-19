@@ -1,14 +1,14 @@
 <template>
-  <label class="flex items-center justify-between" for="switch">
+  <label
+    class="flex items-center justify-between"
+    for="switch"
+    @click="handleSelectUser"
+  >
     <div class="flex items-center gap-2">
-      <UCheckbox v-model="isChecked" color="sky" id="switch" /><img
-        v-for="(avatar, index) in user.avatars"
-        :key="index"
-        :src="avatar"
-        class="w-5 h-5 object-cover rounded-full"
-        alt=""
-      />
-      <span class="text-sm">{{ user.name }}</span>
+      <UCheckbox v-model="id" color="sky" id="switch" /><span
+        class="text-sm"
+        >{{ user.name }}</span
+      >
     </div>
   </label>
 </template>
@@ -21,12 +21,9 @@ const props = defineProps({
   },
 });
 
-const isChecked = ref(props.user.isChecked);
+const emit = defineEmits(["select-user"]);
 
-watch(
-  () => props.user.isChecked,
-  (value) => {
-    isChecked.value = value;
-  }
-);
+const handleSelectUser = () => {
+  emit("select-user", props.user.id);
+};
 </script>

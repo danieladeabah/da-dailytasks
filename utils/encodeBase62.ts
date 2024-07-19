@@ -10,3 +10,15 @@ export function encodeBase62(number: number) {
   }
   return encoded;
 }
+
+export function assigneesEncodeBase62(date: number, index: number): string {
+  const characters =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let result = "";
+  let num = date + index;
+  while (num > 0) {
+    result = characters[num % 62] + result;
+    num = Math.floor(num / 62);
+  }
+  return result;
+}

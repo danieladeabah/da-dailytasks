@@ -10,11 +10,11 @@
         @click="assignToModel"
       />
     </template>
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-2 overflow-auto">
       <UiKitsUserAvatar
         v-for="(user, index) in users"
         :key="user.id"
-        :src="user.avatar"
+        :src="user.image"
         :alt="'User avatar ' + (index + 1)"
       />
     </div>
@@ -40,19 +40,19 @@
         <UInput
           size="sm"
           class="w-full lg:w-40vw"
-          v-model="option.text"
+          v-model="option.name"
           placeholder="Full name"
         />
         <UInput
           size="sm"
           class="w-full lg:w-40vw"
-          v-model="option.text"
+          v-model="option.email"
           placeholder="Email"
         />
         <UInput
           size="sm"
           class="w-full lg:w-40vw"
-          v-model="option.text"
+          v-model="option.image"
           placeholder="Image URL"
         />
         <img
@@ -91,62 +91,109 @@ import {
   dashboard as texts,
   createATask as texts_a,
 } from "~~/texts/texts.json";
+import { useTasksStore } from "@/store/tasks";
+
+const route = useRoute();
+const tasksStore = useTasksStore();
 
 const assignTo = ref(false);
-const options = ref([{ text: "" }, { text: "" }]);
+const optionIndex = ref(0); // Counter for unique IDs
+const options = ref([
+  { id: assigneesEncodeBase62(Date.now(), optionIndex.value++), name: "", email: "", image: "" },
+  { id: assigneesEncodeBase62(Date.now(), optionIndex.value++), name: "", email: "", image: "" },
+]);
 
 watch(
   [options],
   () => {
     options.value.length >= 2 &&
       options.value.length <= 9 &&
-      options.value.every((option) => option.text);
+      options.value.every(
+        (option) => option.name && option.email && option.image
+      );
   },
   { deep: true }
 );
 
 const addOption = () => {
-  if (options.value.length < 9) options.value.push({ text: "" });
+  if (options.value.length < 9)
+    options.value.push({
+      id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
+      name: "",
+      email: "",
+      image: "",
+    });
 };
 
 const removeOption = (index: number) => {
   if (options.value.length > 2) options.value.splice(index, 1);
-  else options.value[index].text = "";
+  else {
+    options.value[index].name = "";
+    options.value[index].email = "";
+    options.value[index].image = "";
+  }
 };
 
 const assignToModel = () => {
   assignTo.value = !assignTo.value;
 
   if (assignTo.value) {
-    options.value = [{ text: "" }, { text: "" }];
+    const taskId = route.params.tasksindex as string;
+    const task = tasksStore.findTaskById(taskId);
+    if (task && task.assignees.length > 0) {
+      options.value = task.assignees.map((assignee) => ({
+        id: assignee.id,
+        name: assignee.name,
+        email: assignee.email,
+        image: assignee.image,
+      }));
+    } else {
+      options.value = [
+        {
+          id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
+          name: "",
+          email: "",
+          image: "",
+        },
+        {
+          id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
+          name: "",
+          email: "",
+          image: "",
+        },
+      ];
+    }
   }
 };
 
 const assignToubmit = () => {
-  // Logic to assign users to task
+  // Check if all options are filled
+  if (
+    !options.value.every(
+      (option) => option.name && option.email && option.image
+    )
+  ) {
+    return;
+  }
+
+  const taskId = route.params.tasksindex as string;
+  const task = tasksStore.findTaskById(taskId);
+  if (task) {
+    task.assignees = options.value.map((option) => ({
+      id: option.id,
+      name: option.name,
+      email: option.email,
+      image: option.image,
+    }));
+    tasksStore.assignPeopleToTask(task);
+  }
   assignToModel();
 };
 
-const users = [
-  {
-    id: 1,
-    avatar:
-      "https://img.freepik.com/free-photo/half-length-close-up-portrait-young-man-shirt-yellow_155003-24905.jpg",
-  },
-  {
-    id: 2,
-    avatar:
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-  },
-  {
-    id: 3,
-    avatar:
-      "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-  },
-  {
-    id: 4,
-    avatar:
-      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-  },
-];
+const users = computed(() => {
+  const taskId = route.params.tasksindex as string;
+  const task = tasksStore.findTaskById(taskId);
+  return task ? task.assignees : [];
+});
 </script>
+

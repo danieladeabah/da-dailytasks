@@ -10,34 +10,34 @@
       </UButton>
       <UButton
         class="flex items-center justify-center py-1 rounded-2xl bg-[#fff] w-[120px] text-[#000] font-semibold hover:bg-[#f1f0fa] shadow-none"
-        >{{ texts_c.completed }}</UButton
       >
+        {{ texts_c.completed }}
+      </UButton>
     </div>
     <div class="flex flex-col gap-5">
       <NuxtLink
         v-for="(task, index) in tasks"
-        :key="index"
+        :key="task.id"
         :to="'/tasks-page/' + task.id"
         class="flex items-center justify-between border p-5 rounded-xl"
       >
         <div>
-          <p>{{ task.title }}</p>
+          <p>{{ task.name }}</p>
           <p class="text-gray-400">
             {{ texts_c.deadline }} {{ task.deadline }}
           </p>
-          <div class="flex items-center my-2">
-            <img
-              v-for="(member, idx) in task.team"
-              :key="idx"
+          <div class="flex items-center my-2 overflow-auto w-40">
+            <UiKitsUserAvatar
+              v-for="(member, index) in task.assignees"
+              :key="member.id"
               :src="member.image"
-              class="w-7 h-7 object-cover rounded-full"
-              alt="Team member"
+              :alt="'User avatar ' + (index + 1)"
             />
           </div>
         </div>
         <div>
           <UButton
-            class="relative py-1 rounded-full w-[60px] h-[60px] text-[#000] font-semibold progressTasksColor"
+            class="flex items-center justify-center relative py-1 rounded-full w-[60px] h-[60px] text-[#000] font-semibold progressTasksColor"
             :style="{
               backgroundImage: `linear-gradient(to right, ${getProgressColor(
                 task.progress
@@ -53,108 +53,15 @@
 </template>
 
 <script setup lang="ts">
+import { useTasksStore } from "@/store/tasks";
 import { projectActivity as texts_c } from "~~/texts/texts.json";
-import { getProgressColor } from "../../utils/progressColor";
-import { encodeBase62 } from "@/utils/encodeBase62";
+import { getProgressColor } from "@/utils/progressColor";
 
-const uniqueID = encodeBase62(Date.now()).slice(0, 6);
+const tasksStore = useTasksStore();
 
-const tasks = [
-  {
-    id: uniqueID,
-    title: "Job Search Platform UI",
-    deadline: "28 Sep 2024",
-    team: [
-      {
-        image:
-          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      },
-      {
-        image:
-          "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-      },
-      {
-        image:
-          "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-      },
-      {
-        image:
-          "https://media.istockphoto.com/id/1335941248/photo/shot-of-a-handsome-young-man-standing-against-a-grey-background.webp?b=1&s=612x612&w=0&k=20&c=07SAQPb33q39bTswXx3DsQWU0Mwnuvs2GxigTlLo9Lg=",
-      },
-    ],
-    progress: 78,
-  },
-  {
-    id: uniqueID,
-    title: "Create a Landing Page",
-    deadline: "28 Sep 2024",
-    team: [
-      {
-        image:
-          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      },
-      {
-        image:
-          "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-      },
-      {
-        image:
-          "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-      },
-      {
-        image:
-          "https://media.istockphoto.com/id/1335941248/photo/shot-of-a-handsome-young-man-standing-against-a-grey-background.webp?b=1&s=612x612&w=0&k=20&c=07SAQPb33q39bTswXx3DsQWU0Mwnuvs2GxigTlLo9Lg=",
-      },
-    ],
-    progress: 10,
-  },
-  {
-    id: uniqueID,
-    title: "Widget Development",
-    deadline: "28 Sep 2024",
-    team: [
-      {
-        image:
-          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      },
-      {
-        image:
-          "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-      },
-      {
-        image:
-          "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-      },
-      {
-        image:
-          "https://media.istockphoto.com/id/1335941248/photo/shot-of-a-handsome-young-man-standing-against-a-grey-background.webp?b=1&s=612x612&w=0&k=20&c=07SAQPb33q39bTswXx3DsQWU0Mwnuvs2GxigTlLo9Lg=",
-      },
-    ],
-    progress: 58.5,
-  },
-  {
-    id: uniqueID,
-    title: "General Project Management",
-    deadline: "28 Sep 2024",
-    team: [
-      {
-        image:
-          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      },
-      {
-        image:
-          "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-      },
-      {
-        image:
-          "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-      },
-      {
-        image:
-          "https://media.istockphoto.com/id/1335941248/photo/shot-of-a-handsome-young-man-standing-against-a-grey-background.webp?b=1&s=612x612&w=0&k=20&c=07SAQPb33q39bTswXx3DsQWU0Mwnuvs2GxigTlLo9Lg=",
-      },
-    ],
-    progress: 45,
-  },
-];
+const tasks = computed(() => tasksStore.tasks);
+
+onMounted(() => {
+  tasksStore.loadTasksFromLocalStorage();
+});
 </script>

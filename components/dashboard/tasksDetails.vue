@@ -1,6 +1,6 @@
 <template>
-  <UiKitsUiSlotsDashboardSlot>
-    <h1 class="text-2xl font-bold">{{ task.title }}</h1>
+  <UiKitsUiSlotsDashboardSlot v-if="task">
+    <h1 class="text-2xl font-bold">{{ task.name }}</h1>
     <p class="text-gray-400 text-xl">
       {{ task.description }}
     </p>
@@ -38,13 +38,20 @@
 <script setup lang="ts">
 import { dashboard as texts } from "~~/texts/texts.json";
 import { getProgressColor } from "../../utils/progressColor";
+import { useTasksStore } from "@/store/tasks";
 
-const task = {
-  id: 1,
-  title: "Job Search Platform UI",
-  description:
-    "This Platform helps to aggregate job listings from thousands of platforms, including job boards, staffing firms, associations, etc.",
-  deadline: "28 Sep 2024",
-  progress: 78,
-};
+const tasksStore = useTasksStore();
+const route = useRoute();
+
+const task = computed(() => {
+  const taskId = Array.isArray(route.params.tasksindex)
+    ? route.params.tasksindex[0]
+    : route.params.tasksindex;
+
+  return tasksStore.findTaskById(taskId) || null;
+});
+
+onMounted(() => {
+  tasksStore.loadTasksFromLocalStorage();
+});
 </script>

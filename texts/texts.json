@@ -3,8 +3,8 @@
     "assignTo": "Assign To",
     "deadline": "Deadline:",
     "tasksProgress": "Tasks Progress"
-},
-"createATask": {
+  },
+  "createATask": {
     "formDescription": "Fill out the form to add a task and assign a team members",
     "formEditDescription": "Edit task name and assign a team members",
     "addTaskFormDescription": "Enter task name and assign a team members",
@@ -16,7 +16,8 @@
     "buttonAddTask": "Add Task"
   },
   "userInfo": {
-    "loggedIn": "Signed in as"
+    "loggedIn": "Signed in as",
+    "specialization": "Frontend Developer"
   },
   "projectActivity": {
     "projectActivity": "Project Activity",
@@ -24,7 +25,7 @@
     "completed": "Completed",
     "deadline": "Deadline:",
     "statsView": {
-      "todo": "To Do",
+      "todo": "To-Do",
       "inProgress": "In Progress",
       "done": "Done"
     }

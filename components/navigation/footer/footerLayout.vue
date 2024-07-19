@@ -18,7 +18,7 @@
     @close-modal="createTaskModal"
     v-if="createATasks"
     v-model="createATasks"
-    @closeDialog="createATasks = false"
+    @closeDialog="tasksStore.toggleCreateTaskModal()"
   >
     <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
     <UInput placeholder="Task Name" v-model="taskName" />
@@ -46,25 +46,38 @@
 </template>
 
 <script setup lang="ts">
+import { useTasksStore } from "@/store/tasks";
 import { createATask as texts_a } from "~~/texts/texts.json";
+import { encodeBase62 } from "@/utils/encodeBase62";
 
-const createATasks = ref(false);
+const tasksStore = useTasksStore();
+
+const createATasks = computed(() => tasksStore.createATasks);
 const taskName = ref("");
 const deadline = ref("");
 const description = ref("");
 
 const createTaskModal = () => {
-  createATasks.value = !createATasks.value;
-
-  if (createATasks.value) {
-    taskName.value = "";
-    deadline.value = "";
-    description.value = "";
-  }
+  tasksStore.toggleCreateTaskModal();
 };
 
 const createATaskSubmit = () => {
-  // Logic to create task
-  createTaskModal();
+  if (!taskName.value || !deadline.value || !description.value) {
+    console.error("All fields are required to create a task.");
+    return;
+  }
+
+  const uniqueId = encodeBase62(Date.now());
+  const newTask = {
+    id: uniqueId,
+    name: taskName.value,
+    deadline: deadline.value,
+    description: description.value,
+    assignees: [],
+    subTasks: [],
+    progress: 0,
+  };
+
+  tasksStore.createTask(newTask);
 };
 </script>

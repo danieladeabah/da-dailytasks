@@ -1,36 +1,28 @@
 <template>
   <label
-    class="relative flex items-center justify-between selected-option"
+    class="flex items-center justify-between selected-option option-container"
     for="switch"
   >
     <div
-      class="flex items-center gap-5 option-container"
+      class="flex items-center gap-5"
       :class="{ 'line-through': isChecked }"
     >
-      <span class="option-input" @click="editTaskModel">
-        <img
-          src="/assets/icons/editIcon.svg"
-          alt="edit"
-          class="absolute top-1 cursor-pointer w-3 h-3"
-          title="Edit Task"
-        />
-      </span>
       <UCheckbox
         v-model="isChecked"
         :label="task.name"
         color="sky"
         id="switch"
+        @change="handleCheckboxChange"
       />
     </div>
-    <div class="flex items-center">
+    <span class="option-input" @click="editTaskModel">
       <img
-        v-for="(avatar, index) in task.avatars"
-        :key="index"
-        :src="avatar"
-        class="w-5 h-5 object-cover rounded-full"
-        alt=""
+        src="/assets/icons/editIcon.svg"
+        alt="edit"
+        class="cursor-pointer w-4 h-4"
+        title="Edit Task"
       />
-    </div>
+    </span>
   </label>
 
   <!-- Edit Task Modal -->
@@ -44,13 +36,7 @@
     <label class="text-sm text-gray-400" for="taskName">{{
       texts_a.formEditDescription
     }}</label>
-    <UInput placeholder="Task Name" />
-
-    <DashboardAssignedToUsers
-      v-for="(user, index) in users"
-      :key="index"
-      :user="user"
-    />
+    <UInput v-model="editedTaskName" placeholder="Task Name" />
 
     <div class="flex items-center justify-between">
       <UDropdown :items="deleteOptions" :popper="{ arrow: true }">
@@ -65,7 +51,7 @@
         class="w-fit"
         color="blue"
         variant="solid"
-        @click="editATasksubmit"
+        @click="editTaskSubmit"
         >{{ texts_a.buttonEdit }}</UButton
       >
     </div>
@@ -74,6 +60,8 @@
 
 <script setup lang="ts">
 import { createATask as texts_a } from "~~/texts/texts.json";
+import { useTasksStore } from "@/store/tasks";
+import type { Task } from "@/types/types";
 
 const props = defineProps({
   task: {
@@ -82,16 +70,54 @@ const props = defineProps({
   },
 });
 
-const isChecked = ref(false);
+const tasksStore = useTasksStore();
+const route = useRoute();
+
+const isChecked = ref(props.task.isChecked || false);
 const editATasks = ref(false);
+const editedTaskName = ref(props.task.name || "");
+const currentTask = ref<Task | null>(null);
 
 const editTaskModel = () => {
   editATasks.value = !editATasks.value;
+  if (props.task) {
+    currentTask.value = props.task;
+    editedTaskName.value = props.task.name;
+  }
 };
 
-const editATasksubmit = () => {
-  // Logic to edit task
-  editTaskModel();
+const calculateTaskProgress = (task: Task) => {
+  const totalSubTasks = task.subTasks.length;
+  if (totalSubTasks === 0) return 0;
+  
+  const completedSubTasks = task.subTasks.filter(subTask => subTask.isChecked).length;
+  return Math.round((completedSubTasks / totalSubTasks) * 100);
+};
+
+const handleCheckboxChange = () => {
+  if (props.task) {
+    const updatedSubTask = { ...props.task, isChecked: isChecked.value };
+    tasksStore.updateSubTask(route.params.tasksindex, updatedSubTask);
+    
+    // Calculate and update parent task progress
+    const parentTask = tasksStore.findTaskById(route.params.tasksindex);
+    if (parentTask) {
+      const progress = calculateTaskProgress(parentTask);
+      tasksStore.updateTask(parentTask.id, { ...parentTask, progress });
+    }
+  }
+};
+
+const editTaskSubmit = () => {
+  if (currentTask.value && props.task.id) {
+    const updatedSubTask: Task = {
+      ...currentTask.value,
+      name: editedTaskName.value,
+    };
+    tasksStore.updateSubTask(route.params.tasksindex, updatedSubTask);
+    editATasks.value = false;
+    currentTask.value = null;
+  }
 };
 
 watch(
@@ -105,96 +131,22 @@ const deleteOptions = [
   [
     {
       label: "Yes, Remove",
+      click: () => {
+        editATasks.value = !editATasks.value;
+        tasksStore.deleteSubTask(route.params.tasksindex, props.task.id);
+        
+        // Calculate and update parent task progress
+        const parentTask = tasksStore.findTaskById(route.params.tasksindex);
+        if (parentTask) {
+          const progress = calculateTaskProgress(parentTask);
+          tasksStore.updateTask(parentTask.id, { ...parentTask, progress });
+        }
+      },
     },
     {
       label: "Cancel",
     },
   ],
-];
-
-const users = [
-  {
-    id: 1,
-    name: "Jacob Doe",
-    avatars: [
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    ],
-  },
-  {
-    id: 2,
-    name: "Fiz Danielz",
-    avatars: [
-      "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-    ],
-  },
-  {
-    id: 3,
-    name: "Steve Jobs",
-    avatars: [
-      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-    ],
-  },
-  {
-    id: 4,
-    name: "Mark Smith",
-    avatars: [
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    ],
-  },
-  {
-    id: 5,
-    name: "Ellon Musk",
-    avatars: [
-      "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-    ],
-  },
-  {
-    id: 6,
-    name: "Jane Cooper",
-    avatars: [
-      "https://www.vmcdn.ca/f/files/alimoshotoday/images/picsabfjjd.jpg;w=960",
-    ],
-  },
-  {
-    id: 7,
-    name: "Daniel Adeabah",
-    avatars: ["https://avatars.githubusercontent.com/u/124435531?v=4"],
-  },
-  {
-    id: 8,
-    name: "Mark Zuckerberg",
-    avatars: [
-      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-    ],
-  },
-  {
-    id: 9,
-    name: "Ellen Devis",
-    avatars: [
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    ],
-  },
-  {
-    id: 10,
-    name: "Will Smith",
-    avatars: [
-      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-    ],
-  },
-  {
-    id: 11,
-    name: "Emma Watson",
-    avatars: [
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    ],
-  },
-  {
-    id: 12,
-    name: "Frank Ocean",
-    avatars: [
-      "https://us.movember.com/uploads/images/resources/5df779f991cf99e6610bf01a9d93d70d5861282e-org.png",
-    ],
-  },
 ];
 </script>
 

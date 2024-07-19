@@ -1,36 +1,53 @@
 <template>
   <UiKitsUiSlotsHeaderSlot>
     <span>
-      <NuxtLink to="/" class="text-2xl font-bold"
-        ><img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt=""
-      /></NuxtLink>
+      <NuxtLink to="/" class="text-2xl font-bold">
+        <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
+      </NuxtLink>
     </span>
     <span>
-      <UDropdown :items="options" :popper="{ arrow: true }">
-        <UButton
-          label="In Progress"
-          color="white"
-          variant="ghost"
-          trailing-icon="i-heroicons-chevron-down-20-solid"
-          class="py-2 rounded-md bg-[#FEF1E6] w-[120px] text-[#df9458] font-semibold"
-        />
-      </UDropdown>
+      <UButton
+        :label="dropdownLabel"
+        :style="{
+          color: buttonColor.text,
+        }"
+        color="white"
+        variant="ghost"
+        class="flex items-center justify-end rounded-md font-semibold"
+      />
     </span>
   </UiKitsUiSlotsHeaderSlot>
 </template>
 
 <script setup lang="ts">
-const options = [
-  [
-    {
-      label: "To-Do",
-    },
-    {
-      label: "In Progress",
-    },
-    {
-      label: "Done",
-    },
-  ],
-];
+import { useTasksStore } from "@/store/tasks";
+
+const tasksStore = useTasksStore();
+const route = useRoute();
+
+const selectedTask = computed(() => {
+  const taskId = route.params.tasksindex as string;
+  return tasksStore.findTaskById(taskId) || null;
+});
+
+const dropdownLabel = computed(() => {
+  const progress = selectedTask.value?.progress ?? 0;
+  if (progress === 0) return "To-Do";
+  if (progress > 0 && progress < 100) return "In Progress";
+  if (progress === 100) return "Done";
+  return "Unknown Status";
+});
+
+const buttonColor = computed(() => {
+  const progress = selectedTask.value?.progress ?? 0;
+  if (progress === 0) return { text: "#F17105"}; // To-Do color
+  if (progress > 0 && progress < 100)
+    return { text: "#FDCA40"}; // In Progress color
+  if (progress === 100) return { text: "#4E3EC8"}; // Done color
+  return { text: "#E5E7EB" }; // Default color if status is unknown
+});
+
+onMounted(() => {
+  tasksStore.loadTasksFromLocalStorage();
+});
 </script>
