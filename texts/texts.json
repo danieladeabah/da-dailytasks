@@ -7,7 +7,7 @@
   "createATask": {
     "formDescription": "Fill out the form to add a task and assign a team members",
     "formEditDescription": "Enter task name to edit",
-    "addTaskFormDescription": "Enter details to add a task",
+    "addTaskFormDescription": "Enter details to add a sub task",
     "buttonAssign": "Assign",
     "buttonEdit": "Edit",
     "taskName": "Task Name",

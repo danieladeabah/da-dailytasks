@@ -22,7 +22,7 @@
 
   <!-- Add Task Modal -->
   <UiKitsUiSlotsFormModelSlot
-    form-title="Add Task"
+    form-title="Add Sub Task"
     @close-modal="addTaskModel"
     v-if="addATasks"
     v-model="addATasks"
@@ -89,7 +89,7 @@ const selectUser = (userId: number) => {
 const dropdownLists = [
   [
     {
-      label: "Add Task",
+      label: "Add Sub Task",
       click: () => {
         addTaskModel();
       },

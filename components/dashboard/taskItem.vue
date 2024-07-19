@@ -24,7 +24,7 @@
 
   <!-- Edit Task Modal -->
   <UiKitsUiSlotsFormModelSlot
-    form-title="Edit Task"
+    form-title="Edit Sub Task"
     @close-modal="editTaskModel"
     v-if="editATasks"
     v-model="editATasks"
