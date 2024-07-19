@@ -18,12 +18,12 @@
                   <p class="text-gray-400">
                     {{ texts_c.deadline }} {{ task.deadline }}
                   </p>
-                  <div class="flex items-center my-2 overflow-auto w-40">
+                  <div class="flex items-center space-x-2 overflow-auto w-40">
                     <UiKitsUserAvatar
-                      v-for="(member, index) in task.assignees"
-                      :key="member.id"
-                      :src="member.image"
-                      :alt="'User avatar ' + (index + 1)"
+                      v-for="user in task.assignees.slice(0, 3)"
+                      :key="user.id"
+                      :src="user.image"
+                      :alt="user.name"
                     />
                   </div>
                 </div>
@@ -62,12 +62,12 @@
                   <p class="text-gray-400">
                     {{ texts_c.deadline }} {{ task.deadline }}
                   </p>
-                  <div class="flex items-center my-2 overflow-auto w-40">
+                  <div class="flex items-center space-x-2 overflow-auto w-40">
                     <UiKitsUserAvatar
-                      v-for="(member, index) in task.assignees"
-                      :key="member.id"
-                      :src="member.image"
-                      :alt="'User avatar ' + (index + 1)"
+                      v-for="user in task.assignees.slice(0, 3)"
+                      :key="user.id"
+                      :src="user.image"
+                      :alt="user.name"
                     />
                   </div>
                 </div>

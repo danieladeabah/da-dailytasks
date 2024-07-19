@@ -3,10 +3,7 @@
     class="flex items-center justify-between selected-option option-container"
     for="switch"
   >
-    <div
-      class="flex items-center gap-5"
-      :class="{ 'line-through': isChecked }"
-    >
+    <div class="flex items-center gap-5" :class="{ 'line-through': isChecked }">
       <UCheckbox
         v-model="isChecked"
         :label="task.name"
@@ -72,6 +69,7 @@ const props = defineProps({
 
 const tasksStore = useTasksStore();
 const route = useRoute();
+const trackId = route.params.tasksindex as string;
 
 const isChecked = ref(props.task.isChecked || false);
 const editATasks = ref(false);
@@ -89,18 +87,20 @@ const editTaskModel = () => {
 const calculateTaskProgress = (task: Task) => {
   const totalSubTasks = task.subTasks.length;
   if (totalSubTasks === 0) return 0;
-  
-  const completedSubTasks = task.subTasks.filter(subTask => subTask.isChecked).length;
+
+  const completedSubTasks = task.subTasks.filter(
+    (subTask) => subTask.isChecked
+  ).length;
   return Math.round((completedSubTasks / totalSubTasks) * 100);
 };
 
 const handleCheckboxChange = () => {
   if (props.task) {
     const updatedSubTask = { ...props.task, isChecked: isChecked.value };
-    tasksStore.updateSubTask(route.params.tasksindex, updatedSubTask);
-    
+    tasksStore.updateSubTask(trackId, updatedSubTask);
+
     // Calculate and update parent task progress
-    const parentTask = tasksStore.findTaskById(route.params.tasksindex);
+    const parentTask = tasksStore.findTaskById(trackId);
     if (parentTask) {
       const progress = calculateTaskProgress(parentTask);
       tasksStore.updateTask(parentTask.id, { ...parentTask, progress });
@@ -114,7 +114,7 @@ const editTaskSubmit = () => {
       ...currentTask.value,
       name: editedTaskName.value,
     };
-    tasksStore.updateSubTask(route.params.tasksindex, updatedSubTask);
+    tasksStore.updateSubTask(trackId, updatedSubTask);
     editATasks.value = false;
     currentTask.value = null;
   }
@@ -130,21 +130,21 @@ watch(
 const deleteOptions = [
   [
     {
+      label: "Cancel",
+    },
+    {
       label: "Yes, Remove",
       click: () => {
         editATasks.value = !editATasks.value;
-        tasksStore.deleteSubTask(route.params.tasksindex, props.task.id);
-        
+        tasksStore.deleteSubTask(trackId, props.task.id);
+
         // Calculate and update parent task progress
-        const parentTask = tasksStore.findTaskById(route.params.tasksindex);
+        const parentTask = tasksStore.findTaskById(trackId);
         if (parentTask) {
           const progress = calculateTaskProgress(parentTask);
           tasksStore.updateTask(parentTask.id, { ...parentTask, progress });
         }
       },
-    },
-    {
-      label: "Cancel",
     },
   ],
 ];

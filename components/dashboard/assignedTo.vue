@@ -13,10 +13,10 @@
     <div class="flex items-center space-x-2 overflow-auto">
       <template v-if="users.length > 0">
         <UiKitsUserAvatar
-          v-for="(user, index) in users"
+          v-for="(user) in users"
           :key="user.id"
           :src="user.image"
-          :alt="'User avatar ' + (index + 1)"
+          :alt="user.name"
         />
       </template>
       <p v-else class="text-gray-500">No users assigned</p>

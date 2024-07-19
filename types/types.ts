@@ -10,9 +10,10 @@ export interface Task {
     image: string;
   }[];
   subTasks: {
+    isChecked?: unknown;
     id: string;
     name: string;
-    assignees: {
+    assignees?: {
       id: string;
     }[];
   }[];

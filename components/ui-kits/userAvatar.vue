@@ -1,5 +1,7 @@
 <template>
-  <img :src="src" :alt="alt" class="w-10 h-10 object-cover rounded-full" />
+  <UTooltip :text="alt" :popper="{ arrow: true }">
+    <img :src="src" :alt="alt" class="w-10 h-10 object-cover rounded-full" />
+  </UTooltip>
 </template>
 
 <script setup lang="ts">
