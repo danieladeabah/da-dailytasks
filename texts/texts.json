@@ -1,12 +1,12 @@
 {
   "dashboard": {
-    "assignTo": "Assign To",
+    "assignTo": "Assigned To",
     "deadline": "Deadline:",
     "tasksProgress": "Tasks Progress"
   },
   "createATask": {
     "formDescription": "Fill out the form to add a task and assign a team members",
-    "formEditDescription": "Edit task name and assign a team members",
+    "formEditDescription": "Enter task name to edit",
     "addTaskFormDescription": "Enter task name and assign a team members",
     "buttonAssign": "Assign",
     "buttonEdit": "Edit",
