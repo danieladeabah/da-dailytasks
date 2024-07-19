@@ -31,7 +31,7 @@
     <label class="text-sm text-gray-400" for="taskName">{{
       texts_a.addTaskFormDescription
     }}</label>
-    <UInput placeholder="Task Name" v-model="newSubTaskName" />
+    <UInput placeholder="Task Name" v-model="newSubTaskName" maxLength="100" />
 
     <DashboardAssignedToUsers
       v-for="user in users"

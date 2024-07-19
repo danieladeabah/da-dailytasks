@@ -21,16 +21,22 @@
     @closeDialog="tasksStore.toggleCreateTaskModal()"
   >
     <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
-    <UInput placeholder="Task Name" v-model="taskName" />
+    <UInput v-model="taskName" maxLength="100" />
 
     <label class="font-bold" for="deadline">{{ texts_a.deadline }}</label>
-    <UInput type="date" placeholder="Deadline" v-model="deadline" />
+    <UInput
+      type="date"
+      placeholder="Deadline"
+      v-model="deadline"
+      maxLength="10"
+    />
 
     <label class="font-bold" for="description">{{ texts_a.description }}</label>
     <UTextarea
       placeholder="Task Description"
       :rows="10"
       v-model="description"
+      maxLength="500"
     />
 
     <div class="flex justify-end">
@@ -39,8 +45,8 @@
         color="blue"
         variant="solid"
         @click="createATaskSubmit"
-        >{{ texts_a.buttonAddTask }}</UButton
-      >
+        >{{ texts_a.buttonAddTask }}
+      </UButton>
     </div>
   </UiKitsUiSlotsFormModelSlot>
 </template>

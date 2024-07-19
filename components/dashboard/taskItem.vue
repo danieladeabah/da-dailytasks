@@ -33,7 +33,7 @@
     <label class="text-sm text-gray-400" for="taskName">{{
       texts_a.formEditDescription
     }}</label>
-    <UInput v-model="editedTaskName" placeholder="Task Name" />
+    <UInput v-model="editedTaskName" placeholder="Task Name" maxLength="100" />
 
     <div class="flex items-center justify-between">
       <UDropdown :items="deleteOptions" :popper="{ arrow: true }">
