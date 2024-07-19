@@ -11,7 +11,9 @@
         />
       </UDropdown>
     </template>
+    <div v-if="subTasks.length === 0" class="text-gray-500">No tasks added</div>
     <DashboardTaskItem
+      v-else
       v-for="(task, index) in subTasks"
       :key="index"
       :task="task"

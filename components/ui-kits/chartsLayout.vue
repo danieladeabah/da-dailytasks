@@ -1,64 +1,92 @@
 <template>
   <div>
-    <canvas id="chart" width="350" height="350"></canvas>
+    <div v-if="totalTasks > 0">
+      <canvas id="chart" width="350" height="350"></canvas>
+    </div>
+    <div v-else class="text-gray-400 text-center my-10">
+      <p>No tasks available</p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Chart } from "chart.js/auto";
+import { Chart, type ChartConfiguration } from "chart.js/auto";
 import { useTasksStore } from "@/store/tasks";
 import type { Task } from "~/types/types";
 
 const tasksStore = useTasksStore();
 
-onMounted(() => {
-  tasksStore.loadTasksFromLocalStorage();
+const chartInstance = ref<Chart | null>(null);
 
-  // Calculate task statistics
-  const totalTasks = tasksStore.tasks.length;
+const totalTasks = computed(() => tasksStore.tasks.length);
 
-  const todoPercentage =
-    totalTasks > 0
-      ? (tasksStore.tasks.filter((task: Task) => task.progress === 0).length /
-          totalTasks) *
-        100
-      : 0;
+const todoPercentage = computed(() =>
+  totalTasks.value > 0
+    ? (tasksStore.tasks.filter((task: Task) => task.progress === 0).length /
+        totalTasks.value) *
+      100
+    : 0
+);
 
-  const inProgressPercentage =
-    totalTasks > 0
-      ? (tasksStore.tasks.filter(
-          (task: Task) => task.progress > 0 && task.progress < 100
-        ).length /
-          totalTasks) *
-        100
-      : 0;
+const inProgressPercentage = computed(() =>
+  totalTasks.value > 0
+    ? (tasksStore.tasks.filter(
+        (task: Task) => task.progress > 0 && task.progress < 100
+      ).length /
+        totalTasks.value) *
+      100
+    : 0
+);
 
-  const donePercentage =
-    totalTasks > 0
-      ? (tasksStore.tasks.filter((task: Task) => task.progress === 100).length /
-          totalTasks) *
-        100
-      : 0;
+const donePercentage = computed(() =>
+  totalTasks.value > 0
+    ? (tasksStore.tasks.filter((task: Task) => task.progress === 100).length /
+        totalTasks.value) *
+      100
+    : 0
+);
 
-  // Chart data
-  const data = {
-    labels: ["To-Do", "In Progress", "Done"],
-    datasets: [
-      {
-        data: [todoPercentage, inProgressPercentage, donePercentage],
-        backgroundColor: ["#F17105", "#FDCA40", "#4E3EC8"],
-        hoverOffset: 4,
-      },
-    ],
-  };
+const chartData = computed(() => ({
+  labels: ["To-Do", "In Progress", "Done"],
+  datasets: [
+    {
+      data: [
+        todoPercentage.value,
+        inProgressPercentage.value,
+        donePercentage.value,
+      ],
+      backgroundColor: ["#F17105", "#FDCA40", "#4E3EC8"],
+      hoverOffset: 4,
+    },
+  ],
+}));
 
-  const config = {
-    type: "pie",
-    data: data,
-  };
-
-  // Initialize Chart
+const createChart = () => {
   const ctx = document.getElementById("chart") as HTMLCanvasElement;
-  new Chart(ctx, config);
+  if (ctx) {
+    const config: ChartConfiguration = {
+      type: "pie",
+      data: chartData.value,
+    };
+
+    if (chartInstance.value) {
+      chartInstance.value.destroy();
+    }
+
+    chartInstance.value = new Chart(ctx, config);
+  }
+};
+
+onMounted(async () => {
+  await tasksStore.loadTasksFromLocalStorage();
+  createChart();
 });
+
+watch(
+  () => chartData.value,
+  () => {
+    createChart();
+  },
+  { deep: true }
+);
 </script>

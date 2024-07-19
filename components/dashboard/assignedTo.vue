@@ -11,12 +11,15 @@
       />
     </template>
     <div class="flex items-center space-x-2 overflow-auto">
-      <UiKitsUserAvatar
-        v-for="(user, index) in users"
-        :key="user.id"
-        :src="user.image"
-        :alt="'User avatar ' + (index + 1)"
-      />
+      <template v-if="users.length > 0">
+        <UiKitsUserAvatar
+          v-for="(user, index) in users"
+          :key="user.id"
+          :src="user.image"
+          :alt="'User avatar ' + (index + 1)"
+        />
+      </template>
+      <p v-else class="text-gray-500">No users assigned</p>
     </div>
   </UiKitsUiSlotsDashboardSlot>
 
@@ -99,8 +102,18 @@ const tasksStore = useTasksStore();
 const assignTo = ref(false);
 const optionIndex = ref(0); // Counter for unique IDs
 const options = ref([
-  { id: assigneesEncodeBase62(Date.now(), optionIndex.value++), name: "", email: "", image: "" },
-  { id: assigneesEncodeBase62(Date.now(), optionIndex.value++), name: "", email: "", image: "" },
+  {
+    id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
+    name: "",
+    email: "",
+    image: "",
+  },
+  {
+    id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
+    name: "",
+    email: "",
+    image: "",
+  },
 ]);
 
 watch(
@@ -196,4 +209,3 @@ const users = computed(() => {
   return task ? task.assignees : [];
 });
 </script>
-

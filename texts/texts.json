@@ -16,7 +16,6 @@
     "buttonAddTask": "Add Task"
   },
   "userInfo": {
-    "loggedIn": "Signed in as",
     "specialization": "Frontend Developer"
   },
   "projectActivity": {
@@ -24,6 +23,8 @@
     "browse": "Browse",
     "completed": "Completed",
     "deadline": "Deadline:",
+    "noTasks": "No Tasks",
+    "noCompletedTasks": "No Completed Tasks",
     "statsView": {
       "todo": "To-Do",
       "inProgress": "In Progress",
