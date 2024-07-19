@@ -49,9 +49,48 @@
           </div>
         </template>
         <template #completed>
-          <p class="text-gray-400 text-center my-20">
-            {{ texts_c.noCompletedTasks }}
-          </p>
+          <div class="flex flex-col gap-5">
+            <template v-if="completedTasks.length > 0">
+              <NuxtLink
+                v-for="task in completedTasks"
+                :key="task.id"
+                :to="'/tasks-page/' + task.id"
+                class="flex items-center justify-between border p-5 rounded-xl"
+              >
+                <div>
+                  <p>{{ task.name }}</p>
+                  <p class="text-gray-400">
+                    {{ texts_c.deadline }} {{ task.deadline }}
+                  </p>
+                  <div class="flex items-center my-2 overflow-auto w-40">
+                    <UiKitsUserAvatar
+                      v-for="(member, index) in task.assignees"
+                      :key="member.id"
+                      :src="member.image"
+                      :alt="'User avatar ' + (index + 1)"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <UButton
+                    class="flex items-center justify-center relative py-1 rounded-full w-[60px] h-[60px] text-[#000] font-semibold progressTasksColor"
+                    :style="{
+                      backgroundImage: `linear-gradient(to right, ${getProgressColor(
+                        task.progress
+                      )} ${task.progress}%, #E5E7EB ${task.progress}%)`,
+                    }"
+                  >
+                    {{ task.progress }}%
+                  </UButton>
+                </div>
+              </NuxtLink>
+            </template>
+            <template v-else>
+              <p class="text-gray-400 text-center my-20">
+                {{ texts_c.noCompletedTasks }}
+              </p>
+            </template>
+          </div>
         </template>
       </UTabs>
     </div>
@@ -66,13 +105,16 @@ import { getProgressColor } from "@/utils/progressColor";
 const tasksStore = useTasksStore();
 
 const tasks = computed(() => tasksStore.tasks);
+const completedTasks = computed(() =>
+  tasksStore.tasks.filter((task) => task.progress === 100)
+);
 
 onMounted(() => {
   tasksStore.loadTasksFromLocalStorage();
 });
 
-const tabItems = [
-  { slot: "browse", label: "Browse" },
-  { slot: "completed", label: "Completed" },
-];
+const tabItems = computed(() => [
+  { slot: "browse", label: `Browse (${tasks.value.length})` },
+  { slot: "completed", label: `Completed (${completedTasks.value.length})` },
+]);
 </script>
