@@ -109,6 +109,10 @@ const handleCheckboxChange = () => {
 };
 
 const editTaskSubmit = () => {
+  if (!editedTaskName.value) {
+    return;
+  }
+
   if (currentTask.value && props.task.id) {
     const updatedSubTask: Task = {
       ...currentTask.value,

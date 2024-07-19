@@ -68,6 +68,9 @@ const addTaskModel = () => {
 };
 
 const addSubTask = () => {
+  if (!newSubTaskName.value) {
+    return;
+  }
   const task: Task = {
     id: encodeBase62(Date.now()),
     name: newSubTaskName.value,
