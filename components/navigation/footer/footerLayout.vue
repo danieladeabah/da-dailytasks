@@ -18,7 +18,7 @@
     @close-modal="createTaskModal"
     v-if="createATasks"
     v-model="createATasks"
-    @closeDialog="tasksStore.toggleCreateTaskModal()"
+    @closeDialog="createTaskModal"
   >
     <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
     <UInput placeholder="Task Name" v-model="taskName" maxLength="100" />
@@ -60,14 +60,20 @@ import { encodeBase62 } from "@/utils/encodeBase62";
 
 const tasksStore = useTasksStore();
 
-const createATasks = computed(() => tasksStore.createATasks);
+const createATasks = ref(false);
 const taskName = ref("");
 const deadline = ref("");
 const description = ref("");
 const minDate = ref(getMinDate());
 
 const createTaskModal = () => {
-  tasksStore.toggleCreateTaskModal();
+  createATasks.value = !createATasks.value;
+
+  if (!createATasks.value) {
+    taskName.value = "";
+    deadline.value = "";
+    description.value = "";
+  }
 };
 
 const createATaskSubmit = () => {
@@ -88,5 +94,6 @@ const createATaskSubmit = () => {
   };
 
   tasksStore.createTask(newTask);
+  createTaskModal();
 };
 </script>

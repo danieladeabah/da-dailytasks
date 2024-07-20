@@ -64,7 +64,7 @@
     @close-modal="editTaskModal"
     v-if="createATasks"
     v-model="createATasks"
-    @closeDialog="tasksStore.toggleCreateTaskModal()"
+    @closeDialog="editTaskModal"
   >
     <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
     <UInput placeholder="Task Name" v-model="taskName" maxLength="100" />
@@ -110,6 +110,7 @@ import type { Task } from "@/types/types";
 const tasksStore = useTasksStore();
 const route = useRoute();
 const minDate = ref(getMinDate());
+const createATasks = ref(false);
 
 const task = computed(() => {
   const taskId = Array.isArray(route.params.tasksindex)
@@ -124,18 +125,18 @@ onMounted(() => {
 });
 
 // Edit Task Modal
-const createATasks = computed(() => tasksStore.createATasks);
 const taskName = ref("");
 const deadline = ref("");
 const description = ref("");
 
 const editTaskModal = () => {
+  createATasks.value = !createATasks.value;
+
   if (task.value) {
     taskName.value = task.value.name;
     deadline.value = task.value.deadline;
     description.value = task.value.description;
   }
-  tasksStore.toggleCreateTaskModal();
 };
 
 const editATaskSubmit = () => {
@@ -155,7 +156,7 @@ const editATaskSubmit = () => {
     tasksStore.updateTask(task.value.id, updatedTask as Task);
   }
 
-  tasksStore.toggleCreateTaskModal();
+  editTaskModal();
 };
 
 const deleteLists = [

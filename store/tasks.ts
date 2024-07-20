@@ -8,9 +8,6 @@ export const useTasksStore = defineStore({
     tasks: [] as Task[],
     selectedTask: null as Task | null,
     createATasks: false,
-    taskName: "",
-    deadline: "",
-    description: "",
   }),
   actions: {
     loadTasksFromLocalStorage() {
@@ -22,16 +19,9 @@ export const useTasksStore = defineStore({
     findTaskById(taskId: string): Task | undefined {
       return this.tasks.find((t) => t.id === taskId);
     },
-    toggleCreateTaskModal() {
-      this.createATasks = !this.createATasks;
-      if (this.createATasks) {
-        this.resetTaskForm();
-      }
-    },
     createTask(newTask: Task) {
       this.tasks.push(newTask);
       this.saveTasksToLocalStorage();
-      this.toggleCreateTaskModal();
     },
     updateTask(taskId: string, updatedTask: Task) {
       const taskIndex = this.tasks.findIndex((t) => t.id === taskId);
@@ -48,11 +38,6 @@ export const useTasksStore = defineStore({
         this.tasks.splice(taskIndex, 1);
         this.saveTasksToLocalStorage();
       }
-    },
-    resetTaskForm() {
-      this.taskName = "";
-      this.deadline = "";
-      this.description = "";
     },
     saveTasksToLocalStorage() {
       localStorage.setItem("tasks", JSON.stringify(this.tasks));
