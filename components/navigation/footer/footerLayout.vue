@@ -12,7 +12,6 @@
     </div>
   </footer>
 
-  <!-- Create Task Modal -->
   <UiKitsUiSlotsFormModelSlot
     form-title="Create Task"
     @close-modal="createTaskModal"

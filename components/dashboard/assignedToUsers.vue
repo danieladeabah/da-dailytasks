@@ -5,10 +5,9 @@
     @click="handleSelectUser"
   >
     <div class="flex items-center gap-2">
-      <UCheckbox v-model="id" color="sky" id="switch" /><span
-        class="text-sm"
-        >{{ user.name }}</span
-      >
+      <UCheckbox v-model="id" color="sky" id="switch" /><span class="text-sm">{{
+        user.name
+      }}</span>
     </div>
   </label>
 </template>

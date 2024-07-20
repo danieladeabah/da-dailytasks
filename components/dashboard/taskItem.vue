@@ -22,7 +22,6 @@
     </span>
   </label>
 
-  <!-- Edit Task Modal -->
   <UiKitsUiSlotsFormModelSlot
     form-title="Edit Sub Task"
     @close-modal="editTaskModel"
@@ -78,20 +77,11 @@ const currentTask = ref<Task | null>(null);
 
 const editTaskModel = () => {
   editATasks.value = !editATasks.value;
+
   if (props.task) {
     currentTask.value = props.task;
     editedTaskName.value = props.task.name;
   }
-};
-
-const calculateTaskProgress = (task: Task) => {
-  const totalSubTasks = task.subTasks.length;
-  if (totalSubTasks === 0) return 0;
-
-  const completedSubTasks = task.subTasks.filter(
-    (subTask) => subTask.isChecked
-  ).length;
-  return Math.round((completedSubTasks / totalSubTasks) * 100);
 };
 
 const handleCheckboxChange = () => {
@@ -99,7 +89,6 @@ const handleCheckboxChange = () => {
     const updatedSubTask = { ...props.task, isChecked: isChecked.value };
     tasksStore.updateSubTask(trackId, updatedSubTask);
 
-    // Calculate and update parent task progress
     const parentTask = tasksStore.findTaskById(trackId);
     if (parentTask) {
       const progress = calculateTaskProgress(parentTask);
@@ -142,7 +131,6 @@ const deleteOptions = [
         editATasks.value = !editATasks.value;
         tasksStore.deleteSubTask(trackId, props.task.id);
 
-        // Calculate and update parent task progress
         const parentTask = tasksStore.findTaskById(trackId);
         if (parentTask) {
           const progress = calculateTaskProgress(parentTask);

@@ -20,7 +20,6 @@
     />
   </UiKitsUiSlotsDashboardSlot>
 
-  <!-- Add Task Modal -->
   <UiKitsUiSlotsFormModelSlot
     form-title="Add Sub Task"
     @close-modal="addTaskModel"
@@ -78,8 +77,6 @@ const addSubTask = () => {
   };
 
   tasksStore.addSubTask(selectedTaskId, task);
-  newSubTaskName.value = "";
-  selectedUsers.value = [];
   addTaskModel();
 };
 

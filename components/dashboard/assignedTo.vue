@@ -100,7 +100,7 @@ const route = useRoute();
 const tasksStore = useTasksStore();
 
 const assignTo = ref(false);
-const optionIndex = ref(0); // Counter for unique IDs
+const optionIndex = ref(0);
 const options = ref([
   {
     id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
@@ -168,7 +168,6 @@ const assignToModel = () => {
 };
 
 const assignToubmit = () => {
-  // Check if all options are filled
   if (
     !options.value.every(
       (option) => option.name && option.email && option.image

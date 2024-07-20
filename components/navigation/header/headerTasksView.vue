@@ -40,11 +40,10 @@ const dropdownLabel = computed(() => {
 
 const buttonColor = computed(() => {
   const progress = selectedTask.value?.progress ?? 0;
-  if (progress === 0) return { text: "#F17105"}; // To-Do color
-  if (progress > 0 && progress < 100)
-    return { text: "#FDCA40"}; // In Progress color
-  if (progress === 100) return { text: "#4E3EC8"}; // Done color
-  return { text: "#E5E7EB" }; // Default color if status is unknown
+  if (progress === 0) return { text: "#F17105" };
+  if (progress > 0 && progress < 100) return { text: "#FDCA40" };
+  if (progress === 100) return { text: "#4E3EC8" };
+  return { text: "#E5E7EB" };
 });
 
 onMounted(() => {

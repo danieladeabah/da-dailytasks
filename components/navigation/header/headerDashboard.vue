@@ -40,9 +40,9 @@ const currentDate = new Date().toDateString();
 
 const greeting = computed(() => {
   const hours = new Date().getHours();
-  if (hours < 12) return "Good Morning";
-  if (hours < 18) return "Good Afternoon";
-  return "Good Evening";
+  if (hours < 12) return "Good morning";
+  if (hours < 18) return "Good afternoon";
+  return "Good evening";
 });
 
 const items = [
@@ -52,8 +52,13 @@ const items = [
       slot: "account",
       disabled: true,
     },
-  ],
-  [
+    {
+      label: "Portfolio",
+      icon: "i-heroicons-link-20-solid",
+      click() {
+        window.open("https://danieladeabah.vercel.app", "_blank");
+      },
+    },
     {
       label: "LinkedIn",
       icon: "i-heroicons-link-20-solid",
@@ -61,8 +66,6 @@ const items = [
         window.open("https://www.linkedin.com/in/danieladeabaa/", "_blank");
       },
     },
-  ],
-  [
     {
       label: "GitHub",
       icon: "i-heroicons-link-20-solid",

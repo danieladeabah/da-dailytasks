@@ -1,4 +1,3 @@
-// store.ts
 import { defineStore } from "pinia";
 import type { Task } from "~/types/types";
 
@@ -6,8 +5,6 @@ export const useTasksStore = defineStore({
   id: "tasks",
   state: () => ({
     tasks: [] as Task[],
-    selectedTask: null as Task | null,
-    createATasks: false,
   }),
   actions: {
     loadTasksFromLocalStorage() {
@@ -31,7 +28,7 @@ export const useTasksStore = defineStore({
       } else {
         console.error("Task not found.");
       }
-    },    
+    },
     deleteTask(taskId: string) {
       const taskIndex = this.tasks.findIndex((t) => t.id === taskId);
       if (taskIndex !== -1) {
@@ -49,7 +46,6 @@ export const useTasksStore = defineStore({
         this.saveTasksToLocalStorage();
       }
     },
-    // New actions for sub-tasks
     addSubTask(taskId: string, subTask: Task) {
       const task = this.findTaskById(taskId);
       if (task) {
@@ -58,10 +54,11 @@ export const useTasksStore = defineStore({
       }
     },
     updateSubTask(taskId: string, subTask: Task) {
-      console.log("Updating Sub-Task in Task ID:", taskId);
       const task = this.findTaskById(taskId);
       if (task) {
-        const subTaskIndex = task.subTasks.findIndex((st) => st.id === subTask.id);
+        const subTaskIndex = task.subTasks.findIndex(
+          (st) => st.id === subTask.id
+        );
         if (subTaskIndex !== -1) {
           task.subTasks[subTaskIndex] = subTask;
           this.saveTasksToLocalStorage();
@@ -71,11 +68,13 @@ export const useTasksStore = defineStore({
       } else {
         console.error("Task not found.");
       }
-    },         
+    },
     deleteSubTask(taskId: string, subTaskId: string) {
       const task = this.findTaskById(taskId);
       if (task) {
-        const subTaskIndex = task.subTasks.findIndex((st) => st.id === subTaskId);
+        const subTaskIndex = task.subTasks.findIndex(
+          (st) => st.id === subTaskId
+        );
         if (subTaskIndex !== -1) {
           task.subTasks.splice(subTaskIndex, 1);
           this.saveTasksToLocalStorage();

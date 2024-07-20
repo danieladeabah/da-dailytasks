@@ -124,7 +124,6 @@ onMounted(() => {
   tasksStore.loadTasksFromLocalStorage();
 });
 
-// Edit Task Modal
 const taskName = ref("");
 const deadline = ref("");
 const description = ref("");
