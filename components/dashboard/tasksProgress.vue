@@ -64,6 +64,11 @@ const selectedUsers = ref<number[]>([]);
 
 const addTaskModel = () => {
   addATasks.value = !addATasks.value;
+
+  if (addATasks.value) {
+    newSubTaskName.value = "";
+    selectedUsers.value = [];
+  }
 };
 
 const addSubTask = () => {
