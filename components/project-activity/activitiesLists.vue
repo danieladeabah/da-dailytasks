@@ -13,7 +13,7 @@
                 :to="'/tasks-page/' + task.id"
                 class="flex items-center justify-between border p-5 rounded-xl"
               >
-                <div>
+                <div class="flex flex-col gap-1">
                   <p>{{ task.name }}</p>
                   <p class="text-gray-400">
                     {{ texts_c.deadline }} {{ task.deadline }}
@@ -57,7 +57,7 @@
                 :to="'/tasks-page/' + task.id"
                 class="flex items-center justify-between border p-5 rounded-xl"
               >
-                <div>
+                <div class="flex flex-col gap-1">
                   <p>{{ task.name }}</p>
                   <p class="text-gray-400">
                     {{ texts_c.deadline }} {{ task.deadline }}
