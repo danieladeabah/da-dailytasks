@@ -5,7 +5,7 @@
     "tasksProgress": "Tasks Progress"
   },
   "createATask": {
-    "formDescription": "Fill out the form to add a task and assign a team members",
+    "formDescription": "Fill out the form to assign team members to tasks",
     "formEditDescription": "Enter task name to edit",
     "addTaskFormDescription": "Enter details to add a sub task",
     "buttonAssign": "Assign",
