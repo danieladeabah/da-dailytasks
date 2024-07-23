@@ -168,23 +168,22 @@ const assignToModel = () => {
 };
 
 const assignToubmit = () => {
-  if (
-    !options.value.every(
-      (option) => option.name && option.email && option.image
-    )
-  ) {
-    return;
-  }
-
   const taskId = route.params.tasksindex as string;
   const task = tasksStore.findTaskById(taskId);
   if (task) {
-    task.assignees = options.value.map((option) => ({
-      id: option.id,
-      name: option.name,
-      email: option.email,
-      image: option.image,
-    }));
+    task.assignees = options.value
+      .filter(
+        (option) =>
+          option.name.trim() !== "" &&
+          option.email.trim() !== "" &&
+          option.image.trim() !== ""
+      )
+      .map((option) => ({
+        id: option.id,
+        name: option.name,
+        email: option.email,
+        image: option.image,
+      }));
     tasksStore.assignPeopleToTask(task);
   }
   assignToModel();
