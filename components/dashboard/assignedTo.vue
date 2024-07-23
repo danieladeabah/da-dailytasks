@@ -50,12 +50,14 @@
           size="sm"
           class="w-full lg:w-40vw"
           v-model="option.email"
+          type="email"
           placeholder="Email"
         />
         <UInput
           size="sm"
           class="w-full lg:w-40vw"
           v-model="option.image"
+          type="url"
           placeholder="Image URL"
         />
         <img
