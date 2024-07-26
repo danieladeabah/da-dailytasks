@@ -1,4 +1,3 @@
-// Base62 characters
 const BASE62_CHARS =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BASE62_RADIX = BASE62_CHARS.length;
