@@ -8,7 +8,7 @@ export const useTasksStore = defineStore({
   }),
   actions: {
     loadTasksFromLocalStorage() {
-      const savedTasks = localStorage.getItem("tasks");
+      const savedTasks = localStorage.getItem("da-daily-tasks-xi");
       if (savedTasks) {
         this.tasks = JSON.parse(savedTasks);
       }
@@ -37,7 +37,7 @@ export const useTasksStore = defineStore({
       }
     },
     saveTasksToLocalStorage() {
-      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+      localStorage.setItem("da-daily-tasks-xi", JSON.stringify(this.tasks));
     },
     assignPeopleToTask(task: Task) {
       const taskIndex = this.tasks.findIndex((t) => t.id === task.id);
