@@ -9,6 +9,7 @@
 }
 
 body {
+  font-family: "JetBrains Mono", system-ui, sans-serif;
   color: #1a1a1a;
   background-color: #fff;
   background-image: url("/assets/icons/dashbaord-background.svg");
