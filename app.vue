@@ -8,10 +8,6 @@ useHead({
   link: [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
-    {
-      href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
-      rel: "stylesheet",
-    },
     { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
   ],
   meta: [
