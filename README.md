@@ -1,4 +1,4 @@
-# Daily Tasks Tracker App; Nuxt 3 Vue.
+# Daily Tasks Tracker App
 
 ## Overview
 
@@ -48,37 +48,25 @@ Check out the live demo [here](https://daily-tasks-xi.vercel.app/).
 6. **Filtering by Date**:
    - Use the date filter input to filter tasks by their deadline date (integration pending).
 
-## Installation
+## Project setup
+```
+yarn install
+```
 
-To run this project locally:
+### Compiles and hot-reloads for development
+```
+yarn run dev
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/amt-daniel-adeabah/DailyTasks.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd DailyTasks
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-   or if you're using Yarn:
-   ```bash
-   yarn install
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   or if you're using Yarn:
-   ```bash
-   yarn run dev
-   ```
+### Compiles and minifies for production
+```
+yarn build
+```
 
-The application will be available at `http://localhost:3000`.
+### Lints and fixes files
+```
+yarn lint
+```
 
-## Thank You
-
-If you like my works kindly give me a heart ❤
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
