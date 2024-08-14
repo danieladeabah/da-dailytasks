@@ -70,7 +70,7 @@ const items = [
       label: "GitHub",
       icon: "i-heroicons-link-20-solid",
       click() {
-        window.open("https://github.com/amt-daniel-adeabah", "_blank");
+        window.open("https://github.com/danieladeabah", "_blank");
       },
     },
   ],
