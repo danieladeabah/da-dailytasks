@@ -1,4 +1,4 @@
-# Daily Tasks Tracker App
+# Daily Tasks Tracker
 
 ## Overview
 
