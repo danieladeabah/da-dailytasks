@@ -6,7 +6,7 @@
 
 ## Live Demo
 
-Check out the live demo [here](https://daily-tasks-xi.vercel.app/).
+Check out the live demo [here](https://da-dailytasks.vercel.app).
 
 See [Flowchart](https://miro.com/app/embed/uXjVKn1Mots=/?pres=1&frameId=3458764597672103699&embedId=550701287096)
 
