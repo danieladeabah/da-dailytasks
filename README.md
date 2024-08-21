@@ -1,4 +1,4 @@
-# Daily Tasks Tracker
+# Daily Task Tracker
 
 ## Overview
 
