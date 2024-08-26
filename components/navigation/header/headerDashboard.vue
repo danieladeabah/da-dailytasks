@@ -13,14 +13,29 @@
         <UAvatar src="https://avatars.githubusercontent.com/u/124435531?v=4" />
 
         <template #account="{ item }">
-          <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center justify-between gap-5">
             <div class="text-left">
-            <p>{{ texts_b.specialization }}</p>
-            <p class="truncate font-medium text-gray-900 dark:text-white">
-              {{ item.label }}
-            </p>
-          </div>
-          <ULink class="text-[#2563EB] underline" to="/authentication/login" title="Click to login">Login</ULink>
+              <p>{{ texts_b.specialization }}</p>
+              <p class="truncate font-medium text-gray-900 dark:text-white">
+                {{ item.label }}
+              </p>
+            </div>
+            <ULink
+              v-if="!isLoggedIn"
+              class="text-[#2563EB] underline"
+              to="/authentication/login"
+              title="Click to login"
+            >
+              In
+            </ULink>
+            <ULink
+              v-if="isLoggedIn"
+              class="text-[#2563EB] underline"
+              @click="logout"
+              title="Click to logout"
+            >
+              Out
+            </ULink>
           </div>
         </template>
 
@@ -37,7 +52,10 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthenticationStore } from "@/store/auth";
 import { userInfo as texts_b } from "@/texts/texts.json";
+
+const authStore = useAuthenticationStore();
 
 const currentDate = new Date().toDateString();
 
@@ -47,6 +65,14 @@ const greeting = computed(() => {
   if (hours < 18) return "Good afternoon";
   return "Good evening";
 });
+
+// Check if the user is logged in
+const isLoggedIn = computed(() => !!authStore.token);
+
+const logout = () => {
+  authStore.logout();
+  navigateTo("/authentication/login");
+};
 
 const items = [
   [

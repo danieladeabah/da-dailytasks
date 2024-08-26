@@ -1,31 +1,15 @@
 <template>
   <UiKitsUiSlotsAuthWrapper backLink="/">
     <template #title>Login</template>
-    <template #subtitle>
-      Welcome back. Add your email and password to sign in.
-    </template>
+    <template #subtitle> Enter your email and password to sign in. </template>
     <template #form>
-      <UInput
-        placeholder="Email address"
-        v-model="email_address"
-        maxLength="100"
-      />
-      <UInput
-        placeholder="Password"
-        type="password"
-        v-model="password"
-        maxLength="100"
-      />
-      <UButton
-        class="flex justify-center w-full font-bold hover:shadow-2xl"
-        color="blue"
-        label="Login"
-        variant="solid"
-        @click="loginNow"
-      />
+      <UInput placeholder="Email address" v-model="email" maxLength="100" size="xl" />
+      <UInput placeholder="Password" type="password" v-model="password" maxLength="100" size="xl" />
+      <UButton class="flex justify-center w-full font-bold hover:shadow-2xl" color="blue" label="Login" variant="solid"
+        size="xl" @click="login" />
     </template>
     <template #info>
-      Have you not registered yet?
+      New here?
       <ULink to="/authentication/signup" class="text-[#2563EB] underline">
         Sign up
       </ULink>
@@ -35,10 +19,14 @@
 </template>
 
 <script setup lang="ts">
-const email_address = ref("");
+import { useAuthenticationStore } from "~/store/auth";
+
+const email = ref("");
 const password = ref("");
 
-const loginNow = () => {
-  console.log(email_address.value, password.value);
+const store = useAuthenticationStore();
+
+const login = () => {
+  store.login(email.value, password.value);
 };
 </script>
