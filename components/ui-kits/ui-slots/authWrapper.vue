@@ -12,6 +12,9 @@
       <p class="text-center text-gray-400 text-sm pb-10">
         <slot name="subtitle"></slot>
       </p>
+      <p class="text-center text-gray-400 text-sm pb-10">
+        <slot name="errors"></slot>
+      </p>
 
       <div class="flex flex-col gap-5">
         <slot name="form"></slot>

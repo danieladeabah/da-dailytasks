@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useAuthenticationStore = defineStore("authentication", {
   state: () => ({
     token: "",
+    error: "",
   }),
   actions: {
     async signup(
@@ -12,6 +13,7 @@ export const useAuthenticationStore = defineStore("authentication", {
       last_name: string
     ) {
       try {
+        this.error = "";
         const data = await $fetch("/api/auth/signup", {
           method: "POST",
           body: { first_name, last_name, email, password },
@@ -20,20 +22,25 @@ export const useAuthenticationStore = defineStore("authentication", {
         if (data.statusCode === 201) {
           console.log("Signup successful! Redirecting to login...");
           navigateTo("/authentication/login");
+        } else {
+          this.error = data.message || "Unexpected error";
+          this.clearErrorAfterDelay();
         }
       } catch (err: any) {
         if (err.statusCode === 409) {
-          console.log("Email is already in use");
+          this.error = "Email is already in use";
         } else if (err.statusCode === 400) {
-          console.log("All fields are required");
+          this.error = "All fields are required";
         } else {
-          console.error("Error during signup: " + err.message);
+          this.error = "Error during signup: " + err.message;
         }
+        this.clearErrorAfterDelay();
       }
     },
 
     async login(email: string, password: string) {
       try {
+        this.error = "";
         const data = await $fetch("/api/auth/login", {
           method: "POST",
           body: { email, password },
@@ -45,28 +52,38 @@ export const useAuthenticationStore = defineStore("authentication", {
           console.log("Login successful! Redirecting to home...");
           navigateTo("/");
         } else {
-          console.log("Login successful!");
+          this.error = data.message || "Unexpected error";
+          this.clearErrorAfterDelay();
         }
       } catch (err: any) {
         if (err.statusCode === 401) {
-          console.log("Invalid credentials");
+          this.error = err.message || "Invalid credentials";
         } else if (err.statusCode === 404) {
-          console.log("User not found");
+          this.error = "User not found";
         } else if (err.statusCode === 500) {
-          console.log("Server error");
+          this.error = "Server error";
         } else {
-          console.error("Error during login: " + err.message);
+          this.error = "Error during login: " + err.message;
         }
+        this.clearErrorAfterDelay();
       }
     },
 
     logout() {
       this.token = "";
       localStorage.removeItem("authToken");
+      this.error = "";
     },
 
     loadToken() {
       this.token = localStorage.getItem("authToken") ?? "";
     },
+
+    clearErrorAfterDelay() {
+      setTimeout(() => {
+        this.error = "";
+      }, 2000);
+    },
   },
 });
+
