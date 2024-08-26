@@ -4,7 +4,7 @@
       <NuxtLink to="/" class="text-2xl font-bold">{{ greeting }}</NuxtLink>
       <p>{{ currentDate }}</p>
     </span>
-    <span>
+    <div class="flex gap-5">
       <UDropdown
         :items="items"
         :ui="{ item: { disabled: 'cursor-text select-text' } }"
@@ -20,22 +20,6 @@
                 {{ item.label }}
               </p>
             </div>
-            <ULink
-              v-if="!isLoggedIn"
-              class="text-[#2563EB] underline"
-              to="/authentication/login"
-              title="Click to login"
-            >
-              In
-            </ULink>
-            <ULink
-              v-if="isLoggedIn"
-              class="text-[#2563EB] underline"
-              @click="logout"
-              title="Click to logout"
-            >
-              Out
-            </ULink>
           </div>
         </template>
 
@@ -47,7 +31,7 @@
           />
         </template>
       </UDropdown>
-    </span>
+    </div>
   </UiKitsUiSlotsHeaderSlot>
 </template>
 
@@ -55,18 +39,19 @@
 import { useAuthenticationStore } from "@/store/auth";
 import { userInfo as texts_b } from "@/texts/texts.json";
 
-const authStore = useAuthenticationStore();
-
-const currentDate = new Date().toDateString();
-
 const greeting = computed(() => {
   const hours = new Date().getHours();
   if (hours < 12) return "Good morning";
   if (hours < 18) return "Good afternoon";
   return "Good evening";
 });
+const currentDate = new Date().toDateString();
 
-// Check if the user is logged in
+const authStore = useAuthenticationStore();
+onMounted(() => {
+  authStore.loadToken();
+});
+
 const isLoggedIn = computed(() => !!authStore.token);
 
 const logout = () => {
@@ -74,7 +59,7 @@ const logout = () => {
   navigateTo("/authentication/login");
 };
 
-const items = [
+const items = computed(() => [
   [
     {
       label: "Daniel Adeabah",
@@ -102,6 +87,19 @@ const items = [
         window.open("https://github.com/danieladeabah", "_blank");
       },
     },
+    {
+      label: isLoggedIn.value ? "Logout" : "Login",
+      icon: isLoggedIn.value
+        ? "i-heroicons-arrow-right-start-on-rectangle"
+        : "i-heroicons-arrow-right-20-solid",
+      click() {
+        if (isLoggedIn.value) {
+          logout();
+        } else {
+          navigateTo("/authentication/login");
+        }
+      },
+    },
   ],
-];
+]);
 </script>
