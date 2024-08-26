@@ -13,11 +13,14 @@
         <UAvatar src="https://avatars.githubusercontent.com/u/124435531?v=4" />
 
         <template #account="{ item }">
-          <div class="text-left">
+          <div class="flex items-center justify-between gap-2">
+            <div class="text-left">
             <p>{{ texts_b.specialization }}</p>
             <p class="truncate font-medium text-gray-900 dark:text-white">
               {{ item.label }}
             </p>
+          </div>
+          <ULink class="text-[#2563EB] underline" to="/authentication/login" title="Click to login">Login</ULink>
           </div>
         </template>
 
@@ -34,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { userInfo as texts_b } from "~~/texts/texts.json";
+import { userInfo as texts_b } from "@/texts/texts.json";
 
 const currentDate = new Date().toDateString();
 
