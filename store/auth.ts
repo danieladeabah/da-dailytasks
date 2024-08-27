@@ -4,6 +4,7 @@ export const useAuthenticationStore = defineStore("authentication", {
   state: () => ({
     token: "",
     error: "",
+    success: "",
   }),
   actions: {
     async signup(
@@ -20,20 +21,14 @@ export const useAuthenticationStore = defineStore("authentication", {
         });
 
         if (data.statusCode === 201) {
-          console.log("Signup successful! Redirecting to login...");
+          this.success = data.message || "Signup successful! You can now login";
           navigateTo("/authentication/login");
         } else {
           this.error = data.message || "Unexpected error";
           this.clearErrorAfterDelay();
         }
       } catch (err: any) {
-        if (err.statusCode === 409) {
-          this.error = "Email is already in use";
-        } else if (err.statusCode === 400) {
-          this.error = "All fields are required";
-        } else {
-          this.error = "Error during signup: " + err.message;
-        }
+        this.error = this.getErrorMessage(err);
         this.clearErrorAfterDelay();
       }
     },
@@ -49,24 +44,25 @@ export const useAuthenticationStore = defineStore("authentication", {
         if (data.statusCode === 200) {
           this.token = data.token;
           localStorage.setItem("authToken", this.token);
-          console.log("Login successful! Redirecting to home...");
+          this.success = data.message || "Login successful!";
           navigateTo("/");
         } else {
           this.error = data.message || "Unexpected error";
           this.clearErrorAfterDelay();
         }
       } catch (err: any) {
-        if (err.statusCode === 401) {
-          this.error = err.message || "Invalid credentials";
-        } else if (err.statusCode === 404) {
-          this.error = "User not found";
-        } else if (err.statusCode === 500) {
-          this.error = "Server error";
-        } else {
-          this.error = "Error during login: " + err.message;
-        }
+        this.error = this.getErrorMessage(err);
         this.clearErrorAfterDelay();
       }
+    },
+
+    getErrorMessage(err: any): string {
+      if (err.statusCode === 409) return "Email is already in use";
+      if (err.statusCode === 400) return "All fields are required";
+      if (err.statusCode === 401) return err.message || "Invalid credentials";
+      if (err.statusCode === 404) return "User not found";
+      if (err.statusCode === 500) return "Server error";
+      return "Error: " + err.message;
     },
 
     logout() {
@@ -84,6 +80,11 @@ export const useAuthenticationStore = defineStore("authentication", {
         this.error = "";
       }, 2000);
     },
+
+    clearSuccessAfterDelay() {
+      setTimeout(() => {
+        this.success = "";
+      }, 2000);
+    },
   },
 });
-
