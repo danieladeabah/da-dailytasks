@@ -1,8 +1,11 @@
 <template>
   <NuxtPage />
+  <UNotifications />
 </template>
 
 <script setup lang="ts">
+import { useAuthenticationStore } from "@/store/auth";
+
 useHead({
   title: "DailyTasks App",
   link: [
@@ -26,4 +29,21 @@ useHead({
     lang: "en",
   },
 });
+
+const store = useAuthenticationStore();
+const toast = useToast();
+
+watch(
+  () => store.success || store.error,
+  (newToastNotification) => {
+    if (newToastNotification) {
+      toast.add({
+        title: newToastNotification,
+        timeout: 2000,
+        color: store.error ? "red" : "blue",
+      });
+      store.clearSuccessAfterDelay();
+    }
+  }
+);
 </script>
