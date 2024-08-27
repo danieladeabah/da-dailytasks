@@ -5,7 +5,6 @@ import connection from "../../utils/db";
 const secretKey = process.env.JWT_SECRET;
 
 export default defineEventHandler(async (event) => {
-  // Parse the request body using readBody instead of useBody
   const body = await readBody(event);
   const { email, password } = body;
 

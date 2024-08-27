@@ -1,9 +1,8 @@
 import bcrypt from "bcryptjs";
-import { encodeBase62 } from "@/utils/encodeBase62"; // Assume you have a base62 encoding utility
+import { encodeBase62 } from "@/utils/encodeBase62";
 import connection from "../../utils/db";
 
 export default defineEventHandler(async (event) => {
-  // Parse the request body using readBody
   const body = await readBody(event);
   const { first_name, last_name, email, password } = body;
 
