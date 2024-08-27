@@ -14,13 +14,25 @@
         maxLength="100"
         size="xl"
       />
-      <UInput
-        placeholder="Password"
-        type="password"
-        v-model="password"
-        maxLength="100"
-        size="xl"
-      />
+      <div class="relative">
+        <UInput
+          :type="isPasswordVisible ? 'text' : 'password'"
+          placeholder="Password"
+          v-model="password"
+          maxLength="100"
+          size="xl"
+        />
+        <span
+          class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+          @click="togglePasswordVisibility"
+        >
+          <i
+            :class="
+              isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+            "
+          ></i>
+        </span>
+      </div>
     </template>
     <template #info>
       New here?
@@ -46,10 +58,15 @@ import { useAuthenticationStore } from "~/store/auth";
 
 const email = ref("");
 const password = ref("");
+const isPasswordVisible = ref(false);
 
 const store = useAuthenticationStore();
 
 const login = () => {
   store.login(email.value, password.value);
+};
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
 };
 </script>
