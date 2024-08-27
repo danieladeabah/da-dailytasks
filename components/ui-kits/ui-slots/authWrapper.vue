@@ -5,14 +5,17 @@
         <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
       </NuxtLink>
     </div>
-    <div class="px-4 py-5">
-      <h1 class="text-2xl text-center font-semibold pb-2">
+
+    <div class="px-4 py-2">
+      <p class="text-left text-sm pb-5">
+        <slot name="greet"></slot>
+      </p>
+
+      <h1 class="text-2xl text-left font-normal pb-2">
         <slot name="title"></slot>
       </h1>
-      <p class="text-center text-gray-400 text-sm pb-10">
-        <slot name="subtitle"></slot>
-      </p>
-      <p class="text-center text-gray-400 text-sm pb-10">
+
+      <p class="text-left text-sm pb-4">
         <slot name="errors"></slot>
       </p>
 
@@ -21,7 +24,7 @@
       </div>
 
       <div>
-        <p class="text-left text-gray-400 py-2 text-sm">
+        <p class="text-left py-2 text-sm">
           <slot name="info"></slot>
         </p>
       </div>

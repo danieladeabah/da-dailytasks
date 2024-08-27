@@ -1,7 +1,7 @@
 <template>
   <UiKitsUiSlotsAuthWrapper backLink="/authentication/login">
-    <template #title>Sign up</template>
-    <template #subtitle> Enter your email and password to sign up. </template>
+    <template #greet> Welcome to DailyTasks </template>
+    <template #title>Create an account</template>
     <template #errors>
       <div v-if="store.error" class="text-red-600">
         {{ store.error }}
@@ -33,19 +33,29 @@
         maxLength="100"
         size="xl"
       />
-      <UButton
-        class="flex justify-center w-full font-bold hover:shadow-2xl"
-        color="blue"
-        label="Sign up"
-        variant="solid"
-        size="xl"
-        @click="signup"
-      />
     </template>
     <template #info>
-      By providing your email, you agree to our
-      <ULink class="text-[#2563EB] underline">Terms of Service</ULink> and
-      <ULink class="text-[#2563EB] underline">Privacy Policy</ULink>
+      <div class="flex items-start gap-2">
+        <span>
+          <UCheckbox color="blue" />
+        </span>
+        <span>
+          By providing your email, you agree to our
+          <ULink class="underline">Terms of Service</ULink> and
+          <ULink class="underline">Privacy Policy</ULink>
+        </span>
+      </div>
+
+      <div class="py-2">
+        <UButton
+          class="flex justify-center w-full font-bold hover:shadow-2xl"
+          color="blue"
+          label="Sign Up"
+          variant="solid"
+          size="xl"
+          @click="signup"
+        />
+      </div>
     </template>
   </UiKitsUiSlotsAuthWrapper>
 </template>

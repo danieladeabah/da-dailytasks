@@ -1,7 +1,7 @@
 <template>
   <UiKitsUiSlotsAuthWrapper backLink="/">
-    <template #title>Login</template>
-    <template #subtitle> Enter your email and password to sign in. </template>
+    <template #greet> Welcome back </template>
+    <template #title>Sign in to DailyTasks</template>
     <template #errors>
       <div v-if="store.error" class="text-red-600">
         {{ store.error }}
@@ -21,21 +21,22 @@
         maxLength="100"
         size="xl"
       />
-      <UButton
-        class="flex justify-center w-full font-bold hover:shadow-2xl"
-        color="blue"
-        label="Login"
-        variant="solid"
-        size="xl"
-        @click="login"
-      />
     </template>
     <template #info>
       New here?
-      <ULink to="/authentication/signup" class="text-[#2563EB] underline">
-        Sign up
-      </ULink>
-      or <ULink class="text-[#2563EB] underline">Forgot Password</ULink>
+      <ULink to="/authentication/signup" class="underline"> Sign up </ULink>
+      or <ULink class="underline">Forgot Password</ULink>
+
+      <div class="py-2">
+        <UButton
+          class="flex justify-center w-full font-bold hover:shadow-2xl"
+          color="blue"
+          label="Sign In"
+          variant="solid"
+          size="xl"
+          @click="login"
+        />
+      </div>
     </template>
   </UiKitsUiSlotsAuthWrapper>
 </template>
