@@ -22,7 +22,7 @@ export const useAuthenticationStore = defineStore("authentication", {
 
         if (data.statusCode === 201) {
           this.success = data.message || "Signup successful! You can now login";
-          navigateTo("/authentication/login");
+          navigateTo("/auth/login");
         } else {
           this.error = data.message || "Unexpected error";
           this.clearErrorAfterDelay();
@@ -46,6 +46,59 @@ export const useAuthenticationStore = defineStore("authentication", {
           localStorage.setItem("authToken", this.token);
           this.success = data.message || "Login successful!";
           navigateTo("/");
+        } else {
+          this.error = data.message || "Unexpected error";
+          this.clearErrorAfterDelay();
+        }
+      } catch (err: any) {
+        this.error = this.getErrorMessage(err);
+        this.clearErrorAfterDelay();
+      }
+    },
+
+    async forgotPassword(email: string) {
+      try {
+        this.error = "";
+        const data = await $fetch("/api/auth/forgot-password", {
+          method: "POST",
+          body: { email },
+        });
+
+        if (data.statusCode === 200) {
+          this.success =
+            data.message || "Email sent successfully. Please check your inbox.";
+          navigateTo("/auth/mailinfo");
+          this.clearSuccessAfterDelay();
+        } else {
+          this.error = data.message || "Unexpected error";
+          this.clearErrorAfterDelay();
+        }
+      } catch (err: any) {
+        this.error = this.getErrorMessage(err);
+        this.clearErrorAfterDelay();
+      }
+    },
+
+    async newPassword(password: string, confirmPassword: string) {
+      try {
+        if (password !== confirmPassword) {
+          this.error = "Passwords do not match";
+          this.clearErrorAfterDelay();
+          return;
+        }
+
+        this.error = "";
+        const data = await $fetch("/api/auth/new-password", {
+          method: "POST",
+          body: { password, token: this.token },
+        });
+
+        if (data.statusCode === 200) {
+          this.success =
+            data.message ||
+            "Password changed successfully. You can now log in.";
+          navigateTo("/auth/login");
+          this.clearSuccessAfterDelay();
         } else {
           this.error = data.message || "Unexpected error";
           this.clearErrorAfterDelay();

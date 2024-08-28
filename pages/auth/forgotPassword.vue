@@ -1,7 +1,7 @@
 <template>
   <UiKitsUiSlotsAuthWrapper>
     <template #backLink>
-      <NuxtLink to="/authentication/login" class="text-2xl font-bold">
+      <NuxtLink to="/auth/login" class="text-2xl font-bold">
         <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
       </NuxtLink>
     </template>

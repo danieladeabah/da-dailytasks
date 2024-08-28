@@ -1,18 +1,30 @@
 <template>
   <UiKitsUiSlotsAuthWrapper>
     <template #backLink>
-      <NuxtLink to="/" class="text-2xl font-bold">
+      <NuxtLink to="/auth/login" class="text-2xl font-bold">
         <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
       </NuxtLink>
     </template>
-    <template #greet> {{ text.login.loginGreet }} </template>
-    <template #title>{{ text.login.login }}</template>
+    <template #greet> {{ text.signup.signUpGreet }} </template>
+    <template #title>{{ text.signup.signup }}</template>
     <template #errors>
       <div v-if="store.error" class="text-red-600">
         {{ store.error }}
       </div>
     </template>
     <template #form>
+      <UInput
+        placeholder="First name"
+        v-model="first_name"
+        maxLength="100"
+        size="xl"
+      />
+      <UInput
+        placeholder="Last name"
+        v-model="last_name"
+        maxLength="100"
+        size="xl"
+      />
       <UInput
         placeholder="Email address"
         v-model="email"
@@ -31,32 +43,35 @@
           class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
           @click="togglePasswordVisibility"
         >
-          <i
-            :class="
+          <UIcon
+            :name="
               isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
             "
-          ></i>
+          ></UIcon>
         </span>
       </div>
     </template>
     <template #info>
-      {{ text.login.newHere }}
-      <ULink to="/authentication/signup" class="underline">
-        {{ text.login.signup }}
-      </ULink>
-      {{ text.login.or }}
-      <ULink to="/authentication/forgotPassword" class="underline">{{
-        text.forgotPassword
-      }}</ULink>
+      <div class="flex items-start gap-2">
+        <span>
+          <UCheckbox color="blue" />
+        </span>
+        <span>
+          {{ text.signup.termsInfo }}
+          <ULink class="underline">{{ text.signup.termsOfService }}</ULink>
+          {{ text.signup.and }}
+          <ULink class="underline">{{ text.signup.privacyPolicy }}</ULink>
+        </span>
+      </div>
 
       <div class="py-2">
         <UButton
           class="flex justify-center w-full font-bold hover:shadow-2xl"
           color="blue"
-          label="Sign In"
+          label="Sign Up"
           variant="solid"
           size="xl"
-          @click="login"
+          @click="signup"
         />
       </div>
     </template>
@@ -67,14 +82,16 @@
 import { useAuthenticationStore } from "~/store/auth";
 import { authentication as text } from "@/texts/texts.json";
 
+const first_name = ref("");
+const last_name = ref("");
 const email = ref("");
 const password = ref("");
 const isPasswordVisible = ref(false);
 
 const store = useAuthenticationStore();
 
-const login = () => {
-  store.login(email.value, password.value);
+const signup = () => {
+  store.signup(email.value, password.value, first_name.value, last_name.value);
 };
 
 const togglePasswordVisibility = () => {

@@ -20,13 +20,13 @@
       />
     </template>
     <template #infoLinkText>
-      <ULink to="/authentication/logIn">{{ text.mailInfo.infoLinkText }}</ULink>
+      <ULink to="/auth/logIn">{{ text.mailInfo.infoLinkText }}</ULink>
     </template>
     <template #infoFooter>
       <p>
         {{ text.mailInfo.infoFooterText }} <br />
         {{ text.mailInfo.or }}
-        <ULink to="/authentication/forgotPassword" class="underline">{{
+        <ULink to="/auth/forgotPassword" class="underline">{{
           text.mailInfo.infoFooterTextTwo
         }}</ULink
         >.

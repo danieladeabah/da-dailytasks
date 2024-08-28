@@ -22,17 +22,17 @@
           class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
           @click="togglePasswordVisibility"
         >
-          <i
-            :class="
+          <UIcon
+            :name="
               isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
             "
-          ></i>
+          ></UIcon>
         </span>
       </div>
       <UInput
         :type="isPasswordVisible ? 'text' : 'password'"
         placeholder="Repeat Password"
-        v-model="newUserPassword"
+        v-model="confirmPassword"
         maxLength="100"
         size="xl"
       />
@@ -53,13 +53,13 @@ import { useAuthenticationStore } from "~/store/auth";
 import { authentication as text } from "@/texts/texts.json";
 
 const password = ref("");
-const newUserPassword = ref("");
+const confirmPassword = ref("");
 const isPasswordVisible = ref(false);
 
 const store = useAuthenticationStore();
 
 const newPassword = () => {
-  store.newPassword(password.value, newUserPassword.value);
+  store.newPassword(password.value, confirmPassword.value);
 };
 
 const togglePasswordVisibility = () => {

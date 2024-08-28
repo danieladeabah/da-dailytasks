@@ -56,7 +56,7 @@ const isLoggedIn = computed(() => !!authStore.token);
 
 const logout = () => {
   authStore.logout();
-  navigateTo("/authentication/login");
+  navigateTo("/auth/login");
 };
 
 const items = computed(() => [
@@ -96,7 +96,7 @@ const items = computed(() => [
         if (isLoggedIn.value) {
           logout();
         } else {
-          navigateTo("/authentication/login");
+          navigateTo("/auth/login");
         }
       },
     },
