@@ -19,7 +19,7 @@
           :alt="user.name"
         />
       </template>
-      <p v-else class="text-gray-500">No users assigned</p>
+      <p v-else class="text-gray-500">{{ texts.noAssignedUsers }}</p>
     </div>
   </UiKitsUiSlotsDashboardSlot>
 
