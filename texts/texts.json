@@ -2,7 +2,8 @@
   "dashboard": {
     "assignTo": "Assigned To",
     "deadline": "Deadline:",
-    "tasksProgress": "Tasks Progress"
+    "tasksProgress": "Tasks Progress",
+    "noAssignedUsers": "No users assigned"
   },
   "createATask": {
     "formDescription": "Complete the form to assign team members to task.",
@@ -13,7 +14,8 @@
     "taskName": "Task Name",
     "deadline": "Deadline",
     "description": "Description",
-    "buttonAddTask": "Add Task"
+    "buttonAddTask": "Add Task",
+    "noTasksAdded": "No tasks added"
   },
   "userInfo": {
     "specialization": "Frontend Developer"
