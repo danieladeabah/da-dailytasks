@@ -32,5 +32,33 @@
       "inProgress": "In Progress",
       "done": "Done"
     }
+  },
+  "authentication": {
+    "login": {
+      "login": "Sign in to DailyTasks",
+      "loginGreet": "Welcome back",
+      "newHere": "New here?",
+      "or": "or",
+      "signup": "Sign up"
+    },
+    "signup": {
+      "signup": "Create an account",
+      "signUpGreet": "Welcome to DailyTasks",
+      "termsInfo": "By providing your email, you agree to our",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "and": "and"
+    },
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "resetPasswordInfo": "Enter the email associated with your account and we'll send an email with instructions to reset your password.",
+    "resetPasswordNewEmail": "Your new password must be different from previous used passwords.",
+    "mailInfo": {
+      "or": "or",
+      "infoLinkText": "Skip, I'll do it later",
+      "infoText": "We have sent a password recover instructions to your email",
+      "infoFooterText": "Did not receive the email? Check your spam folder",
+      "infoFooterTextTwo": "try another email address"
+    }
   }
 }

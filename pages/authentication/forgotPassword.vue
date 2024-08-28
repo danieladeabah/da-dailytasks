@@ -5,10 +5,9 @@
         <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
       </NuxtLink>
     </template>
-    <template #title>Reset password</template>
+    <template #title>{{ text.resetPassword }}</template>
     <template #forgotPassword>
-      Enter the email associated with your account and we'll send an email with
-      instructions to reset your password.
+      {{ text.resetPasswordInfo }}
     </template>
     <template #errors>
       <div v-if="store.error" class="text-red-600">
@@ -36,6 +35,7 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from "~/store/auth";
+import { authentication as text } from "@/texts/texts.json";
 
 const email = ref("");
 

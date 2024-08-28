@@ -50,12 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import {
-  dashboard as texts,
-  createATask as texts_a,
-} from "~~/texts/texts.json";
-import { useTasksStore } from "~/store/tasks";
-import type { Task } from "~/types/types";
+import { dashboard as texts, createATask as texts_a } from "@/texts/texts.json";
+import { useTasksStore } from "@/store/tasks";
+import type { Task } from "@/types/types";
 
 const addATasks = ref(false);
 const newSubTaskName = ref("");

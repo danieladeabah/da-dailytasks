@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { Chart, type ChartConfiguration } from "chart.js/auto";
 import { useTasksStore } from "@/store/tasks";
-import type { Task } from "~/types/types";
+import type { Task } from "@/types/types";
 
 const tasksStore = useTasksStore();
 

@@ -92,10 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  dashboard as texts,
-  createATask as texts_a,
-} from "~~/texts/texts.json";
+import { dashboard as texts, createATask as texts_a } from "@/texts/texts.json";
 import { useTasksStore } from "@/store/tasks";
 
 const route = useRoute();

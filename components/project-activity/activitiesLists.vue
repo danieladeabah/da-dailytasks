@@ -99,7 +99,7 @@
 
 <script setup lang="ts">
 import { useTasksStore } from "@/store/tasks";
-import { projectActivity as texts_c } from "~~/texts/texts.json";
+import { projectActivity as texts_c } from "@/texts/texts.json";
 import { getProgressColor } from "@/utils/progressColor";
 
 const tasksStore = useTasksStore();

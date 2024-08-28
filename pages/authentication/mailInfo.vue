@@ -6,10 +6,9 @@
         class="size-20 text-[#6d94e8]"
       ></UIcon>
     </template>
-    <template #infoTitle>Reset password</template>
+    <template #infoTitle>{{ text.resetPassword }}</template>
     <template #infoText>
-      We have sent a password recover <br />
-      instructions to your email
+      {{ text.mailInfo.infoText }}
     </template>
     <template #infoLink>
       <UButton
@@ -21,16 +20,21 @@
       />
     </template>
     <template #infoLinkText>
-      <ULink to="/authentication/logIn">Skip, I'll do it later</ULink>
+      <ULink to="/authentication/logIn">{{ text.mailInfo.infoLinkText }}</ULink>
     </template>
     <template #infoFooter>
       <p>
-        Did not receive the email? Check your spam folder <br />
-        or
-        <ULink to="/authentication/forgotPassword" class="underline"
-          >try another email address</ULink
+        {{ text.mailInfo.infoFooterText }} <br />
+        {{ text.mailInfo.or }}
+        <ULink to="/authentication/forgotPassword" class="underline">{{
+          text.mailInfo.infoFooterTextTwo
+        }}</ULink
         >.
       </p>
     </template>
   </UiKitsUiSlotsSuccessInfo>
 </template>
+
+<script setup lang="ts">
+import { authentication as text } from "@/texts/texts.json";
+</script>

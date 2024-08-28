@@ -102,8 +102,8 @@
 import {
   dashboard as texts,
   createATask as texts_a,
-} from "~~/texts/texts.json";
-import { getProgressColor } from "../../utils/progressColor";
+} from "@/texts/texts.json";
+import { getProgressColor } from "@/utils/progressColor";
 import { useTasksStore } from "@/store/tasks";
 import type { Task } from "@/types/types";
 

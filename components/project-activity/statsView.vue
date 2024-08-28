@@ -33,5 +33,5 @@
 </template>
 
 <script setup lang="ts">
-import { projectActivity as texts_c } from "~~/texts/texts.json";
+import { projectActivity as texts_c } from "@/texts/texts.json";
 </script>

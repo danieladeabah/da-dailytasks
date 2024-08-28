@@ -1,8 +1,8 @@
 <template>
   <UiKitsUiSlotsAuthWrapper>
-    <template #title>Reset password</template>
+    <template #title>{{ text.resetPassword }}</template>
     <template #forgotPassword>
-      Your new password must be different from previous used passwords.
+      {{ text.resetPasswordNewEmail }}
     </template>
     <template #errors>
       <div v-if="store.error" class="text-red-600">
@@ -50,6 +50,7 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from "~/store/auth";
+import { authentication as text } from "@/texts/texts.json";
 
 const password = ref("");
 const newUserPassword = ref("");

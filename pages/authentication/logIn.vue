@@ -5,8 +5,8 @@
         <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
       </NuxtLink>
     </template>
-    <template #greet> Welcome back </template>
-    <template #title>Sign in to DailyTasks</template>
+    <template #greet> {{ text.login.loginGreet }} </template>
+    <template #title>{{ text.login.login }}</template>
     <template #errors>
       <div v-if="store.error" class="text-red-600">
         {{ store.error }}
@@ -40,12 +40,14 @@
       </div>
     </template>
     <template #info>
-      New here?
-      <ULink to="/authentication/signup" class="underline"> Sign up </ULink>
-      or
-      <ULink to="/authentication/forgotPassword" class="underline"
-        >Forgot Password</ULink
-      >
+      {{ text.login.newHere }}
+      <ULink to="/authentication/signup" class="underline">
+        {{ text.login.signup }}
+      </ULink>
+      {{ text.login.or }}
+      <ULink to="/authentication/forgotPassword" class="underline">{{
+        text.forgotPassword
+      }}</ULink>
 
       <div class="py-2">
         <UButton
@@ -63,6 +65,7 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from "~/store/auth";
+import { authentication as text } from "@/texts/texts.json";
 
 const email = ref("");
 const password = ref("");

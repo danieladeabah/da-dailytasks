@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { createATask as texts_a } from "~~/texts/texts.json";
+import { createATask as texts_a } from "@/texts/texts.json";
 import { useTasksStore } from "@/store/tasks";
 import type { Task } from "@/types/types";
 

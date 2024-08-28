@@ -5,8 +5,8 @@
         <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
       </NuxtLink>
     </template>
-    <template #greet> Welcome to DailyTasks </template>
-    <template #title>Create an account</template>
+    <template #greet> {{ text.signup.signUpGreet }} </template>
+    <template #title>{{ text.signup.signup }}</template>
     <template #errors>
       <div v-if="store.error" class="text-red-600">
         {{ store.error }}
@@ -57,9 +57,10 @@
           <UCheckbox color="blue" />
         </span>
         <span>
-          By providing your email, you agree to our
-          <ULink class="underline">Terms of Service</ULink> and
-          <ULink class="underline">Privacy Policy</ULink>
+          {{ text.signup.termsInfo }}
+          <ULink class="underline">{{ text.signup.termsOfService }}</ULink>
+          {{ text.signup.and }}
+          <ULink class="underline">{{ text.signup.privacyPolicy }}</ULink>
         </span>
       </div>
 
@@ -79,6 +80,7 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from "~/store/auth";
+import { authentication as text } from "@/texts/texts.json";
 
 const first_name = ref("");
 const last_name = ref("");
