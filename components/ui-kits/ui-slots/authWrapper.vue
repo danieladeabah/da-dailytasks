@@ -1,9 +1,7 @@
-<template>
+<template #default>
   <AppWrapper>
     <div class="px-4 py-5">
-      <NuxtLink :to="backLink" class="text-2xl font-bold">
-        <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
-      </NuxtLink>
+      <slot name="backLink"></slot>
     </div>
 
     <div class="px-4 py-2">
@@ -14,6 +12,10 @@
       <h1 class="text-2xl text-left font-normal pb-2">
         <slot name="title"></slot>
       </h1>
+
+      <p class="text-left text-normal text-gray-400 pb-4">
+        <slot name="forgotPassword"></slot>
+      </p>
 
       <p class="text-left text-sm pb-4">
         <slot name="errors"></slot>
@@ -39,12 +41,5 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  backLink: {
-    type: String,
-    required: true,
-  },
-});
-
 const currentYear = ref(new Date().getFullYear());
 </script>
