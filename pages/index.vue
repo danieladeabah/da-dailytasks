@@ -2,6 +2,6 @@
   <AppWrapper>
     <NavigationHeaderLayout />
     <ProjectActivityLayout />
-    <NavigationFooterLayout />
+    <DashboardCreateTasks />
   </AppWrapper>
 </template>
