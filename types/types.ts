@@ -3,6 +3,7 @@ export interface Task {
   name: string;
   deadline: string;
   description: string;
+  isChecked: boolean;
   assignees: {
     id: string;
     name: string;
