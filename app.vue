@@ -30,19 +30,19 @@ useHead({
   },
 });
 
-const store = useAuthenticationStore();
+const AuthStore = useAuthenticationStore();
 const toast = useToast();
 
 watch(
-  () => store.success || store.error,
+  () => AuthStore.success || AuthStore.error,
   (newToastNotification) => {
     if (newToastNotification) {
       toast.add({
         title: newToastNotification,
         timeout: 2000,
-        color: store.error ? "red" : "blue",
+        color: AuthStore.error ? "red" : "blue",
       });
-      store.clearSuccessAfterDelay();
+      AuthStore.clearSuccessAfterDelay();
     }
   }
 );
