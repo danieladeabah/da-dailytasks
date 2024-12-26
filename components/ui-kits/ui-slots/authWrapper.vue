@@ -41,5 +41,7 @@
 </template>
 
 <script setup lang="ts">
+import AppWrapper from '~/layouts/app-wrapper.vue';
+
 const currentYear = ref(new Date().getFullYear());
 </script>

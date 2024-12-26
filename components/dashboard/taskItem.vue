@@ -79,14 +79,24 @@ const editTaskModel = () => {
   editATasks.value = !editATasks.value;
 
   if (props.task) {
-    currentTask.value = props.task;
+    currentTask.value = props.task as Task;
     editedTaskName.value = props.task.name;
   }
 };
 
 const handleCheckboxChange = () => {
   if (props.task) {
-    const updatedSubTask = { ...props.task, isChecked: isChecked.value };
+    const updatedSubTask: Task = { 
+      ...props.task, 
+      id: props.task.id,
+      name: props.task.name,
+      deadline: props.task.deadline,
+      description: props.task.description,
+      isChecked: isChecked.value,
+      assignees: props.task.assignees,
+      subTasks: props.task.subTasks,
+      progress: props.task.progress
+    };
     tasksStore.updateSubTask(trackId, updatedSubTask);
 
     const parentTask = tasksStore.findTaskById(trackId);
