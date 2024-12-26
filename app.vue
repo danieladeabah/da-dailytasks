@@ -5,6 +5,7 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from "@/store/auth";
+import { useTasksStore } from "@/store/tasks";
 
 useHead({
   title: "DailyTasks App",
@@ -31,8 +32,10 @@ useHead({
 });
 
 const AuthStore = useAuthenticationStore();
+const TaskStore = useTasksStore();
 const toast = useToast();
 
+// Watch AuthStore notifications
 watch(
   () => AuthStore.success || AuthStore.error,
   (newToastNotification) => {
@@ -46,4 +49,20 @@ watch(
     }
   }
 );
+
+// Watch TaskStore notifications
+watch(
+  () => TaskStore.success || TaskStore.error,
+  (newToastNotification) => {
+    if (newToastNotification) {
+      toast.add({
+        title: newToastNotification,
+        timeout: 2000,
+        color: TaskStore.error ? "red" : "green",
+      });
+      TaskStore.clearSuccessAfterDelay();
+    }
+  }
+);
 </script>
+

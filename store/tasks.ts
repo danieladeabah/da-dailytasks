@@ -5,6 +5,8 @@ export const useTasksStore = defineStore({
   id: "tasks",
   state: () => ({
     tasks: [] as Task[],
+    success: "",
+    error: "",
   }),
   actions: {
     loadTasksFromLocalStorage() {
@@ -17,16 +19,26 @@ export const useTasksStore = defineStore({
       return this.tasks.find((t) => t.id === taskId);
     },
     createTask(newTask: Task) {
-      this.tasks.push(newTask);
-      this.saveTasksToLocalStorage();
+      try {
+        this.tasks.push(newTask);
+        this.saveTasksToLocalStorage();
+        this.success = "Task created successfully!";
+        this.clearSuccessAfterDelay();
+      } catch (err) {
+        this.error = "Failed to create task.";
+        this.clearErrorAfterDelay();
+      }
     },
     updateTask(taskId: string, updatedTask: Task) {
       const taskIndex = this.tasks.findIndex((t) => t.id === taskId);
       if (taskIndex !== -1) {
         this.tasks[taskIndex] = updatedTask;
         this.saveTasksToLocalStorage();
+        this.success = "Task updated successfully!";
+        this.clearSuccessAfterDelay();
       } else {
-        console.error("Task not found.");
+        this.error = "Task not found.";
+        this.clearErrorAfterDelay();
       }
     },
     deleteTask(taskId: string) {
@@ -34,6 +46,11 @@ export const useTasksStore = defineStore({
       if (taskIndex !== -1) {
         this.tasks.splice(taskIndex, 1);
         this.saveTasksToLocalStorage();
+        this.success = "Task deleted successfully!";
+        this.clearSuccessAfterDelay();
+      } else {
+        this.error = "Task not found.";
+        this.clearErrorAfterDelay();
       }
     },
     saveTasksToLocalStorage() {
@@ -44,6 +61,11 @@ export const useTasksStore = defineStore({
       if (taskIndex !== -1) {
         this.tasks[taskIndex].assignees = task.assignees;
         this.saveTasksToLocalStorage();
+        this.success = "People assigned to task successfully!";
+        this.clearSuccessAfterDelay();
+      } else {
+        this.error = "Task not found.";
+        this.clearErrorAfterDelay();
       }
     },
     addSubTask(taskId: string, subTask: Task) {
@@ -51,6 +73,11 @@ export const useTasksStore = defineStore({
       if (task) {
         task.subTasks.push(subTask);
         this.saveTasksToLocalStorage();
+        this.success = "Sub-task added successfully!";
+        this.clearSuccessAfterDelay();
+      } else {
+        this.error = "Task not found.";
+        this.clearErrorAfterDelay();
       }
     },
     updateSubTask(taskId: string, subTask: Task) {
@@ -62,11 +89,15 @@ export const useTasksStore = defineStore({
         if (subTaskIndex !== -1) {
           task.subTasks[subTaskIndex] = subTask;
           this.saveTasksToLocalStorage();
+          this.success = "Sub-task updated successfully!";
+          this.clearSuccessAfterDelay();
         } else {
-          console.error("Sub-task not found in task.");
+          this.error = "Sub-task not found.";
+          this.clearErrorAfterDelay();
         }
       } else {
-        console.error("Task not found.");
+        this.error = "Task not found.";
+        this.clearErrorAfterDelay();
       }
     },
     deleteSubTask(taskId: string, subTaskId: string) {
@@ -78,8 +109,26 @@ export const useTasksStore = defineStore({
         if (subTaskIndex !== -1) {
           task.subTasks.splice(subTaskIndex, 1);
           this.saveTasksToLocalStorage();
+          this.success = "Sub-task deleted successfully!";
+          this.clearSuccessAfterDelay();
+        } else {
+          this.error = "Sub-task not found.";
+          this.clearErrorAfterDelay();
         }
+      } else {
+        this.error = "Task not found.";
+        this.clearErrorAfterDelay();
       }
+    },
+    clearErrorAfterDelay() {
+      setTimeout(() => {
+        this.error = "";
+      }, 2000);
+    },
+    clearSuccessAfterDelay() {
+      setTimeout(() => {
+        this.success = "";
+      }, 2000);
     },
   },
 });
