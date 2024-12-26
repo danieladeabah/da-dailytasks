@@ -1,6 +1,6 @@
 <template>
   <AppWrapper>
-    <NavigationHeaderLayout />
+    <NavigationHeader />
     <DashboardTasksDetails />
     <DashboardAssignedTo />
     <DashboardTasksProgress />
