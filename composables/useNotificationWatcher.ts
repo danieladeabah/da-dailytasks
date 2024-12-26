@@ -18,6 +18,9 @@ export function useNotificationWatcher() {
         if (newToastNotification) {
           toast.add({
             title: newToastNotification,
+            icon: store.error
+              ? "i-heroicons-x-circle"
+              : "i-heroicons-check-circle",
             timeout: 2000,
             color: store.error ? colorMap.error : colorMap.success,
           });
