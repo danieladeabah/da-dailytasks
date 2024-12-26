@@ -21,7 +21,7 @@ export function useNotificationWatcher() {
             icon: store.error
               ? "i-heroicons-x-circle"
               : "i-heroicons-check-circle",
-            timeout: 2000,
+            timeout: 0,
             color: store.error ? colorMap.error : colorMap.success,
           });
           store.clearSuccessAfterDelay();
@@ -30,7 +30,6 @@ export function useNotificationWatcher() {
     );
   };
 
-  // Watch notifications for AuthStore and TaskStore
   watchNotifications(AuthStore, { success: "blue", error: "red" });
   watchNotifications(TaskStore, { success: "green", error: "red" });
 }
