@@ -10,9 +10,13 @@
         :ui="{ item: { disabled: 'cursor-text select-text' } }"
         :popper="{ placement: 'bottom-start' }"
       >
-        <UAvatar src="https://avatars.githubusercontent.com/u/124435531?v=4" />
+        <UAvatar
+          v-if="isLoggedIn"
+          src="https://avatars.githubusercontent.com/u/124435531?v=4"
+        />
+        <UBadge v-else label="Get Started" color="gray" />
 
-        <template #account="{ item }">
+        <template v-if="isLoggedIn" #account="{ item }">
           <div class="flex items-center justify-between gap-5">
             <div class="text-left">
               <p>{{ texts_b.specialization }}</p>
@@ -56,36 +60,15 @@ const isLoggedIn = computed(() => !!authStore.token);
 
 const logout = () => {
   authStore.logout();
-  navigateTo("/auth/login");
+  navigateTo("/dashboard");
 };
 
 const items = computed(() => [
   [
     {
-      label: "Daniel Adeabah",
+      label: isLoggedIn.value ? "Daniel Adeabah" : "You are not logged in",
       slot: "account",
       disabled: true,
-    },
-    {
-      label: "Portfolio",
-      icon: "i-heroicons-link-20-solid",
-      click() {
-        window.open("https://danieladeabah.vercel.app", "_blank");
-      },
-    },
-    {
-      label: "LinkedIn",
-      icon: "i-heroicons-link-20-solid",
-      click() {
-        window.open("https://www.linkedin.com/in/danieladeabaa/", "_blank");
-      },
-    },
-    {
-      label: "GitHub",
-      icon: "i-heroicons-link-20-solid",
-      click() {
-        window.open("https://github.com/danieladeabah", "_blank");
-      },
     },
     {
       label: isLoggedIn.value ? "Logout" : "Login",
