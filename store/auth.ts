@@ -45,7 +45,7 @@ export const useAuthenticationStore = defineStore("authentication", {
           this.token = data.token;
           localStorage.setItem("authToken", this.token);
           this.success = data.message || "Login successful!";
-          navigateTo("/");
+          navigateTo("/dashboard");
         } else {
           this.error = data.message || "Unexpected error";
           this.clearErrorAfterDelay();
