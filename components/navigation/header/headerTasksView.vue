@@ -1,7 +1,7 @@
 <template>
   <UiKitsUiSlotsHeaderSlot>
     <span>
-      <NuxtLink to="/" class="text-2xl font-bold">
+      <NuxtLink to="/dashboard" class="text-2xl font-bold">
         <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
       </NuxtLink>
     </span>
