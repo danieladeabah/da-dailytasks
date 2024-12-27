@@ -1,12 +1,11 @@
 <template>
-  <AppWrapper>
-    <NavigationHeader />
-    <ProjectActivityLayout />
-    <DashboardCreateTasks />
-    <NavigationFooter />
-  </AppWrapper>
-</template>
-
-<script setup lang="ts">
-import AppWrapper from "~/layouts/app-wrapper.vue";
-</script>
+    <LandingWrapper>
+      <LandingPage />
+      <NavigationFooter />
+    </LandingWrapper>
+  </template>
+  
+  <script setup lang="ts">
+  import LandingWrapper from "~/layouts/landing-wrapper.vue";
+  </script>
+  
