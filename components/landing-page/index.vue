@@ -8,9 +8,3 @@
     <LandingPageContactForm />
   </div>
 </template>
-
-<style>
-body {
-  font-family: cursive, "Comic Sans MS", sans-serif;
-}
-</style>
