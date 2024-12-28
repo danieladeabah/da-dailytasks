@@ -19,7 +19,6 @@
         <template v-if="isLoggedIn" #account="{ item }">
           <div class="flex items-center justify-between gap-5">
             <div class="text-left">
-              <p>{{ texts_b.specialization }}</p>
               <p class="truncate font-medium text-gray-900 dark:text-white">
                 {{ item.label }}
               </p>
@@ -41,7 +40,6 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from "@/store/auth";
-import { userInfo as texts_b } from "@/texts/texts.json";
 
 const greeting = computed(() => {
   const hours = new Date().getHours();

@@ -23,7 +23,7 @@
         <img
           src="/assets/projects-ui/daily-tasks.png"
           alt="Task management"
-          class="rounded-lg shadow-lg h-[20rem] w-[10rem] object-cover"
+          class="rounded-md h-[20rem] w-[10rem] object-cover"
         />
       </div>
     </div>
