@@ -21,7 +21,12 @@
       </div>
       <div class="mt-8 md:mt-0 md:ml-8 flex gap-4">
         <img
-          src="/assets/projects-ui/daily-tasks.png"
+          src="/assets/icons/mobile-dashboard.png"
+          alt="Task management"
+          class="rounded-md h-[20rem] w-[10rem] object-cover"
+        />
+        <img
+          src="/assets/icons/mobile-viewed-tasks.png"
           alt="Task management"
           class="rounded-md h-[20rem] w-[10rem] object-cover"
         />
