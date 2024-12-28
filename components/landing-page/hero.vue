@@ -1,15 +1,12 @@
 <template>
-  <section class="bg-gradient-to-r from-gray-800 to-gray-300 py-16 md:p-16">
+  <section class="bg-gradient-to-r from-red-400 to-blue-200 py-16 md:p-16">
     <div
       class="container mx-auto flex flex-col md:flex-row items-center justify-between"
     >
       <div class="text-center md:text-left md:pr-8">
         <h1 class="text-white text-4xl md:text-5xl font-bold leading-snug">
-          Simplify Your Day; <br />
-          <br />
-          <span class="border-b-4 border-yellow-400">
-            Create Tasks Effortlessly
-          </span>
+          Simplify Your Day
+          <p class="text-yellow-200 my-4">Create Tasks Effortlessly</p>
         </h1>
         <ul class="mt-6 space-y-3 text-white">
           <li>Plan your day by creating tasks in just a few clicks.</li>

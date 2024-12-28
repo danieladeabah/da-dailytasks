@@ -1,6 +1,6 @@
 <template>
-  <section class="py-16">
-    <div class="container mx-auto text-center">
+  <UiKitsUiSlotsProjectActivitySlot>
+    <div class="container my-5 text-center">
       <h2 class="text-3xl font-bold text-gray-800 mb-6">
         Why Choose Our Task Management Solution?
       </h2>
@@ -8,17 +8,17 @@
         Explore the unique advantages that make managing tasks seamless with
         AI-powered features.
       </p>
-      <div class="grid gap-8 md:grid-cols-4">
-        <LandingPageBenefitCard
-          v-for="(benefit, index) in benefits"
-          :key="index"
-          :icon="benefit.icon"
-          :title="benefit.title"
-          :description="benefit.description"
-        />
-      </div>
     </div>
-  </section>
+    <div class="grid gap-8 md:grid-cols-4">
+      <LandingPageBenefitCard
+        v-for="(benefit, index) in benefits"
+        :key="index"
+        :icon="benefit.icon"
+        :title="benefit.title"
+        :description="benefit.description"
+      />
+    </div>
+  </UiKitsUiSlotsProjectActivitySlot>
 </template>
 
 <script setup>

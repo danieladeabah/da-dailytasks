@@ -1,8 +1,9 @@
 <template>
   <UiKitsUiSlotsProjectActivitySlot>
-    <p class="text-gray-600 text-center mb-10">
-      See what our users are working on.
-    </p>
+    <div class="container my-10 text-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Popular Tasks</h2>
+      <p class="text-gray-600">See what our users are doing.</p>
+    </div>
     <div class="my-5">
       <TaskList :tasks="tasks" :emptyMessage="texts_c.noTasks" />
     </div>
