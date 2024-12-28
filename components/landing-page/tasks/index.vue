@@ -1,7 +1,5 @@
 <template>
-  <UiKitsHorizontalLine />
   <UiKitsUiSlotsProjectActivitySlot>
-    <h1 class="text-2xl text-center font-bold mb-6">Current Tasks</h1>
     <p class="text-gray-600 text-center mb-10">
       See what our users are working on.
     </p>

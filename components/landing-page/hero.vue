@@ -8,14 +8,12 @@
           Simplify Your Day; <br />
           <br />
           <span class="border-b-4 border-yellow-400">
-            Create Tasks <br /><br />Shop Effortlessly
+            Create Tasks Effortlessly
           </span>
         </h1>
         <ul class="mt-6 space-y-3 text-white">
           <li>Plan your day by creating tasks in just a few clicks.</li>
-          <li>
-            Shop for essentials while managing your to-do list seamlessly.
-          </li>
+          <li>Stay organized and boost your productivity with ease.</li>
         </ul>
         <NuxtLink
           to="/dashboard"
@@ -27,13 +25,8 @@
       <div class="mt-8 md:mt-0 md:ml-8 flex gap-4">
         <img
           src="/assets/projects-ui/daily-tasks.png"
-          alt="Task and shopping management"
+          alt="Task management"
           class="rounded-lg shadow-lg h-[20rem] w-[10rem] object-cover"
-        />
-        <img
-          src="/assets/projects-ui/daniel-adeabah.png"
-          alt="Task and shopping management"
-          class="rounded-lg shadow-lg  h-[20rem] w-[10rem] object-cover"
         />
       </div>
     </div>
