@@ -18,7 +18,7 @@
           </li>
         </ul>
         <NuxtLink
-          to="/auth/login"
+          to="/dashboard"
           class="bg-yellow-300 text-black font-semibold px-6 py-3 mt-8 inline-block rounded-md hover:bg-yellow-400 transition"
         >
           Get Started Now
