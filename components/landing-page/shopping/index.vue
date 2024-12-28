@@ -1,5 +1,6 @@
 <template>
   <section class="py-16">
+    <UiKitsHorizontalLine />
     <div class="container mx-auto text-center">
       <h2 class="text-3xl font-bold text-gray-800 mb-6">Shopping For You</h2>
       <p class="text-gray-600 mb-10">
@@ -12,7 +13,8 @@
           :image="feature.image"
           :title="feature.title"
           :description="feature.description"
-          :duration="feature.duration"
+          :price="feature.price"
+          :tag="feature.tag"
         />
       </div>
     </div>
@@ -23,21 +25,24 @@
 const features = [
   {
     image: "https://via.placeholder.com/150",
-    title: "Task Management Made Easy",
+    title: "Premium Task Management",
     description: "Create, track, and manage tasks effortlessly as you shop.",
-    duration: "Ongoing",
+    price: "$19.99",
+    tag: "Best Seller",
   },
   {
     image: "https://via.placeholder.com/150",
-    title: "Seamless Shopping Integration",
+    title: "Seamless Shopping",
     description: "Shop for your essentials while managing your to-do list.",
-    duration: "Ongoing",
+    price: "$14.99",
+    tag: "Limited Offer",
   },
   {
     image: "https://via.placeholder.com/150",
-    title: "Stay on Track with Alerts",
+    title: "Stay on Track",
     description: "Get reminders and notifications for tasks and shopping items.",
-    duration: "Ongoing",
+    price: "$9.99",
+    tag: "New",
   },
 ];
 </script>

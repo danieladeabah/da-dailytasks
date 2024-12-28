@@ -1,7 +1,7 @@
 <template>
-  <section class="bg-gradient-to-r from-gray-800 py-16 md:p-16">
+  <section class="bg-gradient-to-r from-gray-800 to-gray-300 py-16 md:p-16">
     <div
-      class="container mx-auto flex flex-col-reverse md:flex-row items-center justify-between"
+      class="container mx-auto flex flex-col md:flex-row items-center justify-between"
     >
       <div class="text-center md:text-left md:pr-8">
         <h1 class="text-white text-4xl md:text-5xl font-bold leading-snug">
@@ -24,11 +24,16 @@
           Get Started Now
         </NuxtLink>
       </div>
-      <div class="mt-8 md:mt-0 md:ml-8">
+      <div class="mt-8 md:mt-0 md:ml-8 flex gap-4">
         <img
           src="/assets/projects-ui/daily-tasks.png"
           alt="Task and shopping management"
-          class="rounded-lg shadow-lg"
+          class="rounded-lg shadow-lg h-[20rem] w-[10rem] object-cover"
+        />
+        <img
+          src="/assets/projects-ui/daniel-adeabah.png"
+          alt="Task and shopping management"
+          class="rounded-lg shadow-lg  h-[20rem] w-[10rem] object-cover"
         />
       </div>
     </div>
