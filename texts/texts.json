@@ -36,14 +36,14 @@
   "authentication": {
     "login": {
       "login": "Sign in to DailyTasks",
-      "loginGreet": "Welcome back",
+      "loginGreet": "Welcome",
       "newHere": "New here?",
       "or": "or",
       "signup": "Sign up"
     },
     "signup": {
       "signup": "Create an account",
-      "signUpGreet": "Welcome to DailyTasks",
+      "signUpGreet": "Welcome",
       "termsInfo": "By providing your email, you agree to our",
       "termsOfService": "Terms of Service",
       "privacyPolicy": "Privacy Policy",

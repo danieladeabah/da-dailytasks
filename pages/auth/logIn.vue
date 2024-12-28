@@ -1,10 +1,5 @@
 <template>
   <UiKitsUiSlotsAuthWrapper>
-    <template #backLink>
-      <NuxtLink to="/dashboard" class="text-2xl font-bold">
-        <img src="/assets/icons/backIcon.svg" class="w-5 h-5" alt="Back Icon" />
-      </NuxtLink>
-    </template>
     <template #greet> {{ text.login.loginGreet }} </template>
     <template #title>{{ text.login.login }}</template>
     <template #errors>

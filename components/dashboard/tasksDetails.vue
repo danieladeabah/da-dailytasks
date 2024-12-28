@@ -99,10 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  dashboard as texts,
-  createATask as texts_a,
-} from "@/texts/texts.json";
+import { dashboard as texts, createATask as texts_a } from "@/texts/texts.json";
 import { getProgressColor } from "@/utils/progressColor";
 import { useTasksStore } from "@/store/tasks";
 import type { Task } from "@/types/types";
@@ -169,7 +166,7 @@ const deleteLists = [
         if (task.value) {
           tasksStore.deleteTask(task.value.id);
         }
-        navigateTo("/");
+        navigateTo("/dashboard");
       },
     },
   ],
