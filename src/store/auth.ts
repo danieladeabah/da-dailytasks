@@ -42,7 +42,9 @@ export const useAuthenticationStore = defineStore('authentication', {
         })
 
         if (data.statusCode === 200) {
-          this.token = data.token
+          if ('token' in data && data.token) {
+            this.token = data.token as string
+          }
           localStorage.setItem('authToken', this.token)
           this.success = data.message || 'Login successful!'
           navigateTo('/dashboard')
