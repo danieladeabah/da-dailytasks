@@ -3,7 +3,7 @@ export interface Task {
   name: string
   deadline: string
   description: string
-  isChecked: boolean
+  isPrivate: boolean
   assignees: {
     id: string
     name: string
