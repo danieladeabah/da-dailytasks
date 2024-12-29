@@ -10,7 +10,7 @@
       <NuxtLink
         v-for="task in props.tasks"
         :key="task.id"
-        :to="'/tasks-page/' + task.id"
+        :to="'/tasks/' + task.id"
         class="flex items-center justify-between rounded-xl border p-5"
       >
         <div class="flex flex-col gap-1">
