@@ -16,7 +16,7 @@
           to="/dashboard"
           class="mt-8 inline-block rounded-md bg-yellow-300 px-6 py-3 font-semibold text-black transition hover:bg-yellow-400"
         >
-          Get Started Now
+          {{ isLoggedIn ? 'Go to Dashboard' : 'Get Started Now' }}
         </NuxtLink>
       </div>
       <div class="mt-8 flex gap-4 md:ml-8 md:mt-0">
@@ -34,3 +34,14 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { useAuthenticationStore } from '@/store/auth'
+
+const authStore = useAuthenticationStore()
+onMounted(() => {
+  authStore.loadToken()
+})
+
+const isLoggedIn = computed(() => !!authStore.token)
+</script>
