@@ -1,7 +1,10 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+import { useAuthenticationStore } from '@/store/auth'
+
+export default defineNuxtRouteMiddleware(() => {
   const store = useAuthenticationStore()
 
   if (!store.token) {
-    return navigateTo('/auth/login')
+    return Promise.resolve(navigateTo('/auth/login'))
   }
+  return Promise.resolve(true)
 })
