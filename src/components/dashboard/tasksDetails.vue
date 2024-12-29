@@ -40,7 +40,7 @@
           alt="edit"
           class="h-4 w-4 cursor-pointer"
           title="Edit"
-          @click="editTaskModal"
+          @click="openCreateModal"
         />
         <UDropdown
           mode="hover"
@@ -58,59 +58,17 @@
     </div>
   </UiKitsUiSlotsDashboardSlot>
 
-  <!-- Edit Task Modal -->
-  <UiKitsUiSlotsFormModelSlot
-    form-title="Edit Task"
-    @close-modal="editTaskModal"
-    v-if="createATasks"
-    v-model="createATasks"
-    @closeDialog="editTaskModal"
-  >
-    <label class="font-bold" for="taskName">{{ texts_a.taskName }}</label>
-    <UInput placeholder="Task Name" v-model="taskName" maxLength="100" />
-
-    <label class="font-bold" for="deadline">{{ texts_a.deadline }}</label>
-    <UInput
-      type="date"
-      placeholder="Deadline"
-      v-model="deadline"
-      :min="minDate"
-      maxLength="10"
-    />
-
-    <label class="font-bold" for="description">{{ texts_a.description }}</label>
-    <UTextarea
-      placeholder="Task Description"
-      :rows="10"
-      v-model="description"
-      maxLength="500"
-    />
-
-    <div class="flex justify-end">
-      <UButton
-        class="w-fit"
-        color="blue"
-        variant="solid"
-        @click="editATaskSubmit"
-        >{{ texts_a.buttonEdit }}</UButton
-      >
-    </div>
-  </UiKitsUiSlotsFormModelSlot>
+  <DashboardModal ref="taskModal" />
 </template>
 
 <script setup lang="ts">
-import {
-  dashboard as texts,
-  createATask as texts_a
-} from '@/constants/texts.json'
+import { dashboard as texts } from '@/constants/texts.json'
 import { getProgressColor } from '@/utils/progressColor'
 import { useTasksStore } from '@/store/tasks'
-import type { Task } from '@/types/types'
 
 const tasksStore = useTasksStore()
 const route = useRoute()
-const minDate = ref(getMinDate())
-const createATasks = ref(false)
+const taskModal = ref()
 
 const task = computed(() => {
   const taskId = Array.isArray(route.params.tasksindex)
@@ -124,38 +82,8 @@ onMounted(() => {
   tasksStore.loadTasksFromLocalStorage()
 })
 
-const taskName = ref('')
-const deadline = ref('')
-const description = ref('')
-
-const editTaskModal = () => {
-  createATasks.value = !createATasks.value
-
-  if (task.value) {
-    taskName.value = task.value.name
-    deadline.value = task.value.deadline
-    description.value = task.value.description
-  }
-}
-
-const editATaskSubmit = () => {
-  if (!taskName.value || !deadline.value || !description.value) {
-    console.error('All fields are required to update the task.')
-    return
-  }
-
-  const updatedTask = {
-    ...task.value,
-    name: taskName.value,
-    deadline: deadline.value,
-    description: description.value
-  }
-
-  if (task.value) {
-    tasksStore.updateTask(task.value.id, updatedTask as Task)
-  }
-
-  editTaskModal()
+const openCreateModal = () => {
+  taskModal.value.openModal('edit', task.value)
 }
 
 const deleteLists = [
