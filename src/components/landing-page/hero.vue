@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-gradient-to-r from-red-400 to-blue-200 py-16 md:p-16">
+  <section class="bg-gradient-to-r from-red-500 to-blue-300 py-16 md:p-16">
     <div
       class="container mx-auto flex flex-col items-center justify-between md:flex-row"
     >
@@ -8,7 +8,7 @@
           Simplify Your Day
           <p class="my-4 text-yellow-200">Create Tasks Effortlessly</p>
         </h1>
-        <ul class="mt-6 space-y-3 text-white">
+        <ul class="mx-12 mt-6 space-y-3 text-left text-white md:mx-0 lg:mx-0">
           <li>Plan your day by creating tasks in just a few clicks.</li>
           <li>Stay organized and boost your productivity with ease.</li>
         </ul>
@@ -28,7 +28,7 @@
         <img
           src="/assets/icons/mobile-viewed-tasks.png"
           alt="Task management"
-          class="h-[20rem] w-[10rem] rounded-md object-cover"
+          class="h-[20rem] w-[10rem] rounded-md object-cover sm:block md:hidden lg:block"
         />
       </div>
     </div>
