@@ -21,7 +21,7 @@ export function useNotificationWatcher() {
             icon: store.error
               ? 'i-heroicons-x-circle'
               : 'i-heroicons-check-circle',
-            timeout: 0,
+            timeout: 3000,
             color: store.error ? colorMap.error : colorMap.success
           })
           store.clearSuccessAfterDelay()
