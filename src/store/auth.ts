@@ -4,7 +4,12 @@ export const useAuthenticationStore = defineStore('authentication', {
   state: () => ({
     token: '',
     error: '',
-    success: ''
+    success: '',
+    user: {
+      id: null as number | null,
+      first_name: '',
+      last_name: ''
+    }
   }),
   actions: {
     async signup(
@@ -24,7 +29,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.success = data.message || 'Signup successful! You can now login'
           navigateTo('/auth/login')
         } else {
-          this.error = data.message || 'Unexpected error'
+          this.error = data.message ?? 'Unexpected error'
           this.clearErrorAfterDelay()
         }
       } catch (err: any) {
@@ -55,6 +60,45 @@ export const useAuthenticationStore = defineStore('authentication', {
       } catch (err: any) {
         this.error = this.getErrorMessage(err)
         this.clearErrorAfterDelay()
+      }
+    },
+
+    async fetchUserDetails() {
+      try {
+        const data = await $fetch<{
+          statusCode: number
+          id?: number
+          first_name?: string
+          last_name?: string
+          message?: string
+        }>('/api/auth/me', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          }
+        })
+
+        if (data.statusCode === 200) {
+          this.user = {
+            id: data.id ?? null,
+            first_name: data.first_name ?? '',
+            last_name: data.last_name ?? ''
+          }
+        } else {
+          this.error = data.message ?? 'Unable to fetch user details'
+          this.clearErrorAfterDelay()
+        }
+      } catch (err) {
+        this.error = this.getErrorMessage(err)
+        this.clearErrorAfterDelay()
+      }
+    },
+
+    getUserInfo() {
+      return {
+        id: this.user.id,
+        first_name: this.user.first_name,
+        last_name: this.user.last_name
       }
     },
 
@@ -121,12 +165,21 @@ export const useAuthenticationStore = defineStore('authentication', {
 
     logout() {
       this.token = ''
+      this.user = { id: null, first_name: '', last_name: '' }
       localStorage.removeItem('authToken')
       this.error = ''
     },
 
     loadToken() {
-      this.token = localStorage.getItem('authToken') ?? ''
+      if (import.meta.client) {
+        this.token = localStorage.getItem('authToken') ?? ''
+      }
+    },
+    saveToken(token: string) {
+      if (import.meta.client) {
+        this.token = token
+        localStorage.setItem('authToken', token)
+      }
     },
 
     clearErrorAfterDelay() {

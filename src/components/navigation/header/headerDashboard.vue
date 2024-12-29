@@ -47,24 +47,35 @@ const greeting = computed(() => {
   if (hours < 18) return 'Good afternoon'
   return 'Good evening'
 })
+
 const currentDate = new Date().toDateString()
-
 const authStore = useAuthenticationStore()
-onMounted(() => {
-  authStore.loadToken()
-})
-
 const isLoggedIn = computed(() => !!authStore.token)
+const userInfo = ref<{
+  id: number | null
+  first_name: string
+  last_name: string
+} | null>(null)
+
+onMounted(async () => {
+  authStore.loadToken()
+  if (authStore.token) {
+    await authStore.fetchUserDetails()
+    userInfo.value = authStore.getUserInfo()
+  }
+})
 
 const logout = () => {
   authStore.logout()
-  navigateTo('/dashboard')
+  navigateTo('/')
 }
 
 const items = computed(() => [
   [
     {
-      label: isLoggedIn.value ? 'Daniel Adeabah' : 'You are not logged in',
+      label: isLoggedIn.value
+        ? `${userInfo.value?.first_name ?? ''} ${userInfo.value?.last_name ?? ''}`
+        : 'You are not logged in',
       slot: 'account',
       disabled: true
     },
