@@ -69,6 +69,14 @@ const items = computed(() => [
       disabled: true
     },
     {
+      label: 'Analytics',
+      icon: 'i-heroicons-chart-pie-20-solid'
+    },
+    {
+      label: 'Settings',
+      icon: 'i-heroicons-cog-20-solid'
+    },
+    {
       label: isLoggedIn.value ? 'Logout' : 'Login',
       icon: isLoggedIn.value
         ? 'i-heroicons-arrow-right-start-on-rectangle'
