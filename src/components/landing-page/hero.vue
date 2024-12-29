@@ -13,7 +13,7 @@
           <li>Stay organized and boost your productivity with ease.</li>
         </ul>
         <NuxtLink
-          to="/dashboard"
+          :to="isLoggedIn ? '/dashboard' : '/auth/login'"
           class="mt-8 inline-block rounded-md bg-yellow-300 px-6 py-3 font-semibold text-black transition hover:bg-yellow-400"
         >
           {{ isLoggedIn ? 'Go to Dashboard' : 'Get Started Now' }}
