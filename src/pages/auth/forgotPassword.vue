@@ -10,27 +10,16 @@
       </div>
     </template>
     <template #form>
-      <UInput
-        placeholder="Email address"
-        v-model="email"
-        maxLength="100"
-        size="xl"
-      />
-      <UButton
-        class="flex w-full justify-center font-bold hover:shadow-2xl"
-        color="blue"
-        label="Send Instructions"
-        variant="solid"
-        size="xl"
-        @click="forgotPassword"
-      />
+      <UInput placeholder="Email address" v-model="email" maxLength="100" size="xl" />
+      <UButton class="flex w-full justify-center font-bold hover:shadow-2xl" color="blue" label="Send Instructions"
+        variant="solid" size="xl" @click="forgotPassword" />
     </template>
   </UiKitsUiSlotsAuthWrapper>
 </template>
 
 <script setup lang="ts">
 import { useAuthenticationStore } from '~/store/auth'
-import { authentication as text } from '@/texts/texts.json'
+import { authentication as text } from '@/constants/texts.json'
 
 const email = ref('')
 

@@ -1,37 +1,25 @@
 <template>
-  <div
-    class="grid gap-5"
-    :class="{
-      'grid-cols-1': route.path !== '/',
-      'grid-cols-1 lg:grid-cols-2': route.path === '/'
-    }"
-  >
+  <div class="grid gap-5" :class="{
+    'grid-cols-1': route.path !== '/',
+    'grid-cols-1 lg:grid-cols-2': route.path === '/'
+  }">
     <template v-if="props.tasks.length > 0">
-      <NuxtLink
-        v-for="task in props.tasks"
-        :key="task.id"
-        :to="'/tasks/' + task.id"
-        class="flex items-center justify-between rounded-xl border p-5"
-      >
+      <NuxtLink v-for="task in props.tasks" :key="task.id" :to="'/tasks/' + task.id"
+        class="flex items-center justify-between rounded-xl border p-5">
         <div class="flex flex-col gap-1">
           <p>{{ task.name }}</p>
           <p class="text-gray-400">
             {{ texts_c.deadline }} {{ task.deadline }}
           </p>
           <div class="flex w-40 items-center space-x-2 overflow-auto">
-            <UiKitsUserAvatar
-              v-for="user in task.assignees.slice(0, 3)"
-              :key="user.id"
-              :src="user.image"
-              :alt="user.name"
-            />
+            <UiKitsUserAvatar v-for="user in task.assignees.slice(0, 3)" :key="user.id" :src="user.image"
+              :alt="user.name" />
           </div>
         </div>
         <div>
           <UButton
             class="progressTasksColor relative flex h-[60px] w-[60px] items-center justify-center rounded-full py-1 font-semibold text-[#000]"
-            :style="getProgressStyle(task.progress)"
-          >
+            :style="getProgressStyle(task.progress)">
             {{ task.progress }}%
           </UButton>
         </div>
@@ -47,7 +35,7 @@
 
 <script setup lang="ts">
 import { getProgressColor } from '@/utils/progressColor'
-import { projectActivity as texts_c } from '@/texts/texts.json'
+import { projectActivity as texts_c } from '@/constants/texts.json'
 import type { Task } from '@/types/types'
 
 const route = useRoute()

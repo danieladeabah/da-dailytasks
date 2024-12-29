@@ -8,29 +8,14 @@
       </div>
     </template>
     <template #form>
-      <UInput
-        placeholder="Email address"
-        v-model="email"
-        maxLength="100"
-        size="xl"
-      />
+      <UInput placeholder="Email address" v-model="email" maxLength="100" size="xl" />
       <div class="relative">
-        <UInput
-          :type="isPasswordVisible ? 'text' : 'password'"
-          placeholder="Password"
-          v-model="password"
-          maxLength="100"
-          size="xl"
-        />
-        <span
-          class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
-          @click="togglePasswordVisibility"
-        >
-          <UIcon
-            :name="
-              isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
-            "
-          ></UIcon>
+        <UInput :type="isPasswordVisible ? 'text' : 'password'" placeholder="Password" v-model="password"
+          maxLength="100" size="xl" />
+        <span class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+          @click="togglePasswordVisibility">
+          <UIcon :name="isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+            "></UIcon>
         </span>
       </div>
     </template>
@@ -42,17 +27,11 @@
       {{ text.login.or }}
       <ULink to="/auth/forgotPassword" class="underline">{{
         text.forgotPassword
-      }}</ULink>
+        }}</ULink>
 
       <div class="py-2">
-        <UButton
-          class="flex w-full justify-center font-bold hover:shadow-2xl"
-          color="blue"
-          label="Sign In"
-          variant="solid"
-          size="xl"
-          @click="login"
-        />
+        <UButton class="flex w-full justify-center font-bold hover:shadow-2xl" color="blue" label="Sign In"
+          variant="solid" size="xl" @click="login" />
       </div>
     </template>
   </UiKitsUiSlotsAuthWrapper>
@@ -60,7 +39,7 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from '~/store/auth'
-import { authentication as text } from '@/texts/texts.json'
+import { authentication as text } from '@/constants/texts.json'
 
 const email = ref('')
 const password = ref('')

@@ -8,10 +8,7 @@
           <TaskList :tasks="tasks" :emptyMessage="texts_c.noTasks" />
         </template>
         <template #completed>
-          <TaskList
-            :tasks="completedTasks"
-            :emptyMessage="texts_c.noCompletedTasks"
-          />
+          <TaskList :tasks="completedTasks" :emptyMessage="texts_c.noCompletedTasks" />
         </template>
       </UTabs>
     </div>
@@ -21,7 +18,7 @@
 <script setup lang="ts">
 import { useTasksStore } from '@/store/tasks'
 import TaskList from '@/components/project-activity/tasksLists.vue'
-import { projectActivity as texts_c } from '@/texts/texts.json'
+import { projectActivity as texts_c } from '@/constants/texts.json'
 
 const tasksStore = useTasksStore()
 

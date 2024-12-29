@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from '~/store/auth'
-import { authentication as text } from '@/texts/texts.json'
+import { authentication as text } from '@/constants/texts.json'
 
 const first_name = ref('')
 const last_name = ref('')

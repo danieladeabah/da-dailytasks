@@ -11,46 +11,25 @@
     </template>
     <template #form>
       <div class="relative">
-        <UInput
-          :type="isPasswordVisible ? 'text' : 'password'"
-          placeholder="Password"
-          v-model="password"
-          maxLength="100"
-          size="xl"
-        />
-        <span
-          class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
-          @click="togglePasswordVisibility"
-        >
-          <UIcon
-            :name="
-              isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
-            "
-          ></UIcon>
+        <UInput :type="isPasswordVisible ? 'text' : 'password'" placeholder="Password" v-model="password"
+          maxLength="100" size="xl" />
+        <span class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+          @click="togglePasswordVisibility">
+          <UIcon :name="isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+            "></UIcon>
         </span>
       </div>
-      <UInput
-        :type="isPasswordVisible ? 'text' : 'password'"
-        placeholder="Repeat Password"
-        v-model="confirmPassword"
-        maxLength="100"
-        size="xl"
-      />
-      <UButton
-        class="flex w-full justify-center font-bold hover:shadow-2xl"
-        color="blue"
-        label="Reset Password"
-        variant="solid"
-        size="xl"
-        @click="newPassword"
-      />
+      <UInput :type="isPasswordVisible ? 'text' : 'password'" placeholder="Repeat Password" v-model="confirmPassword"
+        maxLength="100" size="xl" />
+      <UButton class="flex w-full justify-center font-bold hover:shadow-2xl" color="blue" label="Reset Password"
+        variant="solid" size="xl" @click="newPassword" />
     </template>
   </UiKitsUiSlotsAuthWrapper>
 </template>
 
 <script setup lang="ts">
 import { useAuthenticationStore } from '~/store/auth'
-import { authentication as text } from '@/texts/texts.json'
+import { authentication as text } from '@/constants/texts.json'
 
 const password = ref('')
 const confirmPassword = ref('')

@@ -1,61 +1,32 @@
 <template>
-  <label
-    class="flex items-center justify-between selected-option option-container"
-    for="switch"
-  >
+  <label class="flex items-center justify-between selected-option option-container" for="switch">
     <div class="flex items-center gap-5" :class="{ 'line-through': isChecked }">
-      <UCheckbox
-        v-model="isChecked"
-        :label="task.name"
-        color="sky"
-        id="switch"
-        @change="handleCheckboxChange"
-      />
+      <UCheckbox v-model="isChecked" :label="task.name" color="sky" id="switch" @change="handleCheckboxChange" />
     </div>
     <span class="option-input" @click="editTaskModel">
-      <img
-        src="/assets/icons/editIcon.svg"
-        alt="edit"
-        class="cursor-pointer w-4 h-4"
-        title="Edit Task"
-      />
+      <img src="/assets/icons/editIcon.svg" alt="edit" class="cursor-pointer w-4 h-4" title="Edit Task" />
     </span>
   </label>
 
-  <UiKitsUiSlotsFormModelSlot
-    form-title="Edit Sub Task"
-    @close-modal="editTaskModel"
-    v-if="editATasks"
-    v-model="editATasks"
-    @closeDialog="editATasks = false"
-  >
+  <UiKitsUiSlotsFormModelSlot form-title="Edit Sub Task" @close-modal="editTaskModel" v-if="editATasks"
+    v-model="editATasks" @closeDialog="editATasks = false">
     <label class="text-sm text-gray-400" for="taskName">{{
       texts_a.formEditDescription
-    }}</label>
+      }}</label>
     <UInput v-model="editedTaskName" placeholder="Task Name" maxLength="100" />
 
     <div class="flex items-center justify-between">
       <UDropdown :items="deleteOptions" :popper="{ arrow: true }">
-        <UButton
-          label="Remove"
-          color="white"
-          variant="ghost"
-          class="py-2 rounded-md bg-[#FFF] w-[120px] text-[#c42727] font-semibold"
-        />
+        <UButton label="Remove" color="white" variant="ghost"
+          class="py-2 rounded-md bg-[#FFF] w-[120px] text-[#c42727] font-semibold" />
       </UDropdown>
-      <UButton
-        class="w-fit"
-        color="blue"
-        variant="solid"
-        @click="editTaskSubmit"
-        >{{ texts_a.buttonEdit }}</UButton
-      >
+      <UButton class="w-fit" color="blue" variant="solid" @click="editTaskSubmit">{{ texts_a.buttonEdit }}</UButton>
     </div>
   </UiKitsUiSlotsFormModelSlot>
 </template>
 
 <script setup lang="ts">
-import { createATask as texts_a } from "@/texts/texts.json";
+import { createATask as texts_a } from "@/constants/texts.json";
 import { useTasksStore } from "@/store/tasks";
 import type { Task } from "@/types/types";
 
@@ -86,8 +57,8 @@ const editTaskModel = () => {
 
 const handleCheckboxChange = () => {
   if (props.task) {
-    const updatedSubTask: Task = { 
-      ...props.task, 
+    const updatedSubTask: Task = {
+      ...props.task,
       id: props.task.id,
       name: props.task.name,
       deadline: props.task.deadline,
