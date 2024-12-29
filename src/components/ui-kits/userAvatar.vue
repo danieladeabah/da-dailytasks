@@ -1,5 +1,5 @@
 <template>
-  <UTooltip :text="alt" :popper="{ arrow: true }">
+  <UTooltip :text="alt" :popper="{ arrow: true, placement: 'top' }">
     <img :src="src" :alt="alt" class="h-10 w-10 rounded-full object-cover" />
   </UTooltip>
 </template>
