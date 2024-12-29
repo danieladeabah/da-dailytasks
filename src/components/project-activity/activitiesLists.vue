@@ -8,7 +8,10 @@
           <TaskList :tasks="tasks" :emptyMessage="texts_c.noTasks" />
         </template>
         <template #completed>
-          <TaskList :tasks="completedTasks" :emptyMessage="texts_c.noCompletedTasks" />
+          <TaskList
+            :tasks="completedTasks"
+            :emptyMessage="texts_c.noCompletedTasks"
+          />
         </template>
       </UTabs>
     </div>

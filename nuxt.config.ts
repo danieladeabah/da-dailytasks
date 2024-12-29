@@ -7,21 +7,21 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   // Global CSS
-  css: ["@/assets/css/main.css"],
+  css: ['@/assets/css/main.css'],
 
   // Modules
-  modules: ["nuxt-icon", "@nuxt/ui", "@nuxtjs/color-mode"],
+  modules: ['nuxt-icon', '@nuxt/ui', '@nuxtjs/color-mode'],
 
   // PostCSS configuration
   postcss: {
     plugins: {
       tailwindcss: {},
-      autoprefixer: {},
-    },
+      autoprefixer: {}
+    }
   },
 
   // Color mode preferences
   colorMode: {
-    preference: "light",
-  },
-});
+    preference: 'light'
+  }
+})

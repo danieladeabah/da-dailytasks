@@ -7,7 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "lint": "eslint .",
+    "lint": "npx prettier --write . && npx eslint --fix .",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {

@@ -10,9 +10,20 @@
       </div>
     </template>
     <template #form>
-      <UInput placeholder="Email address" v-model="email" maxLength="100" size="xl" />
-      <UButton class="flex w-full justify-center font-bold hover:shadow-2xl" color="blue" label="Send Instructions"
-        variant="solid" size="xl" @click="forgotPassword" />
+      <UInput
+        placeholder="Email address"
+        v-model="email"
+        maxLength="100"
+        size="xl"
+      />
+      <UButton
+        class="flex w-full justify-center font-bold hover:shadow-2xl"
+        color="blue"
+        label="Send Instructions"
+        variant="solid"
+        size="xl"
+        @click="forgotPassword"
+      />
     </template>
   </UiKitsUiSlotsAuthWrapper>
 </template>

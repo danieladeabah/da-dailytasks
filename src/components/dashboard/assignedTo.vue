@@ -3,42 +3,99 @@
   <UiKitsUiSlotsDashboardSlot>
     <template #header>
       <h1 class="font-bold">{{ texts.assignTo }}</h1>
-      <UButton color="white" variant="ghost" trailing-icon="i-heroicons-plus-20-solid" @click="assignToModel" />
+      <UButton
+        color="white"
+        variant="ghost"
+        trailing-icon="i-heroicons-plus-20-solid"
+        @click="assignToModel"
+      />
     </template>
     <div class="flex items-center space-x-2 overflow-auto">
       <template v-if="users.length > 0">
-        <UiKitsUserAvatar v-for="user in users" :key="user.id" :src="user.image" :alt="user.name" />
+        <UiKitsUserAvatar
+          v-for="user in users"
+          :key="user.id"
+          :src="user.image"
+          :alt="user.name"
+        />
       </template>
       <p v-else class="text-gray-500">{{ texts.noAssignedUsers }}</p>
     </div>
   </UiKitsUiSlotsDashboardSlot>
 
-  <UiKitsUiSlotsFormModelSlot form-title="Assign To" @close-modal="assignToModel" v-if="assignTo" v-model="assignTo"
-    @closeDialog="assignTo = false">
+  <UiKitsUiSlotsFormModelSlot
+    form-title="Assign To"
+    @close-modal="assignToModel"
+    v-if="assignTo"
+    v-model="assignTo"
+    @closeDialog="assignTo = false"
+  >
     <label class="text-sm text-gray-400" for="taskName">{{
       texts_a.formDescription
     }}</label>
-    <div v-for="(option, index) in options" :key="index" class="flex items-center gap-5">
+    <div
+      v-for="(option, index) in options"
+      :key="index"
+      class="flex items-center gap-5"
+    >
       <span>{{ index + 1 }}.</span>
       <div class="flex flex-grow items-center gap-5 rounded-2xl pr-2">
-        <UInput size="sm" class="lg:w-40vw w-full" v-model="option.name" placeholder="Full name" />
-        <UInput size="sm" class="lg:w-40vw w-full" v-model="option.email" type="email" placeholder="Email" />
-        <UInput size="sm" class="lg:w-40vw w-full" v-model="option.image" type="url" placeholder="Image URL" />
-        <img src="/assets/icons/deleteIcon.svg" alt="delete" class="cursor-pointer" @click="removeOption(index)" />
+        <UInput
+          size="sm"
+          class="lg:w-40vw w-full"
+          v-model="option.name"
+          placeholder="Full name"
+        />
+        <UInput
+          size="sm"
+          class="lg:w-40vw w-full"
+          v-model="option.email"
+          type="email"
+          placeholder="Email"
+        />
+        <UInput
+          size="sm"
+          class="lg:w-40vw w-full"
+          v-model="option.image"
+          type="url"
+          placeholder="Image URL"
+        />
+        <img
+          src="/assets/icons/deleteIcon.svg"
+          alt="delete"
+          class="cursor-pointer"
+          @click="removeOption(index)"
+        />
       </div>
     </div>
 
-    <UButton v-if="options.length < 9" size="sm" color="gray" variant="ghost" trailing-icon="i-heroicons-plus-20-solid"
-      class="w-16 rounded-2xl px-6" @click="addOption" />
+    <UButton
+      v-if="options.length < 9"
+      size="sm"
+      color="gray"
+      variant="ghost"
+      trailing-icon="i-heroicons-plus-20-solid"
+      class="w-16 rounded-2xl px-6"
+      @click="addOption"
+    />
 
     <div class="flex justify-end">
-      <UButton class="w-fit" color="blue" variant="solid" @click="assignToubmit">{{ texts_a.buttonAssign }}</UButton>
+      <UButton
+        class="w-fit"
+        color="blue"
+        variant="solid"
+        @click="assignToubmit"
+        >{{ texts_a.buttonAssign }}</UButton
+      >
     </div>
   </UiKitsUiSlotsFormModelSlot>
 </template>
 
 <script setup lang="ts">
-import { dashboard as texts, createATask as texts_a } from '@/constants/texts.json'
+import {
+  dashboard as texts,
+  createATask as texts_a
+} from '@/constants/texts.json'
 import { useTasksStore } from '@/store/tasks'
 
 const route = useRoute()
