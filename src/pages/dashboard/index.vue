@@ -3,7 +3,6 @@
     <NavigationHeader />
     <ProjectActivityLayout />
     <DashboardCreateTasks />
-    <NavigationFooter />
   </AppWrapper>
 </template>
 

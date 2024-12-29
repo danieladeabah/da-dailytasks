@@ -62,7 +62,9 @@ const newSubTaskName = ref('')
 const tasksStore = useTasksStore()
 const route = useRoute()
 const selectedTaskId = route.params.tasksindex as string
-const selectedUsers = ref<number[]>([])
+const selectedUsers = ref<
+  { id: string; name: string; email: string; image: string }[]
+>([])
 
 const addTaskModel = () => {
   addATasks.value = !addATasks.value
@@ -80,16 +82,26 @@ const addSubTask = () => {
   const task: Task = {
     id: encodeBase62(Date.now()),
     name: newSubTaskName.value,
-    assignees: selectedUsers.value
+    assignees: selectedUsers.value,
+    deadline: '',
+    description: '',
+    isChecked: false,
+    subTasks: [],
+    progress: 0
   }
 
   tasksStore.addSubTask(selectedTaskId, task)
   addTaskModel()
 }
 
-const selectUser = (userId: number) => {
-  if (!selectedUsers.value.includes(userId)) {
-    selectedUsers.value.push(userId)
+const selectUser = (user: {
+  id: string
+  name: string
+  email: string
+  image: string
+}) => {
+  if (!selectedUsers.value.some(u => u.id === user.id)) {
+    selectedUsers.value.push(user)
   }
 }
 
