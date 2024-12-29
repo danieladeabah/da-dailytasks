@@ -1,5 +1,6 @@
 export interface Task {
   id: string
+  user_id: string
   name: string
   deadline: string
   description: string
@@ -11,12 +12,9 @@ export interface Task {
     image: string
   }[]
   subTasks: {
-    isChecked?: unknown
     id: string
+    isChecked?: boolean
     name: string
-    assignees?: {
-      id: string
-    }[]
   }[]
   progress: number
 }

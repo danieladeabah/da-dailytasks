@@ -29,17 +29,7 @@
     v-model="addATasks"
     @closeDialog="addATasks = false"
   >
-    <label class="text-sm text-gray-400" for="taskName">{{
-      texts_a.addTaskFormDescription
-    }}</label>
     <UInput placeholder="Task Name" v-model="newSubTaskName" maxLength="100" />
-
-    <DashboardAssignedToUsers
-      v-for="user in users"
-      :key="user.id"
-      :user="user"
-      @select-user="selectUser(user)"
-    />
 
     <div class="flex justify-end">
       <UButton class="w-fit" color="blue" variant="solid" @click="addSubTask"
@@ -62,16 +52,12 @@ const newSubTaskName = ref('')
 const tasksStore = useTasksStore()
 const route = useRoute()
 const selectedTaskId = route.params.tasksindex as string
-const selectedUsers = ref<
-  { id: string; name: string; email: string; image: string }[]
->([])
 
 const addTaskModel = () => {
   addATasks.value = !addATasks.value
 
   if (addATasks.value) {
     newSubTaskName.value = ''
-    selectedUsers.value = []
   }
 }
 
@@ -79,30 +65,14 @@ const addSubTask = () => {
   if (!newSubTaskName.value) {
     return
   }
-  const task: Task = {
+  const task = {
     id: encodeBase62(Date.now()),
     name: newSubTaskName.value,
-    assignees: selectedUsers.value,
-    deadline: '',
-    description: '',
-    isChecked: false,
-    subTasks: [],
-    progress: 0
+    isChecked: false
   }
 
-  tasksStore.addSubTask(selectedTaskId, task)
+  tasksStore.addSubTask(selectedTaskId, task as unknown as Task)
   addTaskModel()
-}
-
-const selectUser = (user: {
-  id: string
-  name: string
-  email: string
-  image: string
-}) => {
-  if (!selectedUsers.value.some(u => u.id === user.id)) {
-    selectedUsers.value.push(user)
-  }
 }
 
 const dropdownLists = [
@@ -120,11 +90,5 @@ const subTasks = computed(() => {
   const taskId = route.params.tasksindex as string
   const task = tasksStore.findTaskById(taskId)
   return task ? task.subTasks : []
-})
-
-const users = computed(() => {
-  const taskId = route.params.tasksindex as string
-  const task = tasksStore.findTaskById(taskId)
-  return task ? task.assignees : []
 })
 </script>

@@ -29,11 +29,7 @@
     v-model="editATasks"
     @closeDialog="editATasks = false"
   >
-    <label class="text-sm text-gray-400" for="taskName">{{
-      texts_a.formEditDescription
-    }}</label>
     <UInput v-model="editedTaskName" placeholder="Task Name" maxLength="100" />
-
     <div class="flex items-center justify-between">
       <UDropdown :items="deleteOptions" :popper="{ arrow: true }">
         <UButton
@@ -86,18 +82,13 @@ const editTaskModel = () => {
 
 const handleCheckboxChange = () => {
   if (props.task) {
-    const updatedSubTask: Task = {
+    const updatedSubTask = {
       ...props.task,
       id: props.task.id,
       name: props.task.name,
-      deadline: props.task.deadline,
-      description: props.task.description,
-      isChecked: isChecked.value,
-      assignees: props.task.assignees,
-      subTasks: props.task.subTasks,
-      progress: props.task.progress
+      isChecked: !props.task.isChecked
     }
-    tasksStore.updateSubTask(trackId, updatedSubTask)
+    tasksStore.updateSubTask(trackId, updatedSubTask as unknown as Task)
 
     const parentTask = tasksStore.findTaskById(trackId)
     if (parentTask) {
