@@ -10,9 +10,13 @@
         :ui="{ item: { disabled: 'cursor-text select-text' } }"
         :popper="{ placement: 'bottom-start' }"
       >
-        <UAvatar
+        <UiKitsProfileImage
           v-if="isLoggedIn"
-          src="https://avatars.githubusercontent.com/u/124435531?v=4"
+          :img-src="''"
+          :name="userInfo?.first_name"
+          :scale="true"
+          :height-size="'2.5rem'"
+          :width-size="'2.5rem'"
         />
         <UBadge v-else label="Get Started" color="gray" />
 
