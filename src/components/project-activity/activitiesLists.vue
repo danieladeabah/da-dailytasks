@@ -1,7 +1,9 @@
 <template>
   <UiKitsHorizontalLine />
   <UiKitsUiSlotsProjectActivitySlot>
-    <h1 class="text-2xl font-bold">{{ texts_c.projectActivity }}</h1>
+    <h1 class="text-xl font-bold">
+      {{ texts_c.projectActivity }} ({{ tasks.length + completedTasks.length }})
+    </h1>
     <div class="my-5">
       <UTabs :items="tabItems" class="w-full">
         <template #browse>
