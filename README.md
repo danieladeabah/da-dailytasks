@@ -15,6 +15,9 @@
 - **Backend**: Node.js
 - **Data Storage**: API-based
 
+![Image 1](https://da-dailytasks.vercel.app/_nuxt/mobile-dashboard.DfXNeIqs.png)
+![Image 2](https://da-dailytasks.vercel.app/_nuxt/mobile-viewed-tasks.BH2AWUQf.png)
+
 ## Live Demo
 
 Check out the live demo [here](https://da-dailytasks.vercel.app).
