@@ -3,7 +3,7 @@
     <img
       v-if="imgSrc && imgSrc !== 'null'"
       :style="{ width: widthSize, height: heightSize, border }"
-      :class="[scale ? 'hover:scale-105' : '', rounded]"
+      :class="[scale ? 'object-cover hover:scale-105' : '', rounded]"
       data-cy="roundedFull"
       :src="imgSrc"
       :alt="name"

@@ -12,7 +12,7 @@
       >
         <UiKitsProfileImage
           v-if="isLoggedIn"
-          :img-src="''"
+          :img-src="userInfo?.profile_image"
           :name="userInfo?.first_name"
           :scale="true"
           :height-size="'2.5rem'"
@@ -59,6 +59,7 @@ const userInfo = ref<{
   id: number | null
   first_name: string
   last_name: string
+  profile_image: string
 } | null>(null)
 
 onMounted(async () => {

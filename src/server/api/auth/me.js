@@ -23,7 +23,7 @@ export default defineEventHandler(async event => {
 
     // Fetch user details from the database
     const [rows] = await connection.query(
-      `SELECT id, first_name, last_name, email FROM users WHERE id = ?`,
+      `SELECT id, first_name, last_name, profile_image, email FROM users WHERE id = ?`,
       [decoded.id]
     )
 
@@ -41,6 +41,7 @@ export default defineEventHandler(async event => {
       id: user.id,
       first_name: user.first_name,
       last_name: user.last_name,
+      profile_image: user.profile_image,
       email: user.email
     }
   } catch (error) {
