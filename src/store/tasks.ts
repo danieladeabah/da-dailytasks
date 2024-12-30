@@ -288,6 +288,7 @@ export const useTasksStore = defineStore({
 
             if (response.status === 200) {
               task.subTasks[subTaskIndex] = subTask
+              this.fetchTasks()
               this.clearSuccessAfterDelay()
             } else {
               this.error = 'Failed to update subtask.'
