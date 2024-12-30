@@ -95,7 +95,7 @@ const openModal = (type: 'create' | 'edit', task: Task | null = null) => {
     taskName.value = task.name
     deadline.value = task.deadline
     description.value = task.description
-    isPrivate.value = task.isPrivate || 0 // Ensure a numeric value
+    isPrivate.value = task.isPrivate || 0
   } else {
     formTitle.value = 'Create Task'
     buttonText.value = texts_a.buttonAddTask
@@ -142,14 +142,15 @@ const submitTask = () => {
     const uniqueId = encodeBase62(Date.now())
     const newTask = {
       id: uniqueId,
-      user_id: userInfo.value?.id,
+      user_id: userInfo.value?.id?.toString() || '',
       name: taskName.value,
       deadline: deadline.value,
       description: description.value,
       isPrivate: isPrivate.value,
       assignees: [],
       subTasks: [],
-      progress: 0
+      progress: 0,
+      isChecked: 0
     }
     tasksStore.createTask(newTask)
   }

@@ -8,22 +8,22 @@
       </slot>
 
       <slot name="backLinkHistory">
-        <button @click="navigateBack" class="text-blue-500 hover:underline">
+        <button
+          @click="navigateBack"
+          class="flex items-center gap-4 text-xl font-bold"
+        >
           <img
             src="/assets/icons/backIcon.svg"
             class="h-5 w-5"
             alt="Back Icon"
           />
+          <slot name="greet"></slot>
         </button>
       </slot>
     </div>
 
     <div class="px-4 py-2">
-      <h1 class="py-2 text-left text-2xl font-bold">
-        <slot name="greet"></slot>
-      </h1>
-
-      <p class="text-normal py-2 text-left text-gray-400">
+      <p class="text-normal py-2 text-left text-gray-500">
         <slot name="forgotPassword"></slot>
       </p>
 

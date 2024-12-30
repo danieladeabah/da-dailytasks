@@ -1,4 +1,5 @@
 <template>
   <NavigationHeaderDashboard v-if="$route.path === '/dashboard'" />
-  <NavigationHeaderTasks v-else />
+  <NavigationHeaderSettings v-if="$route.path === '/settings'" />
+  <NavigationHeaderTasks v-if="$route.path.startsWith('/tasks')" />
 </template>

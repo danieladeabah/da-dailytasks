@@ -8,7 +8,8 @@ export const useAuthenticationStore = defineStore('authentication', {
     user: {
       id: null as number | null,
       first_name: '',
-      last_name: ''
+      last_name: '',
+      email: ''
     }
   }),
   actions: {
@@ -70,6 +71,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           id?: number
           first_name?: string
           last_name?: string
+          email?: string
           message?: string
         }>('/api/auth/me', {
           method: 'GET',
@@ -82,7 +84,8 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.user = {
             id: data.id ?? null,
             first_name: data.first_name ?? '',
-            last_name: data.last_name ?? ''
+            last_name: data.last_name ?? '',
+            email: data.email ?? ''
           }
         } else {
           this.error = data.message ?? 'Unable to fetch user details'
@@ -98,7 +101,8 @@ export const useAuthenticationStore = defineStore('authentication', {
       return {
         id: this.user.id,
         first_name: this.user.first_name,
-        last_name: this.user.last_name
+        last_name: this.user.last_name,
+        email: this.user.email
       }
     },
 
@@ -165,7 +169,7 @@ export const useAuthenticationStore = defineStore('authentication', {
 
     logout() {
       this.token = ''
-      this.user = { id: null, first_name: '', last_name: '' }
+      this.user = { id: null, first_name: '', last_name: '', email: '' }
       localStorage.removeItem('authToken')
       this.error = ''
     },

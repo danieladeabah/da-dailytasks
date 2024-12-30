@@ -89,7 +89,10 @@ const items = computed(() => [
     },
     {
       label: 'Settings',
-      icon: 'i-heroicons-cog-20-solid'
+      icon: 'i-heroicons-cog-20-solid',
+      click() {
+        navigateTo('/settings')
+      }
     },
     {
       label: isLoggedIn.value ? 'Logout' : 'Login',
