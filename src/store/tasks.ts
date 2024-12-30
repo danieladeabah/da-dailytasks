@@ -13,7 +13,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('No token found. Please log in again.')
+          throw new Error('Please log in to continue using the app')
         }
         const response = await fetch('/api/tasks/fetch-tasks', {
           method: 'GET',
@@ -46,7 +46,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('No token found. Please log in again.')
+          throw new Error('Please log in to continue using the app')
         }
         fetch('/api/tasks/create', {
           method: 'POST',
@@ -89,7 +89,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('No token found. Please log in again.')
+          throw new Error('Please log in to continue using the app')
         }
 
         fetch(`/api/tasks/update`, {
@@ -137,7 +137,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('No token found. Please log in again.')
+          throw new Error('Please log in to continue using the app')
         }
 
         fetch(`/api/tasks/delete-tasks`, {
@@ -181,7 +181,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('No token found. Please log in again.')
+          throw new Error('Please log in to continue using the app')
         }
         const response = await fetch(`/api/tasks/assign`, {
           method: 'POST',
@@ -215,7 +215,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('No token found. Please log in again.')
+          throw new Error('Please log in to continue using the app')
         }
 
         fetch(`/api/tasks/add-subtasks`, {
@@ -268,7 +268,7 @@ export const useTasksStore = defineStore('tasks', {
           try {
             const token = localStorage.getItem('authToken')
             if (!token) {
-              throw new Error('No token found. Please log in again.')
+              throw new Error('Please log in to continue using the app')
             }
 
             const response = await fetch('/api/tasks/update-subtasks', {
@@ -312,7 +312,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('No token found. Please log in again.')
+          throw new Error('Please log in to continue using the app')
         }
 
         fetch(`/api/tasks/delete-subtasks`, {

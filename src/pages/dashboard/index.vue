@@ -1,14 +1,12 @@
 <template>
-  <AppWrapper>
+  <NuxtLayout name="app-wrapper">
     <NavigationHeader />
     <ProjectActivity />
     <DashboardCreateTasks />
-  </AppWrapper>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import AppWrapper from '../../layouts/app-wrapper.vue'
-
 definePageMeta({
   middleware: 'auth'
 })

@@ -1,10 +1,6 @@
 <template>
-  <LandingWrapper>
+  <NuxtLayout name="landing-wrapper">
     <LandingPage />
     <NavigationFooter />
-  </LandingWrapper>
+  </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-import LandingWrapper from '../layouts/landing-wrapper.vue'
-</script>
