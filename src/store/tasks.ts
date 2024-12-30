@@ -9,13 +9,14 @@ export const useTasksStore = defineStore({
     error: ''
   }),
   actions: {
+    // Fetch tasks
     async fetchTasks() {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
           throw new Error('No token found. Please log in again.')
         }
-        const response = await fetch('/api/tasks/main-task/fetch-tasks', {
+        const response = await fetch('/api/tasks/fetch-tasks', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`
@@ -35,16 +36,20 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Find a task by ID
     findTaskById(taskId: string): Task | undefined {
       return this.tasks.find(t => t.id === taskId)
     },
+
+    // Create
     createTask(newTask: Task) {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
           throw new Error('No token found. Please log in again.')
         }
-        fetch('/api/tasks/main-task/create', {
+        fetch('/api/tasks/create', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -79,6 +84,8 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Update
     updateTask(taskId: string, updatedTask: Task) {
       try {
         const token = localStorage.getItem('authToken')
@@ -86,7 +93,7 @@ export const useTasksStore = defineStore({
           throw new Error('No token found. Please log in again.')
         }
 
-        fetch(`/api/tasks/main-task/update`, {
+        fetch(`/api/tasks/update`, {
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,6 +132,8 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Delete
     deleteTask(taskId: string) {
       try {
         const token = localStorage.getItem('authToken')
@@ -132,7 +141,7 @@ export const useTasksStore = defineStore({
           throw new Error('No token found. Please log in again.')
         }
 
-        fetch(`/api/tasks/main-task/delete-tasks`, {
+        fetch(`/api/tasks/delete-tasks`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -164,19 +173,21 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Assign people to a task
     async assignPeopleToTask(task: Task) {
-      const taskId = task.id // Extract only the task ID
-      const assignees = task.assignees // Use the assignees array
+      const taskId = task.id
+      const assignees = task.assignees
 
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
           throw new Error('No token found. Please log in again.')
         }
-        const response = await fetch(`/api/tasks/main-task/assign`, {
+        const response = await fetch(`/api/tasks/assign`, {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${token}`, // Ensure token is valid
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ taskId, assignees })
@@ -184,7 +195,6 @@ export const useTasksStore = defineStore({
 
         const data = await response.json()
         if (response.ok) {
-          // Update the local state only if the API succeeds
           const taskIndex = this.tasks.findIndex(t => t.id === task.id)
           if (taskIndex !== -1) {
             this.tasks[taskIndex].assignees = assignees
@@ -200,6 +210,8 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Add sub-task
     addSubTask(taskId: string, subTask: Task) {
       try {
         const token = localStorage.getItem('authToken')
@@ -207,7 +219,7 @@ export const useTasksStore = defineStore({
           throw new Error('No token found. Please log in again.')
         }
 
-        fetch(`/api/tasks/subtask/add-subtasks`, {
+        fetch(`/api/tasks/add-subtasks`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -245,24 +257,22 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Update sub-task
     async updateSubTask(taskId: string, subTask: Task) {
-      // Find the task containing the subtask
       const task = this.findTaskById(taskId)
 
       if (task) {
-        // Find the subtask to update within the task
         const subTaskIndex = task.subTasks.findIndex(st => st.id === subTask.id)
 
         if (subTaskIndex !== -1) {
           try {
-            // Get the token from localStorage
             const token = localStorage.getItem('authToken')
             if (!token) {
               throw new Error('No token found. Please log in again.')
             }
 
-            // Call the API to update the subtask in the database
-            const response = await fetch('/api/tasks/subtask/update-subtasks', {
+            const response = await fetch('/api/tasks/update-subtasks', {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -276,10 +286,8 @@ export const useTasksStore = defineStore({
               })
             })
 
-            // If the update is successful, update the subtask in the store
             if (response.status === 200) {
               task.subTasks[subTaskIndex] = subTask
-              this.success = 'Sub-task updated successfully!'
               this.clearSuccessAfterDelay()
             } else {
               this.error = 'Failed to update subtask.'
@@ -298,6 +306,8 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Delete sub-task
     deleteSubTask(taskId: string, subTaskId: string) {
       try {
         const token = localStorage.getItem('authToken')
@@ -305,7 +315,7 @@ export const useTasksStore = defineStore({
           throw new Error('No token found. Please log in again.')
         }
 
-        fetch(`/api/tasks/subtask/delete-subtasks`, {
+        fetch(`/api/tasks/delete-subtasks`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -321,14 +331,13 @@ export const useTasksStore = defineStore({
             return response.json()
           })
           .then(() => {
-            // Find the task that contains the sub-task
             const task = this.findTaskById(taskId)
             if (task) {
               const subTaskIndex = task.subTasks.findIndex(
                 st => st.id === subTaskId
               )
               if (subTaskIndex !== -1) {
-                task.subTasks.splice(subTaskIndex, 1) // Remove the sub-task from the list
+                task.subTasks.splice(subTaskIndex, 1)
                 this.success = 'Sub-task deleted successfully!'
                 this.clearSuccessAfterDelay()
               }
@@ -343,6 +352,8 @@ export const useTasksStore = defineStore({
         this.clearErrorAfterDelay()
       }
     },
+
+    // Clear error after delay
     clearErrorAfterDelay() {
       setTimeout(() => {
         this.error = ''
