@@ -11,9 +11,9 @@
   </div>
 
   <div class="flex flex-col space-y-4">
-    <UInput placeholder="First Name" v-model="first_name" maxLength="100" />
+    <UInput placeholder="First Name" v-model="first_name" maxLength="50" />
 
-    <UInput placeholder="Last Name" v-model="last_name" maxLength="100" />
+    <UInput placeholder="Last Name" v-model="last_name" maxLength="50" />
   </div>
   <p class="text-sm italic text-gray-400">[Auto save]</p>
 </template>
@@ -28,6 +28,9 @@ const userInfo = ref<{
   last_name: string
 } | null>(null)
 
+const first_name = ref('')
+const last_name = ref('')
+
 onMounted(async () => {
   authStore.loadToken()
   if (authStore.token) {
@@ -36,6 +39,14 @@ onMounted(async () => {
   }
 })
 
-const first_name = ref(userInfo.value?.first_name)
-const last_name = ref(userInfo.value?.last_name)
+watch(
+  userInfo,
+  newUserInfo => {
+    if (newUserInfo) {
+      first_name.value = newUserInfo.first_name
+      last_name.value = newUserInfo.last_name
+    }
+  },
+  { immediate: true }
+)
 </script>

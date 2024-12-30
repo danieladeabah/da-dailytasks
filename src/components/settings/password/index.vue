@@ -3,12 +3,12 @@
     <p>
       You are logged in as <strong>{{ userInfo?.first_name }}</strong
       >, If you wish to update your password please do so here. We will send you
-      an email to reset your password
+      an email to reset your password.
     </p>
   </div>
 
   <div class="flex flex-col">
-    <UInput placeholder="Email address" v-model="email" maxLength="100" />
+    <UInput placeholder="Email address" v-model="email" maxLength="150" />
     <p class="text-sm italic text-gray-400">[Hit enter to proceed]</p>
   </div>
 </template>
@@ -17,12 +17,14 @@
 import { useAuthenticationStore } from '@/store/auth'
 
 const authStore = useAuthenticationStore()
-const isLoggedIn = computed(() => !!authStore.token)
 const userInfo = ref<{
   id: number | null
   first_name: string
   last_name: string
+  email: string
 } | null>(null)
+
+const email = ref('')
 
 onMounted(async () => {
   authStore.loadToken()
@@ -32,5 +34,13 @@ onMounted(async () => {
   }
 })
 
-const email = ref('')
+watch(
+  userInfo,
+  newUserInfo => {
+    if (newUserInfo) {
+      email.value = newUserInfo.email
+    }
+  },
+  { immediate: true }
+)
 </script>

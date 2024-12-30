@@ -7,7 +7,7 @@
   </div>
 
   <div class="flex flex-col">
-    <UInput placeholder="Email address" v-model="email" maxLength="100" />
+    <UInput placeholder="Email address" v-model="email" maxLength="150" />
     <p class="text-sm italic text-gray-400">[Hit enter to proceed]</p>
   </div>
 </template>
@@ -23,6 +23,8 @@ const userInfo = ref<{
   email: string
 } | null>(null)
 
+const email = ref('')
+
 onMounted(async () => {
   authStore.loadToken()
   if (authStore.token) {
@@ -31,5 +33,13 @@ onMounted(async () => {
   }
 })
 
-const email = ref(userInfo.value?.email || '')
+watch(
+  userInfo,
+  newUserInfo => {
+    if (newUserInfo) {
+      email.value = newUserInfo.email
+    }
+  },
+  { immediate: true }
+)
 </script>
