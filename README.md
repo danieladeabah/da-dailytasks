@@ -18,12 +18,8 @@ progress tracking with subtasks.
 - **Dashboard for Effortless Management**: Access an intuitive dashboard where
   you can manage all tasks in one place, view AI-driven insights, and monitor
   progress in real time.
-
-## Technologies Used:
-
-- **Frontend**: Vue 3, Nuxt 3
-- **Backend**: Node.js
-- **Data Storage**: MySQL
+  
+## Screenshot
 
 ![landing](/src/assets/icons/desktop-landing.png)
 
