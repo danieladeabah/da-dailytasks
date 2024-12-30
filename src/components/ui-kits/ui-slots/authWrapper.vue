@@ -44,19 +44,14 @@
 
     <UiKitsHorizontalLine />
 
-    <footer class="w-full py-5 text-center text-sm">
-      <span>© {{ currentYear }}</span>
-    </footer>
+    <NavigationFooter />
   </AppWrapper>
 </template>
 
 <script setup lang="ts">
 import AppWrapper from '~/layouts/app-wrapper.vue'
-import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const currentYear = ref(new Date().getFullYear())
-
 const navigateHome = () => {
   router.push('/')
 }
