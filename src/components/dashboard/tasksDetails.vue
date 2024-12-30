@@ -79,7 +79,7 @@ const task = computed(() => {
 })
 
 onMounted(() => {
-  tasksStore.loadTasksFromLocalStorage()
+  tasksStore.fetchTasks()
 })
 
 const openCreateModal = () => {

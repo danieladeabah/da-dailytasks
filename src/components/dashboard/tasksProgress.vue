@@ -68,7 +68,7 @@ const addSubTask = () => {
   const task = {
     id: encodeBase62(Date.now()),
     name: newSubTaskName.value,
-    isChecked: false
+    isChecked: 0 // Set to 0 (false)
   }
 
   tasksStore.addSubTask(selectedTaskId, task as unknown as Task)

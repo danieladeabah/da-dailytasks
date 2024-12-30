@@ -29,12 +29,13 @@
     <div class="flex items-center space-x-2">
       <input
         type="checkbox"
-        v-model="isPrivate"
+        :checked="isPrivateComputed"
+        @change="toggleIsPrivate"
         id="isPrivate"
         class="h-5 w-5 cursor-pointer"
       />
       <label for="isPrivate" class="cursor-pointer text-sm">
-        {{ isPrivate ? texts_a.isPublic : texts_a.isPrivate }}
+        {{ isPrivate === 0 ? texts_a.isPrivate : texts_a.isPublic }}
       </label>
     </div>
 
@@ -60,7 +61,7 @@ const isOpen = ref(false)
 const taskName = ref('')
 const deadline = ref('')
 const description = ref('')
-const isPrivate = ref(false)
+const isPrivate = ref<number>(0)
 const minDate = ref(getMinDate())
 const formTitle = ref('Create Task')
 const buttonText = ref(texts_a.buttonAddTask)
@@ -77,6 +78,15 @@ onMounted(async () => {
   }
 })
 
+const isPrivateComputed = computed({
+  get: () => isPrivate.value === 1,
+  set: (value: boolean) => (isPrivate.value = value ? 1 : 0)
+})
+
+const toggleIsPrivate = () => {
+  isPrivate.value = isPrivate.value === 1 ? 0 : 1
+}
+
 const openModal = (type: 'create' | 'edit', task: Task | null = null) => {
   isOpen.value = true
   if (type === 'edit' && task) {
@@ -85,14 +95,14 @@ const openModal = (type: 'create' | 'edit', task: Task | null = null) => {
     taskName.value = task.name
     deadline.value = task.deadline
     description.value = task.description
-    isPrivate.value = task.isPrivate
+    isPrivate.value = task.isPrivate || 0 // Ensure a numeric value
   } else {
     formTitle.value = 'Create Task'
     buttonText.value = texts_a.buttonAddTask
     taskName.value = ''
     deadline.value = ''
     description.value = ''
-    isPrivate.value = false
+    isPrivate.value = 0
   }
 }
 

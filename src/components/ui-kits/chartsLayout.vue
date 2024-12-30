@@ -78,7 +78,7 @@ const createChart = () => {
 }
 
 onMounted(async () => {
-  await tasksStore.loadTasksFromLocalStorage()
+  await tasksStore.fetchTasks()
   createChart()
 })
 

@@ -3,9 +3,12 @@
     class="selected-option option-container flex items-center justify-between"
     for="switch"
   >
-    <div class="flex items-center gap-5" :class="{ 'line-through': isChecked }">
+    <div
+      class="flex items-center gap-5"
+      :class="{ 'line-through': isChecked === 1 }"
+    >
       <UCheckbox
-        v-model="isChecked"
+        v-model="isCheckedBoolean"
         :label="task.name"
         color="sky"
         id="switch"
@@ -66,8 +69,15 @@ const tasksStore = useTasksStore()
 const route = useRoute()
 const trackId = route.params.tasksindex as string
 
-const isChecked = ref(props.task.isChecked || false)
+// Initialize isChecked as 0 or 1
+const isChecked = ref(props.task.isChecked ? 0 : 1)
 const editATasks = ref(false)
+const isCheckedBoolean = computed({
+  get: () => isChecked.value === 0,
+  set: (val: boolean) => {
+    isChecked.value = val ? 1 : 0
+  }
+})
 const editedTaskName = ref(props.task.name || '')
 const currentTask = ref<Task | null>(null)
 
@@ -82,11 +92,12 @@ const editTaskModel = () => {
 
 const handleCheckboxChange = () => {
   if (props.task) {
+    // Update isChecked to 0 or 1
     const updatedSubTask = {
       ...props.task,
       id: props.task.id,
       name: props.task.name,
-      isChecked: !props.task.isChecked
+      isChecked: isChecked.value // Use the updated isChecked value
     }
     tasksStore.updateSubTask(trackId, updatedSubTask as unknown as Task)
 
@@ -117,7 +128,7 @@ const editTaskSubmit = () => {
 watch(
   () => props.task.isChecked,
   value => {
-    isChecked.value = value
+    isChecked.value = value ? 1 : 0 // Convert to 0 or 1
   }
 )
 

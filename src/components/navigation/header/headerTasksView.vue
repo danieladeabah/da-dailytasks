@@ -47,6 +47,6 @@ const buttonColor = computed(() => {
 })
 
 onMounted(() => {
-  tasksStore.loadTasksFromLocalStorage()
+  tasksStore.fetchTasks()
 })
 </script>
