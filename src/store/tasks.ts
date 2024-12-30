@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import type { Task } from '~/types/types'
 
-export const useTasksStore = defineStore({
-  id: 'tasks',
+export const useTasksStore = defineStore('tasks', {
   state: () => ({
     tasks: [] as Task[],
     success: '',
@@ -287,11 +286,11 @@ export const useTasksStore = defineStore({
             })
 
             if (response.status === 200) {
-              task.subTasks[subTaskIndex] = subTask
-              this.fetchTasks()
+              task.subTasks[subTaskIndex] = { ...subTask }
               this.clearSuccessAfterDelay()
             } else {
-              this.error = 'Failed to update subtask.'
+              const data = await response.json()
+              this.error = data.message || 'Failed to update subtask.'
               this.clearErrorAfterDelay()
             }
           } catch (error) {

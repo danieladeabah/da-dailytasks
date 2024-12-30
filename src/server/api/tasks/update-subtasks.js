@@ -13,8 +13,8 @@ export default defineEventHandler(async event => {
   const token = authHeader.split(' ')[1]
 
   try {
-    const decoded = jwt.verify(token, secretKey) // Verify JWT token and extract the user
-    const body = await readBody(event) // Read the request body
+    const decoded = jwt.verify(token, secretKey)
+    const body = await readBody(event)
 
     // Update subtask query with the values passed in the request
     const [result] = await connection.query(
