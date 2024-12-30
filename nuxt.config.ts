@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   // Global CSS
-  css: ['src/assets/css/main.css'],
+  css: ['@/assets/css/main.css'],
 
   // Modules
   modules: ['nuxt-icon', '@nuxt/ui', '@nuxtjs/color-mode'],
