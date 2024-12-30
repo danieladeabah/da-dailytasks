@@ -49,7 +49,7 @@
     <template #info>
       <div class="flex items-start gap-2">
         <span>
-          <UCheckbox color="blue" />
+          <UCheckbox color="blue" v-model="isChecked" />
         </span>
         <span>
           {{ text.signup.termsInfo }}
@@ -59,13 +59,14 @@
         </span>
       </div>
 
-      <div class="py-2">
+      <div class="py-8">
         <UButton
           class="flex w-full justify-center font-bold hover:shadow-2xl"
           color="blue"
           label="Sign Up"
           variant="solid"
           size="xl"
+          :disabled="!isChecked"
           @click="signup"
         />
       </div>
@@ -82,6 +83,7 @@ const last_name = ref('')
 const email = ref('')
 const password = ref('')
 const isPasswordVisible = ref(false)
+const isChecked = ref(false)
 
 const store = useAuthenticationStore()
 

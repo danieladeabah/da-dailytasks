@@ -44,7 +44,7 @@
         text.forgotPassword
       }}</ULink>
 
-      <div class="py-2">
+      <div class="py-8">
         <UButton
           class="flex w-full justify-center font-bold hover:shadow-2xl"
           color="blue"
