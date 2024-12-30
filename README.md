@@ -2,10 +2,10 @@
 
 ## Overview
 
-**DailyTasks** is a task management application designed to help you organize
-and track your daily activities. This app uses Vue 3, Nuxt 3, and Node.js to
-provide a smooth, modern user experience. It features task creation, assignment,
-and progress tracking with subtasks.
+**DailyTasks** s a task management application designed to help you organize and
+track your daily activities. This app uses Vue 3, Nuxt 3, and Node.js to provide
+a smooth, modern user experience. It features task creation, assignment, and
+progress tracking with subtasks.
 
 ## Key Features:
 
@@ -13,14 +13,17 @@ and progress tracking with subtasks.
 - **Task Assignment**: Assign tasks to people and track their progress.
 - **Subtask Management**: Break tasks into smaller subtasks to track finer
   details.
-- **API-based Data Storage**: Data is stored and fetched via an API for a
-  centralized and scalable experience.
+- **AI-Powered Smart Assistant**: Leverage our smart AI assistant to automate
+  task management, making suggestions based on your preferences and history.
+- **Dashboard for Effortless Management**: Access an intuitive dashboard where
+  you can manage all tasks in one place, view AI-driven insights, and monitor
+  progress in real time.
 
 ## Technologies Used:
 
 - **Frontend**: Vue 3, Nuxt 3
 - **Backend**: Node.js
-- **Data Storage**: API-based
+- **Data Storage**: MySQL
 
 ![landing](/src/assets/icons/desktop-landing.png)
 
