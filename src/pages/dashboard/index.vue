@@ -1,7 +1,7 @@
 <template>
   <AppWrapper>
     <NavigationHeader />
-    <ProjectActivityLayout />
+    <ProjectActivity />
     <DashboardCreateTasks />
   </AppWrapper>
 </template>

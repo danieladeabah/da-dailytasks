@@ -119,10 +119,10 @@ const submitTask = () => {
   }
 
   let taskId = ''
-  if (Array.isArray(route.params.tasksindex)) {
-    taskId = route.params.tasksindex[0]
+  if (Array.isArray(route.params.tasksId)) {
+    taskId = route.params.tasksId[0]
   } else {
-    taskId = route.params.tasksindex
+    taskId = route.params.tasksId
   }
 
   const task = computed(() => {

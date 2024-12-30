@@ -26,7 +26,7 @@ const tasksStore = useTasksStore()
 const route = useRoute()
 
 const selectedTask = computed(() => {
-  const taskId = route.params.tasksindex as string
+  const taskId = route.params.tasksId as string
   return tasksStore.findTaskById(taskId) || null
 })
 

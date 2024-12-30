@@ -353,7 +353,6 @@ export const useTasksStore = defineStore('tasks', {
       }
     },
 
-    // Clear error after delay
     clearErrorAfterDelay() {
       setTimeout(() => {
         this.error = ''

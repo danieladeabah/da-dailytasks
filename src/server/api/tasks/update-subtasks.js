@@ -30,7 +30,6 @@ export default defineEventHandler(async event => {
       }
     }
 
-    // Successfully updated the subtask
     return { statusCode: 200, message: 'Subtask updated successfully' }
   } catch (error) {
     console.error(error)

@@ -1,0 +1,4 @@
+<template>
+  <ProjectActivityStatistics />
+  <ProjectActivityActivitiesTab />
+</template>

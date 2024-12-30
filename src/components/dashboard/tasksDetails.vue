@@ -60,7 +60,7 @@
     </div>
   </UiKitsUiSlotsDashboardSlot>
 
-  <DashboardModal ref="taskModal" />
+  <DashboardCreateEditModal ref="taskModal" />
 </template>
 
 <script setup lang="ts">
@@ -73,9 +73,9 @@ const route = useRoute()
 const taskModal = ref()
 
 const task = computed(() => {
-  const taskId = Array.isArray(route.params.tasksindex)
-    ? route.params.tasksindex[0]
-    : route.params.tasksindex
+  const taskId = Array.isArray(route.params.tasksId)
+    ? route.params.tasksId[0]
+    : route.params.tasksId
 
   return tasksStore.findTaskById(taskId) || null
 })

@@ -30,15 +30,13 @@ export default defineEventHandler(async event => {
       [body.task_id, body.name, body.isChecked]
     )
 
-    // Return success response
     return {
       statusCode: 201,
       message: 'Subtask added successfully',
       subtaskId: result.insertId
     }
   } catch (error) {
-    console.error(error) // Log the error for debugging
-    // Return error response
+    console.error(error)
     return {
       statusCode: 500,
       message: 'Failed to add subtask',

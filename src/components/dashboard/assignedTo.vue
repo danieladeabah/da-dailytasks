@@ -145,7 +145,7 @@ const assignToModel = () => {
   assignTo.value = !assignTo.value
 
   if (assignTo.value) {
-    const taskId = route.params.tasksindex as string
+    const taskId = route.params.tasksId as string
     const task = tasksStore.findTaskById(taskId)
     if (task && task.assignees.length > 0) {
       options.value = task.assignees.map(assignee => ({
@@ -168,7 +168,7 @@ const assignToModel = () => {
 }
 
 const assignToubmit = () => {
-  const taskId = route.params.tasksindex as string
+  const taskId = route.params.tasksId as string
   const task = tasksStore.findTaskById(taskId)
   if (task) {
     task.assignees = options.value
@@ -190,7 +190,7 @@ const assignToubmit = () => {
 }
 
 const users = computed(() => {
-  const taskId = route.params.tasksindex as string
+  const taskId = route.params.tasksId as string
   const task = tasksStore.findTaskById(taskId)
   return task ? task.assignees : []
 })

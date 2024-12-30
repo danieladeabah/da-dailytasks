@@ -1,4 +1,0 @@
-<template>
-  <ProjectActivityStatsView />
-  <ProjectActivityActivitiesLists />
-</template>

@@ -51,7 +51,7 @@ const addATasks = ref(false)
 const newSubTaskName = ref('')
 const tasksStore = useTasksStore()
 const route = useRoute()
-const selectedTaskId = route.params.tasksindex as string
+const selectedTaskId = route.params.tasksId as string
 
 const addTaskModel = () => {
   addATasks.value = !addATasks.value
@@ -87,7 +87,7 @@ const dropdownLists = [
 ]
 
 const subTasks = computed(() => {
-  const taskId = route.params.tasksindex as string
+  const taskId = route.params.tasksId as string
   const task = tasksStore.findTaskById(taskId)
   return task ? task.subTasks : []
 })

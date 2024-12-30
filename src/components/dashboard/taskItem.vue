@@ -64,7 +64,7 @@ const props = defineProps({
 
 const tasksStore = useTasksStore()
 const route = useRoute()
-const trackId = route.params.tasksindex as string
+const trackId = route.params.tasksId as string
 
 const isChecked = ref(props.task.isChecked)
 const editATasks = ref(false)

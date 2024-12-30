@@ -39,10 +39,8 @@ export default defineEventHandler(async event => {
       [assigneeValues]
     )
 
-    // Return success response
     return { statusCode: 200, message: 'People assigned to task successfully.' }
   } catch (error) {
-    // Log and return error response
     return { statusCode: 500, message: 'Failed to assign people to task.' }
   }
 })
