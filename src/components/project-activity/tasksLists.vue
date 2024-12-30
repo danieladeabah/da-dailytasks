@@ -16,7 +16,7 @@
         <div class="flex flex-col gap-1">
           <p>{{ task.name }}</p>
           <p class="text-gray-400">
-            {{ texts_c.deadline }} {{ task.deadline }}
+            {{ texts_c.deadline }} {{ formatDate(task.deadline) }}
           </p>
           <div class="flex w-40 items-center space-x-2 overflow-auto">
             <UiKitsUserAvatar

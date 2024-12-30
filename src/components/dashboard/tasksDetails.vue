@@ -17,7 +17,9 @@
           />
           <p>
             {{ texts.deadline }}
-            <span class="font-semibold text-[#000]">{{ task.deadline }}</span>
+            <span class="font-semibold text-[#000]">{{
+              formatDate(task.deadline)
+            }}</span>
           </p>
         </div>
         <div>
