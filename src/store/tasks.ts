@@ -27,8 +27,6 @@ export const useTasksStore = defineStore('tasks', {
         const responseData = await response.json()
         if (responseData && Array.isArray(responseData.tasks)) {
           this.tasks = responseData.tasks
-        } else {
-          throw new Error('Unexpected response format')
         }
       } catch (err) {
         this.error = (err as Error).message || 'Error loading tasks.'
