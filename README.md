@@ -22,8 +22,7 @@ and progress tracking with subtasks.
 - **Backend**: Node.js
 - **Data Storage**: API-based
 
-![Image 1](https://da-dailytasks.vercel.app/_nuxt/mobile-dashboard.DfXNeIqs.png)
-![Image 2](https://da-dailytasks.vercel.app/_nuxt/mobile-viewed-tasks.BH2AWUQf.png)
+![landing](/src/assets/icons/desktop-landing.png)
 
 ## Live Demo
 
