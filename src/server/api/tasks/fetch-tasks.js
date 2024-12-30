@@ -55,8 +55,13 @@ export default defineEventHandler(async event => {
         }
       }
 
-      // Add assignees to the task
-      if (task.assignee_id) {
+      // Add assignees to the task (avoid duplicates)
+      if (
+        task.assignee_id &&
+        !acc[taskId].assignees.some(
+          assignee => assignee.id === task.assignee_id
+        )
+      ) {
         acc[taskId].assignees.push({
           id: task.assignee_id,
           name: task.assignee_name,
