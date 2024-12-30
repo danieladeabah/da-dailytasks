@@ -1,6 +1,6 @@
 <template>
-  <UiKitsUiSlotsProjectActivitySlot>
-    <div v-if="tasks.length > 0" class="container my-2 mt-8 text-center">
+  <UiKitsUiSlotsProjectActivitySlot v-if="tasks.length > 0">
+    <div class="container my-2 mt-8 text-center">
       <h2 class="text-2xl font-bold text-gray-800">
         Trending ({{ tasks.length }})
       </h2>
