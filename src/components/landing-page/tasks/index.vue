@@ -1,10 +1,12 @@
 <template>
   <UiKitsUiSlotsProjectActivitySlot>
-    <div v-if="tasks.length > 0" class="container my-10 text-center">
-      <h2 class="mb-6 text-3xl font-bold text-gray-800">Popular Tasks</h2>
-      <p class="text-gray-600">See what our users are doing.</p>
+    <div v-if="tasks.length > 0" class="container my-2 mt-8 text-center">
+      <h2 class="text-2xl font-bold text-gray-800">
+        Trending ({{ tasks.length }})
+      </h2>
+      <p class="text-gray-600">Explore the latest tasks that are trending.</p>
     </div>
-    <div class="my-5">
+    <div class="my-2">
       <TaskList :tasks="tasks" :emptyMessage="''" />
     </div>
   </UiKitsUiSlotsProjectActivitySlot>

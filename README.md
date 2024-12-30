@@ -18,7 +18,7 @@ progress tracking with subtasks.
 - **Dashboard for Effortless Management**: Access an intuitive dashboard where
   you can manage all tasks in one place, view AI-driven insights, and monitor
   progress in real time.
-  
+
 ## Screenshot
 
 ![landing](/src/assets/icons/desktop-landing.png)
