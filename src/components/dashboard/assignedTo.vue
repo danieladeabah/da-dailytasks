@@ -203,7 +203,10 @@ const assignToModel = () => {
 const assignToubmit = () => {
   const missingImageAssignees = options.value
     .map((option, index) => {
-      if (!option.image || option.image.trim() === '') {
+      if (
+        (option.name?.trim() !== '' || option.email?.trim() !== '') &&
+        (!option.image || option.image.trim() === '')
+      ) {
         return `#${index + 1}`
       }
       return null
