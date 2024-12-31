@@ -93,7 +93,7 @@ const openModal = (type: 'create' | 'edit', task: Task | null = null) => {
     formTitle.value = 'Edit Task'
     buttonText.value = texts_a.buttonEdit
     taskName.value = task.name
-    deadline.value = task.deadline
+    deadline.value = new Date(task.deadline).toISOString().split('T')[0]
     description.value = task.description
     isPrivate.value = task.isPrivate || 0
   } else {
