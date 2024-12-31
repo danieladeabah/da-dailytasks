@@ -79,42 +79,56 @@ const logout = () => {
 
 const analyticsModal = ref()
 
-const items = computed(() => [
-  [
+const items = computed(() => {
+  const baseItems: Array<{
+    label: string
+    slot?: string
+    disabled?: boolean
+    icon?: string
+    click?: () => void
+  }> = [
     {
       label: isLoggedIn.value
         ? `${userInfo.value?.first_name ?? ''} ${userInfo.value?.last_name ?? ''}`
         : 'You are not logged in',
       slot: 'account',
       disabled: true
-    },
-    {
-      label: 'Analytics',
-      icon: 'i-heroicons-chart-pie-20-solid',
-      click() {
-        analyticsModal.value?.openModal()
-      }
-    },
-    {
-      label: 'Settings',
-      icon: 'i-heroicons-cog-20-solid',
-      click() {
-        navigateTo('/settings')
-      }
-    },
-    {
-      label: isLoggedIn.value ? 'Logout' : 'Login',
-      icon: isLoggedIn.value
-        ? 'i-heroicons-arrow-right-start-on-rectangle'
-        : 'i-heroicons-arrow-right-20-solid',
-      click() {
-        if (isLoggedIn.value) {
-          logout()
-        } else {
-          navigateTo('/auth/login')
-        }
-      }
     }
   ]
-])
+
+  if (isLoggedIn.value) {
+    baseItems.push(
+      {
+        label: 'Analytics',
+        icon: 'i-heroicons-chart-pie-20-solid',
+        click() {
+          analyticsModal.value?.openModal()
+        }
+      },
+      {
+        label: 'Settings',
+        icon: 'i-heroicons-cog-20-solid',
+        click() {
+          navigateTo('/settings')
+        }
+      }
+    )
+  }
+
+  baseItems.push({
+    label: isLoggedIn.value ? 'Logout' : 'Login',
+    icon: isLoggedIn.value
+      ? 'i-heroicons-arrow-right-start-on-rectangle'
+      : 'i-heroicons-arrow-right-20-solid',
+    click() {
+      if (isLoggedIn.value) {
+        logout()
+      } else {
+        navigateTo('/auth/login')
+      }
+    }
+  })
+
+  return [baseItems]
+})
 </script>
