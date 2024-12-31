@@ -12,7 +12,7 @@
       >
         <UiKitsProfileImage
           v-if="isLoggedIn"
-          :img-src="`/profiles/${userInfo?.profile_image}`"
+          :img-src="`https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${userInfo?.profile_image}`"
           :name="userInfo?.first_name"
           :scale="true"
           :height-size="'2.5rem'"
