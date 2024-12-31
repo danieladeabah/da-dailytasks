@@ -13,7 +13,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('Please login to continue')
+          throw new Error('Please login to use')
         }
         const response = await fetch('/api/tasks/fetch-tasks', {
           method: 'GET',
@@ -44,7 +44,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('Please login to continue')
+          throw new Error('Please login to use')
         }
         fetch('/api/tasks/create', {
           method: 'POST',
@@ -87,7 +87,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('Please login to continue')
+          throw new Error('Please login to use')
         }
 
         fetch(`/api/tasks/update`, {
@@ -135,7 +135,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('Please login to continue')
+          throw new Error('Please login to use')
         }
 
         fetch(`/api/tasks/delete-tasks`, {
@@ -179,7 +179,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('Please login to continue')
+          throw new Error('Please login to use')
         }
         const response = await fetch(`/api/tasks/assign`, {
           method: 'POST',
@@ -213,7 +213,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('Please login to continue')
+          throw new Error('Please login to use')
         }
 
         fetch(`/api/tasks/add-subtasks`, {
@@ -266,7 +266,7 @@ export const useTasksStore = defineStore('tasks', {
           try {
             const token = localStorage.getItem('authToken')
             if (!token) {
-              throw new Error('Please login to continue')
+              throw new Error('Please login to use')
             }
 
             const response = await fetch('/api/tasks/update-subtasks', {
@@ -310,7 +310,7 @@ export const useTasksStore = defineStore('tasks', {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
-          throw new Error('Please login to continue')
+          throw new Error('Please login to use')
         }
 
         fetch(`/api/tasks/delete-subtasks`, {
