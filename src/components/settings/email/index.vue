@@ -2,13 +2,18 @@
   <div class="relative my-6">
     <p>
       You are logged in as <strong>{{ userInfo?.first_name }}</strong
-      >, If you wish to update your email please do so here
+      >, if you wish to update your email please do so here.
     </p>
   </div>
 
   <div class="flex flex-col">
-    <UInput placeholder="Email address" v-model="email" maxLength="150" />
-    <p class="text-sm italic text-gray-400">[Hit enter to proceed]</p>
+    <UInput
+      placeholder="Email address"
+      v-model="email"
+      maxLength="150"
+      @keyup.enter="updateEmail"
+    />
+    <p class="text-sm italic text-gray-400">[Press Enter to update]</p>
   </div>
 </template>
 
@@ -42,4 +47,10 @@ watch(
   },
   { immediate: true }
 )
+
+const updateEmail = async () => {
+  if (email.value !== userInfo.value?.email) {
+    await authStore.updateEmail(email.value)
+  }
+}
 </script>

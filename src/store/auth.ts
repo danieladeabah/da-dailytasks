@@ -56,7 +56,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.success = data.message || 'Login successful!'
           navigateTo('/dashboard')
         } else {
-          this.error = data.message || 'Unexpected error'
+          this.error = data.message ?? 'Unexpected error'
           this.clearErrorAfterDelay()
         }
       } catch (err: any) {
@@ -152,6 +152,30 @@ export const useAuthenticationStore = defineStore('authentication', {
             data.message || 'Password changed successfully. You can now log in.'
           navigateTo('/auth/login')
           this.clearSuccessAfterDelay()
+        } else {
+          this.error = data.message || 'Unexpected error'
+          this.clearErrorAfterDelay()
+        }
+      } catch (err: any) {
+        this.error = this.getErrorMessage(err)
+        this.clearErrorAfterDelay()
+      }
+    },
+
+    async updateEmail(newEmail: string) {
+      try {
+        this.error = ''
+        const data = await $fetch('/api/auth/update-email', {
+          method: 'POST',
+          body: { email: newEmail },
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          }
+        })
+
+        if (data.statusCode === 200) {
+          this.success = data.message || 'Email updated successfully!'
+          this.user.email = newEmail
         } else {
           this.error = data.message || 'Unexpected error'
           this.clearErrorAfterDelay()

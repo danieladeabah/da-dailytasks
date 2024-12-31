@@ -18,7 +18,7 @@
       maxLength="150"
       @keydown.enter="forgotPassword"
     />
-    <p class="text-sm italic text-gray-400">[Hit enter to proceed]</p>
+    <p class="text-sm italic text-gray-400">[Press enter to proceed]</p>
   </div>
 </template>
 
