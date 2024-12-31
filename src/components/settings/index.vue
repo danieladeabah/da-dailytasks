@@ -32,6 +32,10 @@ import { useAuthenticationStore } from '@/store/auth'
 const authStore = useAuthenticationStore()
 const isLoggedIn = computed(() => !!authStore.token)
 
+onMounted(async () => {
+  authStore.loadToken()
+})
+
 const tabItems = computed(() => [
   { slot: 'me', label: `Me` },
   { slot: 'email', label: `Email` },

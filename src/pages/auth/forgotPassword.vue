@@ -4,11 +4,13 @@
     <template #forgotPassword>
       {{ text.resetPasswordInfo }}
     </template>
+
     <template #errors>
-      <div v-if="store.error" class="text-red-600">
-        {{ store.error }}
+      <div v-if="errorMessage" class="mb-2 text-red-600">
+        {{ errorMessage }}
       </div>
     </template>
+
     <template #form>
       <UInput
         placeholder="Email address"
@@ -31,12 +33,27 @@
 <script setup lang="ts">
 import { useAuthenticationStore } from '~/store/auth'
 import { authentication as text } from '@/constants/texts.json'
+import { isValidEmail } from '@/utils/isValidEmail'
 
 const email = ref('')
+const errorMessage = ref<string | null>(null)
 
 const store = useAuthenticationStore()
 
 const forgotPassword = () => {
-  store.forgotPassword(email.value)
+  errorMessage.value = null
+
+  if (!email.value) {
+    errorMessage.value = 'Please enter your email address'
+  } else if (!isValidEmail(email.value)) {
+    errorMessage.value = 'Please enter a valid email address'
+  } else {
+    store.forgotPassword(email.value)
+    return
+  }
+
+  setTimeout(() => {
+    errorMessage.value = null
+  }, 3000)
 }
 </script>
