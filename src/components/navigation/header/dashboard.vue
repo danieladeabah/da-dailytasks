@@ -39,6 +39,8 @@
         </template>
       </UDropdown>
     </div>
+
+    <Analytics ref="analyticsModal" />
   </UiKitsUiSlotsHeaderSlot>
 </template>
 
@@ -75,6 +77,8 @@ const logout = () => {
   navigateTo('/')
 }
 
+const analyticsModal = ref()
+
 const items = computed(() => [
   [
     {
@@ -86,7 +90,10 @@ const items = computed(() => [
     },
     {
       label: 'Analytics',
-      icon: 'i-heroicons-chart-pie-20-solid'
+      icon: 'i-heroicons-chart-pie-20-solid',
+      click() {
+        analyticsModal.value?.openModal()
+      }
     },
     {
       label: 'Settings',
