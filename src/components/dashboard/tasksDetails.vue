@@ -15,8 +15,7 @@
             class="h-5 w-5"
             alt="Notification Icon"
           />
-          <p>
-            {{ texts.deadline }}
+          <p title="Deadline">
             <span class="font-semibold text-[#000]">{{
               formatDate(task.deadline)
             }}</span>
