@@ -84,6 +84,10 @@
       @click="addOption"
     />
 
+    <p v-if="warningMessage" class="text-xs text-red-500">
+      {{ warningMessage }}
+    </p>
+
     <div class="flex justify-end">
       <UButton
         class="w-fit"
@@ -116,6 +120,7 @@ const options = ref([
     image: ''
   }
 ])
+const warningMessage = ref('')
 
 const addOption = () => {
   if (options.value.length < 9)
@@ -196,15 +201,30 @@ const assignToModel = () => {
 }
 
 const assignToubmit = () => {
+  const missingImageAssignees = options.value
+    .map((option, index) => {
+      if (!option.image || option.image.trim() === '') {
+        return `#${index + 1}`
+      }
+      return null
+    })
+    .filter(assignee => assignee !== null) as string[]
+
+  if (missingImageAssignees.length > 0) {
+    warningMessage.value = `${missingImageAssignees.join(', ')} ${missingImageAssignees.length > 1 ? 'do not have images' : 'does not have an image'}.`
+    return
+  }
+
   const taskId = route.params.tasksId as string
   const task = tasksStore.findTaskById(taskId)
   if (task) {
     task.assignees = options.value
       .filter(
         option =>
-          option.name.trim() !== '' &&
-          option.email.trim() !== '' &&
-          option.image.trim() !== ''
+          option.name?.trim() !== '' &&
+          option.email?.trim() !== '' &&
+          option.image?.trim() !== '' &&
+          option.image !== null
       )
       .map(option => ({
         id: option.id,
@@ -214,6 +234,7 @@ const assignToubmit = () => {
       }))
     tasksStore.assignPeopleToTask(task)
   }
+  warningMessage.value = ''
   assignToModel()
 }
 
