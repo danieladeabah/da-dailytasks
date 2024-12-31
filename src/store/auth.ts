@@ -124,7 +124,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           navigateTo('/auth/mailinfo')
           this.clearSuccessAfterDelay()
         } else {
-          this.error = data.message || 'Unexpected error'
+          this.error = data.message ?? 'Unexpected error'
           this.clearErrorAfterDelay()
         }
       } catch (err: any) {
@@ -153,7 +153,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           navigateTo('/auth/login')
           this.clearSuccessAfterDelay()
         } else {
-          this.error = data.message || 'Unexpected error'
+          this.error = data.message ?? 'Unexpected error'
           this.clearErrorAfterDelay()
         }
       } catch (err: any) {
@@ -177,12 +177,88 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.success = data.message || 'Email updated successfully!'
           this.user.email = newEmail
         } else {
-          this.error = data.message || 'Unexpected error'
+          this.error = data.message ?? 'Unexpected error'
           this.clearErrorAfterDelay()
         }
       } catch (err: any) {
         this.error = this.getErrorMessage(err)
         this.clearErrorAfterDelay()
+      }
+    },
+
+    async updateProfileImage(formData: FormData) {
+      try {
+        const data = await $fetch<{ statusCode: number; message?: string }>(
+          '/api/auth/update-profile-image',
+          {
+            method: 'POST',
+            body: formData,
+            headers: {
+              Authorization: `Bearer ${this.token}`
+            }
+          }
+        )
+
+        if (data.statusCode === 200) {
+          this.success = 'Profile image updated successfully!'
+        } else {
+          this.error = data.message ?? 'Unexpected error'
+          this.clearErrorAfterDelay()
+        }
+      } catch (err: any) {
+        this.error = this.getErrorMessage(err)
+        this.clearErrorAfterDelay()
+      }
+    },
+
+    async updateFirstName(firstName: string) {
+      try {
+        const response = await $fetch<{ statusCode: number; message?: string }>(
+          '/api/auth/update-first-name',
+          {
+            method: 'POST',
+            body: { first_name: firstName },
+            headers: {
+              Authorization: `Bearer ${this.token}`
+            }
+          }
+        )
+
+        if (response.statusCode === 200) {
+          this.user.first_name = firstName
+          this.success = 'First name updated successfully!'
+        } else {
+          this.error =
+            response.message ?? 'Unexpected error updating first name'
+        }
+      } catch (err: any) {
+        this.error = 'Error updating first name'
+        console.error(err)
+      }
+    },
+
+    async updateLastName(lastName: string) {
+      try {
+        const response = await $fetch<{ statusCode: number; message?: string }>(
+          '/api/auth/update-last-name',
+          {
+            method: 'POST',
+            body: { last_name: lastName },
+            headers: {
+              Authorization: `Bearer ${this.token}`
+            }
+          }
+        )
+
+        if (response.statusCode === 200) {
+          this.user.last_name = lastName
+          this.success = 'Last name updated successfully!'
+        } else {
+          this.error = response.message ?? 'Unexpected error updating last name'
+        }
+      } catch (err: any) {
+        this.error = 'Error updating last name'
+        console.error(err)
       }
     },
 

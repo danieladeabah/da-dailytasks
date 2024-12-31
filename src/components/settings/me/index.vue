@@ -1,8 +1,7 @@
 <template>
   <div class="my-6 flex flex-col items-center justify-center">
-    <!-- Profile Image with Preview -->
     <UiKitsProfileImage
-      :img-src="preview || userInfo?.profile_image"
+      :img-src="`${preview || '/profiles/' + (userInfo?.profile_image || '')}`"
       :name="userInfo?.first_name"
       :scale="true"
       :height-size="'15rem'"
@@ -24,11 +23,21 @@
   </div>
 
   <div class="flex flex-col space-y-4">
-    <UInput placeholder="First Name" v-model="first_name" maxLength="50" />
+    <UInput
+      placeholder="First Name"
+      v-model="first_name"
+      maxLength="50"
+      @keyup.enter="updateFirstName"
+    />
 
-    <UInput placeholder="Last Name" v-model="last_name" maxLength="50" />
+    <UInput
+      placeholder="Last Name"
+      v-model="last_name"
+      maxLength="50"
+      @keyup.enter="updateLastName"
+    />
   </div>
-  <p class="text-sm italic text-gray-400">[Auto save]</p>
+  <p class="text-sm italic text-gray-400">[Press Enter to update]</p>
 </template>
 
 <script setup lang="ts">
@@ -55,11 +64,43 @@ const triggerFileInput = () => {
   }
 }
 
-const handleFileChange = (event: Event) => {
+const handleFileChange = async (event: Event) => {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
   if (file) {
     preview.value = URL.createObjectURL(file)
+    await updateProfileImage(file)
+  }
+}
+
+const updateProfileImage = async (file: File) => {
+  try {
+    const formData = new FormData()
+    formData.append('profile_image', file)
+
+    await authStore.updateProfileImage(formData)
+  } catch (error) {
+    console.error('Error updating profile image:', error)
+  }
+}
+
+const updateFirstName = async () => {
+  if (first_name.value !== userInfo.value?.first_name) {
+    try {
+      await authStore.updateFirstName(first_name.value)
+    } catch (error) {
+      console.error('Error updating first name:', error)
+    }
+  }
+}
+
+const updateLastName = async () => {
+  if (last_name.value !== userInfo.value?.last_name) {
+    try {
+      await authStore.updateLastName(last_name.value)
+    } catch (error) {
+      console.error('Error updating last name:', error)
+    }
   }
 }
 
