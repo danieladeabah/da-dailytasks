@@ -30,7 +30,7 @@
         class="my-4 flex w-5/6 cursor-wait items-center justify-between rounded-xl border border-gray-100 bg-gradient-to-r from-red-200 to-green-100 p-4"
         title="Coming soon"
       >
-        Celebrate Yourself to your teams <heartIcon />
+        Celebrate Yourself <heartIcon />
       </div>
       <div
         class="w-2/2 my-4 flex -skew-y-6 cursor-pointer items-center justify-between rounded-xl border border-gray-100 bg-gradient-to-r from-red-50 to-blue-50 p-4 font-extrabold hover:-skew-y-0 hover:transform"
