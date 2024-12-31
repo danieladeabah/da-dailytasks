@@ -1,7 +1,7 @@
 <template>
   <div class="my-6 flex flex-col items-center justify-center">
     <UiKitsProfileImage
-      :img-src="`${preview || '/profiles/' + (userInfo?.profile_image || '')}`"
+      :img-src="profileImageSrc"
       :name="userInfo?.first_name"
       :scale="true"
       :height-size="'15rem'"
@@ -53,7 +53,6 @@ const userInfo = ref<{
 
 const first_name = ref('')
 const last_name = ref('')
-const profile_image = ref('')
 
 const preview = ref<string | null>(null)
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -77,7 +76,6 @@ const updateProfileImage = async (file: File) => {
   try {
     const formData = new FormData()
     formData.append('profile_image', file)
-
     await authStore.updateProfileImage(formData)
   } catch (error) {
     console.error('Error updating profile image:', error)
@@ -104,6 +102,15 @@ const updateLastName = async () => {
   }
 }
 
+const profileImageSrc = computed(() => {
+  return (
+    preview.value ||
+    (userInfo.value?.profile_image
+      ? `/profiles/${userInfo.value.profile_image}`
+      : '')
+  )
+})
+
 onMounted(async () => {
   authStore.loadToken()
   if (authStore.token) {
@@ -118,7 +125,6 @@ watch(
     if (newUserInfo) {
       first_name.value = newUserInfo.first_name
       last_name.value = newUserInfo.last_name
-      profile_image.value = newUserInfo.profile_image
     }
   },
   { immediate: true }
