@@ -20,7 +20,7 @@
             ></span>
             {{ texts_c.statsView.inProgress }}
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 truncate">
             <span
               class="h-3 w-3 rounded-full border-2 border-white bg-[#F17105] shadow-md"
             ></span>
