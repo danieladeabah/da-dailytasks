@@ -106,7 +106,7 @@ const profileImageSrc = computed(() => {
   return (
     preview.value ||
     (userInfo.value?.profile_image
-      ? `/profiles/${userInfo.value.profile_image}`
+      ? `https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${userInfo.value.profile_image}`
       : '')
   )
 })
