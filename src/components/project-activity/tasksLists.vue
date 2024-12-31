@@ -22,7 +22,7 @@
             <UiKitsUserAvatar
               v-for="user in task.assignees.slice(0, 3)"
               :key="user.id"
-              :src="user.image"
+              :src="`https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${user.image}`"
               :alt="user.name"
             />
           </div>

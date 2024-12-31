@@ -15,7 +15,7 @@
         <UiKitsUserAvatar
           v-for="user in users"
           :key="user.id"
-          :src="user.image"
+          :src="`https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${user.image}`"
           :alt="user.name"
         />
       </template>
@@ -43,15 +43,18 @@
         <UInput
           size="sm"
           class="lg:w-40vw w-full"
-          v-model="option.name"
-          placeholder="Full name"
+          v-model="option.email"
+          type="email"
+          placeholder="Email"
+          @keyup.enter="fetchUserDetails(option.email, index)"
         />
         <UInput
           size="sm"
           class="lg:w-40vw w-full"
-          v-model="option.email"
-          type="email"
-          placeholder="Email"
+          v-model="option.name"
+          placeholder="Full name"
+          :readonly="true"
+          :disabled="true"
         />
         <UInput
           size="sm"
@@ -59,6 +62,8 @@
           v-model="option.image"
           type="url"
           placeholder="Image URL"
+          :readonly="true"
+          :disabled="true"
         />
         <img
           src="/assets/icons/deleteIcon.svg"
@@ -112,16 +117,6 @@ const options = ref([
   }
 ])
 
-watch(
-  [options],
-  () => {
-    options.value.length >= 1 &&
-      options.value.length <= 9 &&
-      options.value.every(option => option.name && option.email && option.image)
-  },
-  { deep: true }
-)
-
 const addOption = () => {
   if (options.value.length < 9)
     options.value.push({
@@ -137,6 +132,39 @@ const removeOption = (index: number) => {
   else {
     options.value[index].name = ''
     options.value[index].email = ''
+    options.value[index].image = ''
+  }
+}
+
+const fetchUserDetails = async (email: string, index: number) => {
+  try {
+    // Validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      options.value[index].name = ''
+      options.value[index].image = ''
+      return
+    }
+
+    // Simulate API call to fetch user details
+    const response = await fetch(
+      `../../api/auth/get-user?email=${encodeURIComponent(email)}`
+    )
+    const data = await response.json()
+
+    if (data?.user) {
+      const { first_name, last_name, profile_image } = data.user
+
+      // Set full name and image in the fields
+      options.value[index].name = `${first_name} ${last_name}`
+      options.value[index].image = profile_image
+    } else {
+      // Clear fields if no valid user data is returned
+      options.value[index].name = ''
+      options.value[index].image = ''
+    }
+  } catch (error) {
+    console.error('Error fetching user details:', error)
+    options.value[index].name = ''
     options.value[index].image = ''
   }
 }
