@@ -33,8 +33,8 @@ export default defineEventHandler(async event => {
 
     // Insert new user into the database
     await connection.query(
-      `INSERT INTO users (id, first_name, last_name, username, email, password) VALUES (?, ?, ?, ?, ?, ?)`,
-      [base62, first_name, last_name, base62, email, hashedPassword]
+      `INSERT INTO users (id, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?)`,
+      [base62, first_name, last_name, email, hashedPassword]
     )
 
     return {
