@@ -18,7 +18,7 @@
         class="my-4 flex w-1/2 items-center justify-between rounded-xl border border-gray-100 bg-slate-100 p-4"
         title="Minimum withdrawal amount is $10."
       >
-        Earnings <strong>$0.002</strong>
+        Earnings <strong>$0.02</strong>
       </div>
     </div>
 
