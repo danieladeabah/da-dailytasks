@@ -75,7 +75,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           email?: string
           profile_image?: string
           message?: string
-        }>('/api/auth/me', {
+        }>('/api/auth/get-user-details', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${this.token}`

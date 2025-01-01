@@ -2,4 +2,5 @@
   <LandingPageHero />
   <LandingPageBenefit />
   <LandingPageTasks />
+  <LandingPageReviews />
 </template>

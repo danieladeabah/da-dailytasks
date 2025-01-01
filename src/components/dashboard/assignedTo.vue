@@ -152,7 +152,7 @@ const fetchUserDetails = async (email: string, index: number) => {
 
     // Simulate API call to fetch user details
     const response = await fetch(
-      `../../api/auth/get-user?email=${encodeURIComponent(email)}`
+      `../../api/auth/get-user-by-email?email=${encodeURIComponent(email)}`
     )
     const data = await response.json()
 

@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="app-wrapper">
     <NavigationHeader />
-    <ProjectActivity />
+    <Tasks />
     <DashboardCreateTasks />
   </NuxtLayout>
 </template>

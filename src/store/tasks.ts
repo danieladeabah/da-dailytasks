@@ -65,7 +65,7 @@ export const useTasksStore = defineStore('tasks', {
         if (!token) {
           throw new Error('Please login to use')
         }
-        fetch('/api/tasks/create', {
+        fetch('/api/tasks/create-tasks', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ export const useTasksStore = defineStore('tasks', {
           throw new Error('Please login to use')
         }
 
-        fetch(`/api/tasks/update`, {
+        fetch(`/api/tasks/update-tasks`, {
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -200,7 +200,7 @@ export const useTasksStore = defineStore('tasks', {
         if (!token) {
           throw new Error('Please login to use')
         }
-        const response = await fetch(`/api/tasks/assign`, {
+        const response = await fetch(`/api/tasks/assign-people-to-tasks`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,

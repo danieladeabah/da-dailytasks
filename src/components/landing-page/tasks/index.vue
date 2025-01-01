@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useTasksStore } from '@/store/tasks'
-import TaskList from '@/components/project-activity/tasksLists.vue'
+import TaskList from '@/components/tasks/tasksLists.vue'
 
 const tasksStore = useTasksStore()
 
