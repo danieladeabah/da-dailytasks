@@ -13,7 +13,6 @@
       :key="index"
       :title="user.name"
       :description="user.description"
-      :color="index % 2 === 0 ? 'slate' : 'white'"
       :avatar="{ src: user.userImage, alt: user.name }"
     >
       <template #avatar="{ avatar }">
