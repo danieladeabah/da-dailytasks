@@ -37,15 +37,8 @@ export const useTasksStore = defineStore('tasks', {
     // Fetch all tasks
     async fetchAllTasks() {
       try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
-        }
         const response = await fetch('/api/tasks/fetch-all-tasks', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          method: 'GET'
         })
         if (!response.ok) {
           throw new Error('Failed to fetch tasks.')

@@ -1,12 +1,6 @@
 import connection from '../../utils/db'
 
 export default defineEventHandler(async event => {
-  const authHeader = event.node.req.headers.authorization
-
-  if (!authHeader) {
-    return { statusCode: 401, message: 'Authorization header missing' }
-  }
-
   try {
     // Fetch tasks with assignees and subtasks using JOIN
     const [tasksData] = await connection.query(
@@ -76,7 +70,7 @@ export default defineEventHandler(async event => {
     // Convert the grouped tasks object to an array
     const result = Object.values(groupedTasks)
 
-    // Limit the number of tasks to 8
+    // Limit the number of tasks to 10
     const limitedResult = result.slice(0, 10)
 
     return {
@@ -84,6 +78,9 @@ export default defineEventHandler(async event => {
       tasks: limitedResult
     }
   } catch (error) {
-    return { statusCode: 401, message: 'Invalid or expired token' }
+    return {
+      statusCode: 500,
+      message: 'An error occurred while fetching tasks'
+    }
   }
 })
