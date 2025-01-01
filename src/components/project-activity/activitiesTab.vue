@@ -35,7 +35,7 @@ const completedTasks = computed(() =>
 )
 
 onMounted(() => {
-  tasksStore.fetchTasks()
+  tasksStore.fetchTasksById()
 })
 
 const tabItems = computed(() => [

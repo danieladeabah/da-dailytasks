@@ -8,14 +8,40 @@ export const useTasksStore = defineStore('tasks', {
     error: ''
   }),
   actions: {
-    // Fetch tasks
-    async fetchTasks() {
+    // Fetch tasks by ID
+    async fetchTasksById() {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
           throw new Error('Please login to use')
         }
-        const response = await fetch('/api/tasks/fetch-tasks', {
+        const response = await fetch('/api/tasks/fetch-tasks-by-id', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        if (!response.ok) {
+          throw new Error('Failed to fetch tasks.')
+        }
+        const responseData = await response.json()
+        if (responseData && Array.isArray(responseData.tasks)) {
+          this.tasks = responseData.tasks
+        }
+      } catch (err) {
+        this.error = (err as Error).message || 'Error loading tasks.'
+        this.clearErrorAfterDelay()
+      }
+    },
+
+    // Fetch all tasks
+    async fetchAllTasks() {
+      try {
+        const token = localStorage.getItem('authToken')
+        if (!token) {
+          throw new Error('Please login to use')
+        }
+        const response = await fetch('/api/tasks/fetch-all-tasks', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`

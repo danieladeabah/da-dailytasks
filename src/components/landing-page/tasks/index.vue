@@ -23,6 +23,6 @@ const tasks = computed(() =>
 )
 
 onMounted(() => {
-  tasksStore.fetchTasks()
+  tasksStore.fetchAllTasks()
 })
 </script>

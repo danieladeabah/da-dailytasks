@@ -63,7 +63,6 @@
 </template>
 
 <script setup lang="ts">
-import { dashboard as texts } from '@/constants/texts.json'
 import { getProgressColor } from '@/utils/progressColor'
 import { useTasksStore } from '@/store/tasks'
 
@@ -80,7 +79,7 @@ const task = computed(() => {
 })
 
 onMounted(() => {
-  tasksStore.fetchTasks()
+  tasksStore.fetchTasksById()
 })
 
 const openCreateModal = () => {
