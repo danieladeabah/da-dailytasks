@@ -1,13 +1,11 @@
 <template>
   <div class="container my-5 text-center">
     <h2 class="mb-6 text-3xl font-bold text-gray-800">User Reviews</h2>
-    <p class="mb-10 text-gray-600">
+    <p class="mb-2 text-gray-600">
       What our users have to say about our task management solution.
     </p>
   </div>
-  <div
-    class="grid grid-cols-1 gap-5 bg-gradient-to-r from-gray-100 to-blue-50 p-10 sm:grid-cols-2 lg:m-5 lg:grid-cols-3"
-  >
+  <div class="grid grid-cols-1 gap-5 p-6 sm:grid-cols-2 lg:grid-cols-3">
     <UAlert
       v-for="(user, index) in user_reviews"
       :key="index"
