@@ -76,9 +76,12 @@ export default defineEventHandler(async event => {
     // Convert the grouped tasks object to an array
     const result = Object.values(groupedTasks)
 
+    // Limit the number of tasks to 8
+    const limitedResult = result.slice(0, 10)
+
     return {
       statusCode: 200,
-      tasks: result
+      tasks: limitedResult
     }
   } catch (error) {
     return { statusCode: 401, message: 'Invalid or expired token' }
