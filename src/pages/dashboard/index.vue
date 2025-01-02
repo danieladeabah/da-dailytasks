@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout name="app-wrapper">
     <NavigationHeader />
-    <Tasks />
-    <DashboardCreateTasks />
+    <Dashboard />
+    <DashboardCreate />
   </NuxtLayout>
 </template>
 

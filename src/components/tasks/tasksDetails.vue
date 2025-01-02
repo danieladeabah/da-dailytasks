@@ -64,7 +64,7 @@
     </div>
   </UiKitsUiSlotsDashboardSlot>
 
-  <DashboardCreateEditModal ref="taskModal" />
+  <TasksCreateEditModal ref="taskModal" />
 </template>
 
 <script setup lang="ts">

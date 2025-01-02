@@ -1,9 +1,9 @@
 <template>
   <NuxtLayout name="app-wrapper">
     <NavigationHeader />
-    <DashboardTasksDetails />
-    <DashboardAssignedTo />
-    <DashboardTasksProgress />
+    <TasksDetails />
+    <TasksAssignedTo />
+    <TasksProgress />
   </NuxtLayout>
 </template>
 

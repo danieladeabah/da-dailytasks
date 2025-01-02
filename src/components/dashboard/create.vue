@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <DashboardCreateEditModal ref="taskModal" />
+  <TasksCreateEditModal ref="taskModal" />
 </template>
 
 <script setup lang="ts">

@@ -1,4 +1,0 @@
-<template>
-  <TasksStatistics />
-  <TasksTab />
-</template>

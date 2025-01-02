@@ -1,0 +1,4 @@
+<template>
+  <DashboardStatistics />
+  <DashboardTasksTab />
+</template>

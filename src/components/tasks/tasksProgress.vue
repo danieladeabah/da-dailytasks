@@ -14,7 +14,7 @@
     <div v-if="subTasks.length === 0" class="text-gray-500">
       {{ texts_a.noTasksAdded }}
     </div>
-    <DashboardTaskItem
+    <TasksTaskItem
       v-else
       v-for="(task, index) in subTasks"
       :key="index"
@@ -68,7 +68,7 @@ const addSubTask = () => {
   const task = {
     id: encodeBase62(Date.now()),
     name: newSubTaskName.value,
-    isChecked: 0 // Set to 0 (false)
+    isChecked: 0
   }
 
   tasksStore.addSubTask(selectedTaskId, task as unknown as Task)
