@@ -25,6 +25,7 @@
         v-model="email"
         maxLength="100"
         size="xl"
+        :class="{ 'border-red-600': !isValidEmail(email) }"
       />
       <div class="relative">
         <UInput
@@ -66,7 +67,7 @@
           label="Sign Up"
           variant="solid"
           size="xl"
-          :disabled="!isChecked"
+          :disabled="!isChecked || !isValidEmail(email)"
           @click="signup"
         />
       </div>
@@ -77,6 +78,7 @@
 <script setup lang="ts">
 import { useAuthenticationStore } from '~/store/auth'
 import { authentication as text } from '@/constants/texts.json'
+import { isValidEmail } from '~/utils/isValidEmail'
 
 const first_name = ref('')
 const last_name = ref('')
