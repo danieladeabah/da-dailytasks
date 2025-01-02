@@ -10,8 +10,9 @@
     <template #form>
       <UInput
         placeholder="Email address"
+        type="email"
         v-model="email"
-        maxLength="100"
+        maxLength="250"
         size="xl"
       />
       <div class="relative">
@@ -19,7 +20,7 @@
           :type="isPasswordVisible ? 'text' : 'password'"
           placeholder="Password"
           v-model="password"
-          maxLength="100"
+          maxLength="250"
           size="xl"
         />
         <span

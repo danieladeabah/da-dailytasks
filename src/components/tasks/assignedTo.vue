@@ -43,6 +43,7 @@
           v-model="option.email"
           type="email"
           placeholder="Email address"
+          maxLength="250"
           @keyup.enter="fetchUserDetails(option.email, index)"
         />
         <UInput
@@ -50,6 +51,7 @@
           class="lg:w-40vw hidden w-full"
           v-model="option.name"
           placeholder="Full name"
+          maxLength="250"
           :readonly="true"
           :disabled="true"
         />
@@ -57,6 +59,7 @@
           size="sm"
           class="lg:w-40vw hidden w-full"
           v-model="option.image"
+          maxLength="250"
           type="url"
           placeholder="Image URL"
           :readonly="true"

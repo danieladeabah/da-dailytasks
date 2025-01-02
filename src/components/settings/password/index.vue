@@ -15,10 +15,10 @@
     <UInput
       placeholder="Email address"
       v-model="email"
-      maxLength="150"
+      maxLength="250"
       @keydown.enter="forgotPassword"
     />
-    <p class="text-sm italic text-gray-400">[Press enter to proceed]</p>
+    <p class="text-xs italic text-gray-400">[Press enter to proceed]</p>
   </div>
 </template>
 

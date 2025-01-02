@@ -10,10 +10,10 @@
     <UInput
       placeholder="Email address"
       v-model="email"
-      maxLength="150"
+      maxLength="250"
       @keyup.enter="updateEmail"
     />
-    <p class="text-sm italic text-gray-400">[Press Enter to update]</p>
+    <p class="text-xs italic text-gray-400">[Press Enter to update]</p>
   </div>
 </template>
 

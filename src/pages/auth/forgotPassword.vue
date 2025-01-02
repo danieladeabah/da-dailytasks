@@ -15,7 +15,7 @@
       <UInput
         placeholder="Email address"
         v-model="email"
-        maxLength="100"
+        maxLength="250"
         size="xl"
       />
       <UButton

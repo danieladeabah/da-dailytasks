@@ -15,7 +15,7 @@
           :type="isPasswordVisible ? 'text' : 'password'"
           placeholder="Password"
           v-model="password"
-          maxLength="100"
+          maxLength="250"
           size="xl"
         />
         <span
@@ -33,7 +33,7 @@
         :type="isPasswordVisible ? 'text' : 'password'"
         placeholder="Repeat Password"
         v-model="confirmPassword"
-        maxLength="100"
+        maxLength="250"
         size="xl"
       />
       <UButton

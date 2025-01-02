@@ -11,19 +11,20 @@
       <UInput
         placeholder="First name"
         v-model="first_name"
-        maxLength="100"
+        maxLength="250"
         size="xl"
       />
       <UInput
         placeholder="Last name"
         v-model="last_name"
-        maxLength="100"
+        maxLength="250"
         size="xl"
       />
       <UInput
         placeholder="Email address"
+        type="email"
         v-model="email"
-        maxLength="100"
+        maxLength="250"
         size="xl"
         :class="{ 'border-red-600': !isValidEmail(email) }"
       />
@@ -32,7 +33,7 @@
           :type="isPasswordVisible ? 'text' : 'password'"
           placeholder="Password"
           v-model="password"
-          maxLength="100"
+          maxLength="250"
           size="xl"
         />
         <span

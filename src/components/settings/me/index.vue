@@ -26,18 +26,28 @@
     <UInput
       placeholder="First Name"
       v-model="first_name"
-      maxLength="50"
+      maxLength="250"
       @keyup.enter="updateFirstName"
     />
 
     <UInput
       placeholder="Last Name"
       v-model="last_name"
-      maxLength="50"
+      maxLength="250"
       @keyup.enter="updateLastName"
     />
   </div>
-  <p class="text-sm italic text-gray-400">[Press Enter to update]</p>
+  <p class="text-xs italic text-gray-400">[Press Enter to update]</p>
+
+  <div class="flex justify-end">
+    <UDropdown
+      mode="hover"
+      :popper="{ placement: 'right-start' }"
+      :items="deleteLists"
+    >
+      <UBadge label="Delete Account!" color="red" class="mt-4 cursor-pointer" />
+    </UDropdown>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -129,4 +139,15 @@ watch(
   },
   { immediate: true }
 )
+
+const deleteLists = [
+  [
+    {
+      label: 'Cancel'
+    },
+    {
+      label: 'Yes, Irreversible!'
+    }
+  ]
+]
 </script>
