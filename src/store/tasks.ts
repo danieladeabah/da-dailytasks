@@ -42,24 +42,14 @@ export const useTasksStore = defineStore('tasks', {
     },
 
     // Fetch all tasks without authentication
-    async fetchAllTasks() {
+    async fetchAllTasks(): Promise<void> {
       try {
-        const response = await fetch('/api/tasks/fetch-all-tasks', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-
-        const data = await response.json()
-        if (!response.ok)
-          throw new Error(data.message || 'Failed to fetch tasks.')
-
-        if (Array.isArray(data.tasks)) {
-          this.tasks = data.tasks
-        }
+        const res = await fetch('/api/tasks/fetch-all-tasks')
+        if (!res.ok)
+          throw new Error((await res.json()).message || 'Fetch failed')
+        this.tasks = (await res.json()).tasks ?? []
       } catch (err) {
-        this.handleError(err as Error)
+        this.handleError(err instanceof Error ? err : new Error(String(err)))
       }
     },
 
