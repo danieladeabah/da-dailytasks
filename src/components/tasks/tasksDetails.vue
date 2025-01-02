@@ -8,7 +8,7 @@
 
       <div class="my-5 flex items-center justify-between">
         <div
-          class="flex h-[40px] items-center gap-2 rounded-lg bg-gray-100 p-5 text-gray-400"
+          class="flex h-[40px] items-center gap-2 rounded-lg border p-5 text-gray-400"
         >
           <img
             src="/assets/icons/bell-icon.svg"
