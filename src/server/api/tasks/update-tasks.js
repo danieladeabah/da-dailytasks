@@ -30,7 +30,7 @@ export default defineEventHandler(async event => {
     )
 
     if (result.affectedRows === 0) {
-      return { statusCode: 404, message: 'Task not found or not authorized' }
+      return { statusCode: 404, message: 'You are not authorized' }
     }
 
     return { statusCode: 200, message: 'Task updated successfully' }

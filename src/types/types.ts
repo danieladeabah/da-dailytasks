@@ -6,6 +6,12 @@ export interface Task {
   deadline: string
   description: string
   isPrivate: number
+  user: {
+    id: string
+    first_name: string
+    last_name: string
+    profile_image: string
+  }
   assignees: {
     id: string
     name: string

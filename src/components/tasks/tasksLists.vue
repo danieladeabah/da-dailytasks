@@ -10,7 +10,8 @@
       <NuxtLink
         v-for="task in props.tasks"
         :key="task.id"
-        :to="'/tasks/' + task.id"
+        :to="getTaskLink(task)"
+        :title="`Admin: ${task.user.first_name} ${task.user.last_name}`"
         class="flex items-center justify-between rounded-xl border p-5 hover:translate-y-[-5px] hover:transform hover:shadow-md hover:transition-all hover:duration-300"
       >
         <div class="flex flex-col gap-1">
@@ -61,5 +62,15 @@ const getProgressStyle = (progress: number) => {
   return {
     backgroundImage: `linear-gradient(to right, ${getProgressColor(progress)} ${progress}%, #E5E7EB ${progress}%)`
   }
+}
+
+const getTaskLink = (task: Task) => {
+  if (route.path === '/') {
+    return {
+      path: `/tasks/${task.id}`,
+      query: { h: 'true' }
+    }
+  }
+  return `/tasks/${task.id}`
 }
 </script>

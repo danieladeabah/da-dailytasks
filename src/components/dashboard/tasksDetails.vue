@@ -35,26 +35,31 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-start gap-5">
-        <img
-          src="/assets/icons/editIcon.svg"
-          alt="edit"
-          class="h-4 w-4 cursor-pointer"
-          title="Edit"
-          @click="openCreateModal"
-        />
-        <UDropdown
-          mode="hover"
-          :popper="{ placement: 'right-start' }"
-          :items="deleteLists"
-        >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-5">
           <img
-            src="/assets/icons/deleteIcon.svg"
+            src="/assets/icons/editIcon.svg"
             alt="edit"
             class="h-4 w-4 cursor-pointer"
-            title="Delete"
+            title="Edit"
+            @click="openCreateModal"
           />
-        </UDropdown>
+          <UDropdown
+            mode="hover"
+            :popper="{ placement: 'right-start' }"
+            :items="deleteLists"
+          >
+            <img
+              src="/assets/icons/deleteIcon.svg"
+              alt="edit"
+              class="h-4 w-4 cursor-pointer"
+              title="Delete"
+            />
+          </UDropdown>
+        </div>
+        <p class="truncate text-xs italic text-gray-400">
+          Admin: {{ task.user.first_name }} {{ task.user.last_name }}
+        </p>
       </div>
     </div>
   </UiKitsUiSlotsDashboardSlot>
@@ -65,10 +70,14 @@
 <script setup lang="ts">
 import { getProgressColor } from '@/utils/progressColor'
 import { useTasksStore } from '@/store/tasks'
+import { useAuthenticationStore } from '~/store/auth'
 
 const tasksStore = useTasksStore()
 const route = useRoute()
 const taskModal = ref()
+const authStore = useAuthenticationStore()
+const isLoggedIn = computed(() => !!authStore.token)
+const viewedFromHome = computed(() => route.query.h === 'true')
 
 const task = computed(() => {
   const taskId = Array.isArray(route.params.tasksId)
@@ -79,7 +88,13 @@ const task = computed(() => {
 })
 
 onMounted(() => {
-  tasksStore.fetchAllTasks()
+  if (!isLoggedIn.value) {
+    tasksStore.fetchAllTasks()
+  } else if (viewedFromHome.value) {
+    tasksStore.fetchAllTasks()
+  } else {
+    tasksStore.fetchTasksById()
+  }
 })
 
 const openCreateModal = () => {

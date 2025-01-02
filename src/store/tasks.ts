@@ -101,42 +101,32 @@ export const useTasksStore = defineStore('tasks', {
       }
     },
 
-    // Update
+    // Update Task
     updateTask(taskId: string, updatedTask: Task) {
       try {
         const token = localStorage.getItem('authToken')
         if (!token) {
           throw new Error('Please login to use')
         }
-
         fetch(`/api/tasks/update-tasks`, {
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            id: taskId,
-            name: updatedTask.name,
-            description: updatedTask.description,
-            progress: updatedTask.progress,
-            deadline: updatedTask.deadline,
-            isPrivate: updatedTask.isPrivate
-          })
+          body: JSON.stringify(updatedTask)
         })
-          .then(async response => {
-            if (!response.ok) {
-              const data = await response.json()
+          .then(response => response.json())
+          .then(data => {
+            if (data.statusCode === 200) {
+              const taskIndex = this.tasks.findIndex(t => t.id === taskId)
+              if (taskIndex !== -1) {
+                this.tasks[taskIndex] = updatedTask
+                this.success = data.message || 'Task updated successfully!'
+                this.clearSuccessAfterDelay()
+              }
+            } else {
               throw new Error(data.message || 'Failed to update task.')
-            }
-            return response.json()
-          })
-          .then(() => {
-            const taskIndex = this.tasks.findIndex(t => t.id === taskId)
-            if (taskIndex !== -1) {
-              this.tasks[taskIndex] = updatedTask
-              this.success = 'Task updated successfully!'
-              this.clearSuccessAfterDelay()
             }
           })
           .catch(err => {
