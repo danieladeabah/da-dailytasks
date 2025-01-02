@@ -8,363 +8,228 @@ export const useTasksStore = defineStore('tasks', {
     error: ''
   }),
   actions: {
-    // Fetch tasks by ID
-    async fetchTasksById() {
+    // Fetch tasks with authentication
+    async authHeaders(url: string, method: string = 'GET', body: any = null) {
       try {
         const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
-        }
-        const response = await fetch('/api/tasks/fetch-tasks-by-id', {
-          method: 'GET',
+        if (!token) throw new Error('Please login to use')
+
+        const response = await fetch(url, {
+          method,
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: body ? JSON.stringify(body) : undefined
         })
-        if (!response.ok) {
-          throw new Error('Failed to fetch tasks.')
-        }
-        const responseData = await response.json()
-        if (responseData && Array.isArray(responseData.tasks)) {
-          this.tasks = responseData.tasks
-        }
+
+        const data = await response.json()
+        if (!response.ok) throw new Error(data.message || 'Request failed.')
+
+        return data
       } catch (err) {
-        this.error = (err as Error).message || 'Error loading tasks.'
-        this.clearErrorAfterDelay()
+        this.handleError(err as Error)
+        throw err
+      }
+    },
+
+    // Fetch tasks by ID
+    async fetchTasksById() {
+      const data = await this.authHeaders('/api/tasks/fetch-tasks-by-id')
+      if (Array.isArray(data.tasks)) {
+        this.tasks = data.tasks
       }
     },
 
     // Fetch all tasks
     async fetchAllTasks() {
-      try {
-        const response = await fetch('/api/tasks/fetch-all-tasks', {
-          method: 'GET'
-        })
-        if (!response.ok) {
-          throw new Error('Failed to fetch tasks.')
-        }
-        const responseData = await response.json()
-        if (responseData && Array.isArray(responseData.tasks)) {
-          this.tasks = responseData.tasks
-        }
-      } catch (err) {
-        this.error = (err as Error).message || 'Error loading tasks.'
-        this.clearErrorAfterDelay()
+      const data = await this.authHeaders('/api/tasks/fetch-all-tasks')
+      if (Array.isArray(data.tasks)) {
+        this.tasks = data.tasks
       }
     },
 
-    // Find a task by ID
+    // Find task by ID
     findTaskById(taskId: string): Task | undefined {
       return this.tasks.find(t => t.id === taskId)
     },
 
-    // Create
-    createTask(newTask: Task) {
+    // Create a new task
+    async createTask(newTask: Task) {
       try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
+        const data = await this.authHeaders(
+          '/api/tasks/create-tasks',
+          'POST',
+          newTask
+        )
+        if (data.statusCode === 201) {
+          this.tasks.push({ ...newTask, id: data.taskId })
+          this.success = 'Task created successfully!'
+          this.clearSuccessAfterDelay()
         }
-        fetch('/api/tasks/create-tasks', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            id: newTask.id,
-            user_id: newTask.user_id,
-            name: newTask.name,
-            description: newTask.description,
-            progress: newTask.progress,
-            deadline: newTask.deadline,
-            isPrivate: newTask.isPrivate
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.statusCode === 201) {
-              const createdTask = {
-                ...newTask,
-                id: data.taskId
-              }
-              this.tasks.push(createdTask)
-              this.success = 'Task created successfully!'
-              this.clearSuccessAfterDelay()
-            } else {
-              throw new Error(data.message || 'Failed to create task.')
-            }
-          })
       } catch (err) {
-        this.error = (err as Error).message || 'Error creating task.'
-        this.clearErrorAfterDelay()
+        this.handleError(err as Error)
       }
     },
 
-    // Update Task
-    updateTask(taskId: string, updatedTask: Task) {
+    // Update an existing task
+    async updateTask(taskId: string, updatedTask: Task) {
       try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
+        const data = await this.authHeaders(
+          '/api/tasks/update-tasks',
+          'PUT',
+          updatedTask
+        )
+        if (data.statusCode === 200) {
+          const taskIndex = this.tasks.findIndex(t => t.id === taskId)
+          if (taskIndex !== -1) {
+            this.tasks[taskIndex] = updatedTask
+            this.success = data.message || 'Task updated successfully!'
+            this.clearSuccessAfterDelay()
+          }
         }
-        fetch(`/api/tasks/update-tasks`, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updatedTask)
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.statusCode === 200) {
-              const taskIndex = this.tasks.findIndex(t => t.id === taskId)
-              if (taskIndex !== -1) {
-                this.tasks[taskIndex] = updatedTask
-                this.success = data.message || 'Task updated successfully!'
-                this.clearSuccessAfterDelay()
-              }
-            } else {
-              throw new Error(data.message || 'Failed to update task.')
-            }
-          })
-          .catch(err => {
-            this.error = (err as Error).message || 'Error updating task.'
-            this.clearErrorAfterDelay()
-          })
       } catch (err) {
-        this.error = (err as Error).message || 'Error updating task.'
-        this.clearErrorAfterDelay()
+        this.handleError(err as Error)
       }
     },
 
-    // Delete
-    deleteTask(taskId: string) {
+    // Delete a task
+    async deleteTask(taskId: string) {
       try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
+        const data = await this.authHeaders(
+          '/api/tasks/delete-tasks',
+          'DELETE',
+          { id: taskId }
+        )
+        if (data.statusCode === 200) {
+          const taskIndex = this.tasks.findIndex(t => t.id === taskId)
+          if (taskIndex !== -1) {
+            this.tasks.splice(taskIndex, 1)
+            this.success = 'Task deleted successfully!'
+            this.clearSuccessAfterDelay()
+          }
         }
-
-        fetch(`/api/tasks/delete-tasks`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ id: taskId })
-        })
-          .then(async response => {
-            if (!response.ok) {
-              const data = await response.json()
-              throw new Error(data.message || 'Failed to delete task.')
-            }
-            return response.json()
-          })
-          .then(() => {
-            const taskIndex = this.tasks.findIndex(t => t.id === taskId)
-            if (taskIndex !== -1) {
-              this.tasks.splice(taskIndex, 1)
-              this.success = 'Task deleted successfully!'
-              this.clearSuccessAfterDelay()
-            }
-          })
-          .catch(err => {
-            this.error = (err as Error).message || 'Error deleting task.'
-            this.clearErrorAfterDelay()
-          })
       } catch (err) {
-        this.error = (err as Error).message || 'Error deleting task.'
-        this.clearErrorAfterDelay()
+        this.handleError(err as Error)
       }
     },
 
     // Assign people to a task
     async assignPeopleToTask(task: Task) {
-      const taskId = task.id
-      const assignees = task.assignees
-
       try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
-        }
-        const response = await fetch(`/api/tasks/assign-people-to-tasks`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ taskId, assignees })
-        })
-
-        const data = await response.json()
-        if (response.ok) {
+        const data = await this.authHeaders(
+          '/api/tasks/assign-people-to-tasks',
+          'POST',
+          {
+            taskId: task.id,
+            assignees: task.assignees
+          }
+        )
+        if (data.statusCode === 200) {
           const taskIndex = this.tasks.findIndex(t => t.id === task.id)
           if (taskIndex !== -1) {
-            this.tasks[taskIndex].assignees = assignees
+            this.tasks[taskIndex].assignees = task.assignees
             this.success = 'People assigned to task successfully!'
             this.clearSuccessAfterDelay()
           }
-        } else {
-          this.error = data.message || 'Failed to assign people to task.'
-          this.clearErrorAfterDelay()
         }
-      } catch (error) {
-        this.error = 'An unexpected error occurred.'
-        this.clearErrorAfterDelay()
-      }
-    },
-
-    // Add sub-task
-    addSubTask(taskId: string, subTask: Task) {
-      try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
-        }
-
-        fetch(`/api/tasks/add-subtasks`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            task_id: taskId,
-            name: subTask.name,
-            isChecked: subTask.isChecked
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.statusCode === 201) {
-              const task = this.findTaskById(taskId)
-              if (task) {
-                const newSubTask = {
-                  ...subTask,
-                  id: data.subtaskId
-                }
-                task.subTasks.push(newSubTask)
-                this.success = 'Sub-task added successfully!'
-                this.clearSuccessAfterDelay()
-              }
-            } else {
-              throw new Error(data.message || 'Failed to add subtask.')
-            }
-          })
-          .catch(err => {
-            this.error = (err as Error).message || 'Error adding subtask.'
-            this.clearErrorAfterDelay()
-          })
       } catch (err) {
-        this.error = (err as Error).message || 'Error adding subtask.'
-        this.clearErrorAfterDelay()
+        this.handleError(err as Error)
       }
     },
 
-    // Update sub-task
+    // Add a sub-task to a task
+    async addSubTask(taskId: string, subTask: Task) {
+      try {
+        const data = await this.authHeaders('/api/tasks/add-subtasks', 'POST', {
+          task_id: taskId,
+          name: subTask.name,
+          isChecked: subTask.isChecked
+        })
+        if (data.statusCode === 201) {
+          const task = this.findTaskById(taskId)
+          if (task) {
+            const newSubTask = { ...subTask, id: data.subtaskId }
+            task.subTasks.push(newSubTask)
+            this.success = 'Sub-task added successfully!'
+            this.clearSuccessAfterDelay()
+          }
+        }
+      } catch (err) {
+        this.handleError(err as Error)
+      }
+    },
+
+    // Update a sub-task
     async updateSubTask(taskId: string, subTask: Task) {
-      const task = this.findTaskById(taskId)
-
-      if (task) {
-        const subTaskIndex = task.subTasks.findIndex(st => st.id === subTask.id)
-
-        if (subTaskIndex !== -1) {
-          try {
-            const token = localStorage.getItem('authToken')
-            if (!token) {
-              throw new Error('Please login to use')
-            }
-
-            const response = await fetch('/api/tasks/update-subtasks', {
-              method: 'POST',
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                id: subTask.id,
-                name: subTask.name,
-                isChecked: subTask.isChecked,
-                task_id: task.id
-              })
-            })
-
-            if (response.status === 200) {
+      try {
+        const data = await this.authHeaders(
+          '/api/tasks/update-subtasks',
+          'POST',
+          {
+            id: subTask.id,
+            name: subTask.name,
+            isChecked: subTask.isChecked,
+            task_id: taskId
+          }
+        )
+        if (data.statusCode === 200) {
+          const task = this.findTaskById(taskId)
+          if (task) {
+            const subTaskIndex = task.subTasks.findIndex(
+              st => st.id === subTask.id
+            )
+            if (subTaskIndex !== -1) {
               task.subTasks[subTaskIndex] = { ...subTask }
               this.clearSuccessAfterDelay()
-            } else {
-              const data = await response.json()
-              this.error = data.message || 'Failed to update subtask.'
-              this.clearErrorAfterDelay()
             }
-          } catch (error) {
-            this.error = 'Error while updating subtask.'
-            this.clearErrorAfterDelay()
           }
-        } else {
-          this.error = 'Sub-task not found.'
-          this.clearErrorAfterDelay()
         }
-      } else {
-        this.error = 'Task not found.'
-        this.clearErrorAfterDelay()
-      }
-    },
-
-    // Delete sub-task
-    deleteSubTask(taskId: string, subTaskId: string) {
-      try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          throw new Error('Please login to use')
-        }
-
-        fetch(`/api/tasks/delete-subtasks`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ id: subTaskId })
-        })
-          .then(async response => {
-            if (!response.ok) {
-              const data = await response.json()
-              throw new Error(data.message || 'Failed to delete sub-task.')
-            }
-            return response.json()
-          })
-          .then(() => {
-            const task = this.findTaskById(taskId)
-            if (task) {
-              const subTaskIndex = task.subTasks.findIndex(
-                st => st.id === subTaskId
-              )
-              if (subTaskIndex !== -1) {
-                task.subTasks.splice(subTaskIndex, 1)
-                this.success = 'Sub-task deleted successfully!'
-                this.clearSuccessAfterDelay()
-              }
-            }
-          })
-          .catch(err => {
-            this.error = (err as Error).message || 'Error deleting sub-task.'
-            this.clearErrorAfterDelay()
-          })
       } catch (err) {
-        this.error = (err as Error).message || 'Error deleting sub-task.'
-        this.clearErrorAfterDelay()
+        this.handleError(err as Error)
       }
     },
 
+    // Delete a sub-task
+    async deleteSubTask(taskId: string, subTaskId: string) {
+      try {
+        const data = await this.authHeaders(
+          '/api/tasks/delete-subtasks',
+          'DELETE',
+          { id: subTaskId }
+        )
+        if (data.statusCode === 200) {
+          const task = this.findTaskById(taskId)
+          if (task) {
+            const subTaskIndex = task.subTasks.findIndex(
+              st => st.id === subTaskId
+            )
+            if (subTaskIndex !== -1) {
+              task.subTasks.splice(subTaskIndex, 1)
+              this.success = 'Sub-task deleted successfully!'
+              this.clearSuccessAfterDelay()
+            }
+          }
+        }
+      } catch (err) {
+        this.handleError(err as Error)
+      }
+    },
+
+    // Handle errors
+    handleError(err: Error) {
+      this.error = err.message || 'An unexpected error occurred.'
+      this.clearErrorAfterDelay()
+    },
+
+    // Clear error message after a delay
     clearErrorAfterDelay() {
       setTimeout(() => {
         this.error = ''
       }, 2000)
     },
+
+    // Clear success message after a delay
     clearSuccessAfterDelay() {
       setTimeout(() => {
         this.success = ''

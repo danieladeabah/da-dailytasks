@@ -1,5 +1,27 @@
 import { defineStore } from 'pinia'
 
+const API_PATHS = {
+  signup: '/api/auth/signup',
+  login: '/api/auth/login',
+  getUserDetails: '/api/auth/get-user-details',
+  forgotPassword: '/api/auth/forgot-password',
+  newPassword: '/api/auth/new-password',
+  updateEmail: '/api/auth/update-email',
+  updateProfileImage: '/api/auth/update-profile-image',
+  updateFirstName: '/api/auth/update-first-name',
+  updateLastName: '/api/auth/update-last-name'
+}
+
+const STATUS_CODES = {
+  SUCCESS: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500,
+  CONFLICT: 409
+}
+
 export const useAuthenticationStore = defineStore('authentication', {
   state: () => ({
     token: '',
@@ -13,6 +35,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       profile_image: ''
     }
   }),
+
   actions: {
     async signup(
       email: string,
@@ -20,48 +43,51 @@ export const useAuthenticationStore = defineStore('authentication', {
       first_name: string,
       last_name: string
     ) {
-      try {
-        this.error = ''
-        const data = await $fetch('/api/auth/signup', {
-          method: 'POST',
-          body: { first_name, last_name, email, password }
-        })
-
-        if (data.statusCode === 201) {
-          this.success = data.message || 'Signup successful! You can now login'
-          navigateTo('/auth/login')
-        } else {
-          this.error = data.message ?? 'Unexpected error'
-          this.clearErrorAfterDelay()
-        }
-      } catch (err: any) {
-        this.error = this.getErrorMessage(err)
-        this.clearErrorAfterDelay()
-      }
+      await this.authenticateUser(
+        API_PATHS.signup,
+        { first_name, last_name, email, password },
+        STATUS_CODES.CREATED,
+        'Signup successful! You can now login',
+        '/auth/login'
+      )
     },
 
     async login(email: string, password: string) {
+      await this.authenticateUser(
+        API_PATHS.login,
+        { email, password },
+        STATUS_CODES.SUCCESS,
+        'Login successful!',
+        '/dashboard'
+      )
+    },
+
+    async authenticateUser(
+      apiPath: string,
+      body: object,
+      successCode: number,
+      successMessage: string,
+      redirectPath: string
+    ) {
       try {
         this.error = ''
-        const data = await $fetch('/api/auth/login', {
+        const data = await $fetch<any>(apiPath, {
           method: 'POST',
-          body: { email, password }
+          body
         })
 
-        if (data.statusCode === 200) {
+        if (data.statusCode === successCode) {
           if ('token' in data && data.token) {
             this.token = data.token as string
+            localStorage.setItem('authToken', this.token)
           }
-          localStorage.setItem('authToken', this.token)
-          this.success = data.message || 'Login successful!'
-          navigateTo('/dashboard')
+          this.success = successMessage
+          navigateTo(redirectPath)
         } else {
-          this.error = data.message ?? 'Unexpected error'
-          this.clearErrorAfterDelay()
+          this.handleError(data)
         }
       } catch (err: any) {
-        this.error = this.getErrorMessage(err)
-        this.clearErrorAfterDelay()
+        this.handleError(err)
       }
     },
 
@@ -75,14 +101,12 @@ export const useAuthenticationStore = defineStore('authentication', {
           email?: string
           profile_image?: string
           message?: string
-        }>('/api/auth/get-user-details', {
+        }>(API_PATHS.getUserDetails, {
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${this.token}`
-          }
+          headers: { Authorization: `Bearer ${this.token}` }
         })
 
-        if (data.statusCode === 200) {
+        if (data.statusCode === STATUS_CODES.SUCCESS) {
           this.user = {
             id: data.id ?? null,
             first_name: data.first_name ?? '',
@@ -91,12 +115,10 @@ export const useAuthenticationStore = defineStore('authentication', {
             profile_image: data.profile_image ?? ''
           }
         } else {
-          this.error = data.message ?? 'Unable to fetch user details'
-          this.clearErrorAfterDelay()
+          this.handleError(data)
         }
       } catch (err) {
-        this.error = this.getErrorMessage(err)
-        this.clearErrorAfterDelay()
+        this.handleError(err)
       }
     },
 
@@ -111,163 +133,112 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async forgotPassword(email: string) {
-      try {
-        this.error = ''
-        const data = await $fetch('/api/auth/forgot-password', {
-          method: 'POST',
-          body: { email }
-        })
-
-        if (data.statusCode === 200) {
-          this.success =
-            data.message || 'Email sent successfully. Please check your inbox.'
-          navigateTo('/auth/mailinfo')
-          this.clearSuccessAfterDelay()
-        } else {
-          this.error = data.message ?? 'Unexpected error'
-          this.clearErrorAfterDelay()
-        }
-      } catch (err: any) {
-        this.error = this.getErrorMessage(err)
-        this.clearErrorAfterDelay()
-      }
+      await this.authenticateUser(
+        API_PATHS.forgotPassword,
+        { email },
+        STATUS_CODES.SUCCESS,
+        'Email sent successfully. Please check your inbox.',
+        '/auth/mailinfo'
+      )
     },
 
     async newPassword(password: string, confirmPassword: string) {
-      try {
-        if (password !== confirmPassword) {
-          this.error = 'Passwords do not match'
-          this.clearErrorAfterDelay()
-          return
-        }
-
-        this.error = ''
-        const data = await $fetch('/api/auth/new-password', {
-          method: 'POST',
-          body: { password, token: this.token }
-        })
-
-        if (data.statusCode === 200) {
-          this.success =
-            data.message || 'Password changed successfully. You can now log in.'
-          navigateTo('/auth/login')
-          this.clearSuccessAfterDelay()
-        } else {
-          this.error = data.message ?? 'Unexpected error'
-          this.clearErrorAfterDelay()
-        }
-      } catch (err: any) {
-        this.error = this.getErrorMessage(err)
+      if (password !== confirmPassword) {
+        this.error = 'Passwords do not match'
         this.clearErrorAfterDelay()
+        return
       }
+      await this.authenticateUser(
+        API_PATHS.newPassword,
+        { password, token: this.token },
+        STATUS_CODES.SUCCESS,
+        'Password changed successfully. You can now log in.',
+        '/auth/login'
+      )
     },
 
     async updateEmail(newEmail: string) {
-      try {
-        this.error = ''
-        const data = await $fetch('/api/auth/update-email', {
-          method: 'POST',
-          body: { email: newEmail },
-          headers: {
-            Authorization: `Bearer ${this.token}`
-          }
-        })
-
-        if (data.statusCode === 200) {
-          this.success = data.message || 'Email updated successfully!'
-          this.user.email = newEmail
-        } else {
-          this.error = data.message ?? 'Unexpected error'
-          this.clearErrorAfterDelay()
-        }
-      } catch (err: any) {
-        this.error = this.getErrorMessage(err)
-        this.clearErrorAfterDelay()
-      }
+      await this.updateUserData(
+        API_PATHS.updateEmail,
+        { email: newEmail },
+        'Email updated successfully!',
+        'email',
+        newEmail
+      )
     },
 
     async updateProfileImage(formData: FormData) {
-      try {
-        const data = await $fetch<{ statusCode: number; message?: string }>(
-          '/api/auth/update-profile-image',
-          {
-            method: 'POST',
-            body: formData,
-            headers: {
-              Authorization: `Bearer ${this.token}`
-            }
-          }
-        )
-
-        if (data.statusCode === 200) {
-          this.success = 'Profile image updated successfully!'
-        } else {
-          this.error = data.message ?? 'Unexpected error'
-          this.clearErrorAfterDelay()
-        }
-      } catch (err: any) {
-        this.error = this.getErrorMessage(err)
-        this.clearErrorAfterDelay()
-      }
+      await this.updateUserData(
+        API_PATHS.updateProfileImage,
+        formData,
+        'Profile image updated successfully!',
+        'profile_image',
+        ''
+      )
     },
 
     async updateFirstName(firstName: string) {
-      try {
-        const response = await $fetch<{ statusCode: number; message?: string }>(
-          '/api/auth/update-first-name',
-          {
-            method: 'POST',
-            body: { first_name: firstName },
-            headers: {
-              Authorization: `Bearer ${this.token}`
-            }
-          }
-        )
-
-        if (response.statusCode === 200) {
-          this.user.first_name = firstName
-          this.success = 'First name updated successfully!'
-        } else {
-          this.error =
-            response.message ?? 'Unexpected error updating first name'
-        }
-      } catch (err: any) {
-        this.error = 'Error updating first name'
-        console.error(err)
-      }
+      await this.updateUserData(
+        API_PATHS.updateFirstName,
+        { first_name: firstName },
+        'First name updated successfully!',
+        'first_name',
+        firstName
+      )
     },
 
     async updateLastName(lastName: string) {
+      await this.updateUserData(
+        API_PATHS.updateLastName,
+        { last_name: lastName },
+        'Last name updated successfully!',
+        'last_name',
+        lastName
+      )
+    },
+
+    async updateUserData(
+      apiPath: string,
+      body: object,
+      successMessage: string,
+      field: 'first_name' | 'last_name' | 'email' | 'profile_image',
+      value: string
+    ) {
       try {
         const response = await $fetch<{ statusCode: number; message?: string }>(
-          '/api/auth/update-last-name',
+          apiPath,
           {
             method: 'POST',
-            body: { last_name: lastName },
-            headers: {
-              Authorization: `Bearer ${this.token}`
-            }
+            body,
+            headers: { Authorization: `Bearer ${this.token}` }
           }
         )
 
-        if (response.statusCode === 200) {
-          this.user.last_name = lastName
-          this.success = 'Last name updated successfully!'
+        if (response.statusCode === STATUS_CODES.SUCCESS) {
+          this.user[field] = value
+          this.success = successMessage
         } else {
-          this.error = response.message ?? 'Unexpected error updating last name'
+          this.handleError(response)
         }
       } catch (err: any) {
-        this.error = 'Error updating last name'
-        console.error(err)
+        this.handleError(err)
       }
     },
 
+    handleError(err: any) {
+      this.error = this.getErrorMessage(err)
+      this.clearErrorAfterDelay()
+    },
+
     getErrorMessage(err: any): string {
-      if (err.statusCode === 409) return 'Email is already in use'
-      if (err.statusCode === 400) return 'All fields are required'
-      if (err.statusCode === 401) return err.message || 'Invalid credentials'
-      if (err.statusCode === 404) return 'User not found'
-      if (err.statusCode === 500) return 'Server error'
+      if (err.statusCode === STATUS_CODES.CONFLICT)
+        return 'Email is already in use'
+      if (err.statusCode === STATUS_CODES.BAD_REQUEST)
+        return 'All fields are required'
+      if (err.statusCode === STATUS_CODES.UNAUTHORIZED)
+        return err.message || 'Invalid credentials'
+      if (err.statusCode === STATUS_CODES.NOT_FOUND) return 'User not found'
+      if (err.statusCode === STATUS_CODES.SERVER_ERROR) return 'Server error'
       return 'Error: ' + err.message
     },
 
@@ -289,6 +260,7 @@ export const useAuthenticationStore = defineStore('authentication', {
         this.token = localStorage.getItem('authToken') ?? ''
       }
     },
+
     saveToken(token: string) {
       if (import.meta.client) {
         this.token = token
