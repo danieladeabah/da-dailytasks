@@ -13,7 +13,7 @@
           class="flex items-center gap-4 text-xl font-bold"
         >
           <img
-            src="/assets/icons/backIcon.svg"
+            src="/assets/icons/back-icon.svg"
             class="h-5 w-5"
             alt="Back Icon"
           />

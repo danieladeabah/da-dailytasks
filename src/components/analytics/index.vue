@@ -55,7 +55,7 @@ import {
   LineElement,
   Filler
 } from 'chart.js/auto'
-import heartIcon from '~/assets/icons/heartIcon.vue'
+import heartIcon from '~/assets/icons/heart-icon.vue'
 import { useAuthenticationStore } from '@/store/auth'
 
 // Register Chart.js components

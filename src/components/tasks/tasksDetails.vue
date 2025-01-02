@@ -11,7 +11,7 @@
           class="flex h-[40px] items-center gap-2 rounded-lg bg-gray-100 p-5 text-gray-400"
         >
           <img
-            src="/assets/icons/bellIcon.svg"
+            src="/assets/icons/bell-icon.svg"
             class="h-5 w-5"
             alt="Notification Icon"
           />
@@ -38,7 +38,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-5">
           <img
-            src="/assets/icons/editIcon.svg"
+            src="/assets/icons/edit-icon.svg"
             alt="edit"
             class="h-4 w-4 cursor-pointer"
             title="Edit"
@@ -50,7 +50,7 @@
             :items="deleteLists"
           >
             <img
-              src="/assets/icons/deleteIcon.svg"
+              src="/assets/icons/delete-icon.svg"
               alt="edit"
               class="h-4 w-4 cursor-pointer"
               title="Delete"

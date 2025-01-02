@@ -63,7 +63,7 @@
           :disabled="true"
         />
         <img
-          src="/assets/icons/deleteIcon.svg"
+          src="/assets/icons/delete-icon.svg"
           alt="delete"
           class="cursor-pointer"
           @click="removeOption(index)"

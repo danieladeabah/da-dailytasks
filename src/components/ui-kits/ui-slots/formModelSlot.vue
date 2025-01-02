@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold">{{ formTitle }}</h1>
         <img
-          src="/assets/icons/closeIcon.svg"
+          src="/assets/icons/close-icon.svg"
           class="h-5 w-5 cursor-pointer"
           title="Close Dialog"
           alt=""

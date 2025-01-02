@@ -2,7 +2,11 @@
   <UiKitsUiSlotsHeaderSlot>
     <span>
       <NuxtLink to="/dashboard" class="text-2xl font-bold">
-        <img src="/assets/icons/backIcon.svg" class="h-5 w-5" alt="Back Icon" />
+        <img
+          src="/assets/icons/back-icon.svg"
+          class="h-5 w-5"
+          alt="Back Icon"
+        />
       </NuxtLink>
     </span>
     <span>

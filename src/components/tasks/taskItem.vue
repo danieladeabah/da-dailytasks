@@ -14,7 +14,7 @@
     </div>
     <span class="option-input" @click="editTaskModel">
       <img
-        src="/assets/icons/editIcon.svg"
+        src="/assets/icons/edit-icon.svg"
         alt="edit"
         class="h-4 w-4 cursor-pointer"
         title="Edit Task"

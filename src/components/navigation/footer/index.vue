@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import heartIcon from '~/assets/icons/heartIcon.vue'
+import heartIcon from '~/assets/icons/heart-icon.vue'
 
 const currentYear = ref(new Date().getFullYear())
 </script>
