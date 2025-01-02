@@ -10,26 +10,16 @@
     <template #infoText>
       {{ text.mailInfo.infoText }}
     </template>
-    <template #infoLink>
-      <UButton
-        class="flex w-[150px] justify-center font-bold hover:shadow-2xl"
-        color="blue"
-        label="Open email app"
-        variant="solid"
-        size="xl"
-      />
-    </template>
     <template #infoLinkText>
-      <ULink to="/auth/logIn">{{ text.mailInfo.infoLinkText }}</ULink>
+      <ULink @click="goBack">{{ text.mailInfo.infoLinkText }}</ULink>
     </template>
     <template #infoFooter>
       <p>
         {{ text.mailInfo.infoFooterText }} <br />
         {{ text.mailInfo.or }}
-        <ULink to="/auth/forgotPassword" class="underline">{{
+        <ULink @click="goBack" class="underline">{{
           text.mailInfo.infoFooterTextTwo
-        }}</ULink
-        >.
+        }}</ULink>
       </p>
     </template>
   </UiKitsUiSlotsSuccessInfo>
@@ -37,4 +27,10 @@
 
 <script setup lang="ts">
 import { authentication as text } from '@/constants/texts.json'
+
+const router = useRouter()
+
+const goBack = () => {
+  router.back()
+}
 </script>

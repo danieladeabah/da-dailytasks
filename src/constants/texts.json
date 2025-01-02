@@ -58,7 +58,7 @@
     "mailInfo": {
       "or": "or",
       "infoLinkText": "Skip, I'll do it later",
-      "infoText": "We have sent a password recover instructions to your email",
+      "infoText": "We have sent a password recovery instructions to your email",
       "infoFooterText": "Did not receive the email? Check your spam folder",
       "infoFooterTextTwo": "try another email address"
     }
