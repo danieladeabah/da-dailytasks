@@ -30,9 +30,6 @@
     v-model="assignTo"
     @closeDialog="assignTo = false"
   >
-    <label class="text-sm text-gray-400" for="taskName">{{
-      texts_a.formDescription
-    }}</label>
     <div
       v-for="(option, index) in options"
       :key="index"
@@ -45,12 +42,12 @@
           class="lg:w-40vw w-full"
           v-model="option.email"
           type="email"
-          placeholder="Email"
+          placeholder="Email address"
           @keyup.enter="fetchUserDetails(option.email, index)"
         />
         <UInput
           size="sm"
-          class="lg:w-40vw w-full"
+          class="lg:w-40vw hidden w-full"
           v-model="option.name"
           placeholder="Full name"
           :readonly="true"
@@ -58,7 +55,7 @@
         />
         <UInput
           size="sm"
-          class="lg:w-40vw w-full"
+          class="lg:w-40vw hidden w-full"
           v-model="option.image"
           type="url"
           placeholder="Image URL"
@@ -74,6 +71,9 @@
       </div>
     </div>
 
+    <span class="text-xs italic text-gray-400"
+      >[Press Enter to confirm user details]</span
+    >
     <UButton
       v-if="options.length < 9"
       size="sm"
