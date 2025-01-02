@@ -81,7 +81,7 @@ export default defineEventHandler(async event => {
     const result = Object.values(groupedTasks)
 
     // Limit the number of tasks to 10
-    const limitedResult = result.slice(0, 11)
+    const limitedResult = result.slice(0, 10)
 
     return {
       statusCode: 200,

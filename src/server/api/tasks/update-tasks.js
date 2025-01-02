@@ -30,11 +30,11 @@ export default defineEventHandler(async event => {
     )
 
     if (result.affectedRows === 0) {
-      return { statusCode: 404, message: 'You are not authorized' }
+      return { statusCode: 404, message: 'You are not admin' }
     }
 
-    return { statusCode: 200, message: 'Task updated successfully' }
+    return { statusCode: 200, message: 'Task updated successfully!' }
   } catch (error) {
-    return { statusCode: 500, message: 'Failed to update task' }
+    return { statusCode: 500, message: 'Server error occurred' }
   }
 })

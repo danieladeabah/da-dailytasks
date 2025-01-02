@@ -65,6 +65,7 @@ export const useTasksStore = defineStore('tasks', {
         if (data.statusCode === 201) {
           this.tasks.push({ ...newTask, id: data.taskId })
           this.success = 'Task created successfully!'
+          this.fetchTasksById()
           this.clearSuccessAfterDelay()
         }
       } catch (err) {
@@ -80,13 +81,20 @@ export const useTasksStore = defineStore('tasks', {
           'PUT',
           updatedTask
         )
+
         if (data.statusCode === 200) {
           const taskIndex = this.tasks.findIndex(t => t.id === taskId)
           if (taskIndex !== -1) {
             this.tasks[taskIndex] = updatedTask
-            this.success = data.message || 'Task updated successfully!'
+            this.success = data.message
             this.clearSuccessAfterDelay()
           }
+        } else if (data.statusCode === 401) {
+          this.handleError(new Error(data.message || 'Unauthorized'))
+        } else if (data.statusCode === 404) {
+          this.handleError(new Error(data.message))
+        } else if (data.statusCode === 500) {
+          this.handleError(new Error(data.message))
         }
       } catch (err) {
         this.handleError(err as Error)
