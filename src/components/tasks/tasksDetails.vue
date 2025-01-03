@@ -8,6 +8,7 @@
 
       <div class="my-5 flex items-center justify-between">
         <div
+          :title="'Created at: ' + formatDate(task.created_at)"
           class="flex h-[40px] items-center gap-2 rounded-lg border p-5 text-gray-400"
         >
           <img
@@ -15,7 +16,7 @@
             class="h-5 w-5"
             alt="Notification Icon"
           />
-          <p title="Deadline">
+          <p>
             <span class="font-semibold text-[#000]">{{
               formatDate(task.deadline)
             }}</span>
