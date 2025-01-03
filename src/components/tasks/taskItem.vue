@@ -60,8 +60,7 @@
 import { createATask as texts_a } from '@/constants/texts.json'
 import { useTasksStore } from '@/store/tasks'
 import type { Task } from '@/types/types'
-import { useUser } from '~/composables/useUser'
-import { useAuth } from '~/composables/useAuth'
+import { useTaskDetails } from '~/composables/useTaskDetails'
 
 const props = defineProps({
   task: {
@@ -74,27 +73,14 @@ const props = defineProps({
   }
 })
 
-const { userInfo } = useUser()
-const { isLoggedIn } = useAuth()
-const tasksStore = useTasksStore()
 const route = useRoute()
 const trackId = route.params.tasksId as string
-
-// get the task details
-const tasks = computed(
-  () => tasksStore.findTaskById(route.params.tasksId as string) || null
-)
-
-const isUserTask = computed(
-  () =>
-    tasks.value && String(tasks.value.user_id) === String(userInfo.value?.id)
-)
-
-// `isDisabled` checks whether the user is logged in and if they are the task owner.
-const isDisabled = computed(() => !isLoggedIn || !isUserTask.value)
+const tasksStore = useTasksStore()
+const { isDisabled } = useTaskDetails()
 
 const isChecked = ref(props.task.isChecked)
 const editATasks = ref(false)
+
 const isCheckedBoolean = computed({
   get: () => isChecked.value === 1,
   set: (val: boolean) => {

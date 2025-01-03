@@ -4,7 +4,7 @@
     <template #header>
       <h1 class="font-bold">{{ texts.tasksProgress }}</h1>
       <UDropdown
-        v-if="isLoggedIn && task && isUserTask"
+        v-if="isLoggedIn && taskDetails && isTaskAdmin"
         :items="dropdownLists"
         :popper="{ arrow: true }"
       >
@@ -49,27 +49,21 @@ import {
 } from '@/constants/texts.json'
 import { useTasksStore } from '@/store/tasks'
 import type { Task } from '@/types/types'
-import { useUser } from '~/composables/useUser'
 import { useAuth } from '~/composables/useAuth'
+import { useTaskDetails } from '~/composables/useTaskDetails'
 
-const addATasks = ref(false)
-const newSubTaskName = ref('')
-const tasksStore = useTasksStore()
 const route = useRoute()
 const selectedTaskId = route.params.tasksId as string
-const { userInfo } = useUser()
+
+const newSubTaskName = ref('')
+const addATasks = ref(false)
+
 const { isLoggedIn } = useAuth()
+const tasksStore = useTasksStore()
+const { taskDetails, isTaskAdmin } = useTaskDetails()
 const viewedFromHome = computed(() => route.query.h === 'true')
 
-// get the task details
-const task = computed(
-  () => tasksStore.findTaskById(route.params.tasksId as string) || null
-)
-const isUserTask = computed(
-  () => task.value && String(task.value.user_id) === String(userInfo.value?.id)
-)
-
-const subTasks = computed(() => task.value?.subTasks || [])
+const subTasks = computed(() => taskDetails.value?.subTasks || [])
 
 const dropdownLists = [
   [

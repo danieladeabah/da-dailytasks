@@ -4,7 +4,7 @@
     <template #header>
       <h1 class="font-bold">{{ texts.assignTo }}</h1>
       <UButton
-        v-if="isLoggedIn && task && isUserTask"
+        v-if="isLoggedIn && taskDetails && isTaskAdmin"
         color="white"
         variant="ghost"
         trailing-icon="i-heroicons-plus-20-solid"
@@ -119,23 +119,15 @@ import {
   createATask as texts_a
 } from '@/constants/texts.json'
 import { useTasksStore } from '@/store/tasks'
-import { useUser } from '~/composables/useUser'
-import { useAuth } from '~/composables/useAuth'
+import { useTaskDetails } from '~/composables/useTaskDetails'
 
-const { userInfo } = useUser()
-const { isLoggedIn } = useAuth()
 const route = useRoute()
+const { isLoggedIn } = useAuth()
 const tasksStore = useTasksStore()
-
-// get the task details
-const task = computed(
-  () => tasksStore.findTaskById(route.params.tasksId as string) || null
-)
-const isUserTask = computed(
-  () => task.value && String(task.value.user_id) === String(userInfo.value?.id)
-)
-
+const { taskDetails, isTaskAdmin } = useTaskDetails()
 const assignTo = ref(false)
+const warningMessage = ref('')
+
 const optionIndex = ref(0)
 const options = ref([
   {
@@ -147,7 +139,6 @@ const options = ref([
     user_id: ''
   }
 ])
-const warningMessage = ref('')
 
 const addOption = () => {
   if (options.value.length < 9)
