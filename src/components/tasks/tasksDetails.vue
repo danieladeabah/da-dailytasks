@@ -45,7 +45,7 @@
             @click="openCreateModal"
           />
           <UDropdown
-            mode="hover"
+            mode="click"
             :popper="{ placement: 'right-start' }"
             :items="deleteLists"
           >
