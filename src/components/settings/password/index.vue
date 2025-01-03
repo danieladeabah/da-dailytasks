@@ -30,7 +30,7 @@ import { isValidEmail } from '@/utils/isValidEmail'
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
 
-const email = ref(userInfo?.value?.email)
+const email = ref('')
 const errorMessage = ref<string | null>(null)
 
 watch(email, newEmail => {
