@@ -66,7 +66,7 @@ const authStore = useAuthenticationStore()
 
 const logout = () => {
   authStore.logout()
-  navigateTo('/')
+  navigateTo('/auth/login')
 }
 
 const analyticsModal = ref()
