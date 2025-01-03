@@ -268,7 +268,9 @@ const assignToubmit = () => {
         last_name: option.last_name,
         email: option.email,
         profile_image: option.profile_image,
-        user_id: option.user_id
+        user_id: option.user_id,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }))
     tasksStore.assignPeopleToTask(task)
   }
