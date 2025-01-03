@@ -2,17 +2,22 @@
   <label
     class="selected-option option-container flex items-center justify-between"
     for="switch"
+    :class="{ 'cursor-not-allowed opacity-50': isDisabled }"
   >
-    <div class="flex items-center gap-5" :class="{ 'line-through': isChecked }">
+    <div
+      class="flex items-center gap-5"
+      :class="{ 'line-through': isChecked, 'cursor-not-allowed': isDisabled }"
+    >
       <UCheckbox
         v-model="isCheckedBoolean"
         :label="task.name"
         color="sky"
         id="switch"
         @change="handleCheckboxChange"
+        :disabled="isDisabled"
       />
     </div>
-    <span class="option-input" @click="editTaskModel">
+    <span class="option-input" @click="editTaskModel" v-if="!isDisabled">
       <img
         src="/assets/icons/edit-icon.svg"
         alt="edit"
@@ -44,6 +49,7 @@
         color="blue"
         variant="solid"
         @click="editTaskSubmit"
+        :disabled="isDisabled"
         >{{ texts_a.buttonEdit }}</UButton
       >
     </div>
@@ -54,17 +60,38 @@
 import { createATask as texts_a } from '@/constants/texts.json'
 import { useTasksStore } from '@/store/tasks'
 import type { Task } from '@/types/types'
+import { useUser } from '~/composables/useUser'
+import { useAuth } from '~/composables/useAuth'
 
 const props = defineProps({
   task: {
     type: Object,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
+const { userInfo } = useUser()
+const { isLoggedIn } = useAuth()
 const tasksStore = useTasksStore()
 const route = useRoute()
 const trackId = route.params.tasksId as string
+
+// get the task details
+const tasks = computed(
+  () => tasksStore.findTaskById(route.params.tasksId as string) || null
+)
+
+const isUserTask = computed(
+  () =>
+    tasks.value && String(tasks.value.user_id) === String(userInfo.value?.id)
+)
+
+// `isDisabled` checks whether the user is logged in and if they are the task owner.
+const isDisabled = computed(() => !isLoggedIn || !isUserTask.value)
 
 const isChecked = ref(props.task.isChecked)
 const editATasks = ref(false)
@@ -78,6 +105,7 @@ const editedTaskName = ref(props.task.name || '')
 const currentTask = ref<Task | null>(null)
 
 const editTaskModel = () => {
+  if (isDisabled.value) return
   editATasks.value = !editATasks.value
 
   if (props.task) {
@@ -87,7 +115,7 @@ const editTaskModel = () => {
 }
 
 const handleCheckboxChange = () => {
-  if (props.task) {
+  if (props.task && !isDisabled.value) {
     const updatedSubTask = {
       ...props.task,
       id: props.task.id,
@@ -105,7 +133,7 @@ const handleCheckboxChange = () => {
 }
 
 const editTaskSubmit = () => {
-  if (!editedTaskName.value) {
+  if (!editedTaskName.value || isDisabled.value) {
     return
   }
 
@@ -135,6 +163,7 @@ const deleteOptions = [
     {
       label: 'Yes, Remove',
       click: () => {
+        if (isDisabled.value) return // Prevent deletion if disabled
         editATasks.value = !editATasks.value
         tasksStore.deleteSubTask(trackId, props.task.id)
 
@@ -160,5 +189,13 @@ const deleteOptions = [
 
 .option-container:hover .option-input {
   display: block;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.opacity-50 {
+  opacity: 0.5;
 }
 </style>
