@@ -11,6 +11,8 @@ export interface Task {
     first_name: string
     last_name: string
     profile_image: string
+    created_at: string
+    updated_at: string
   }
   assignees: {
     user_id: string
@@ -19,6 +21,8 @@ export interface Task {
     last_name: string
     profile_image: string
     email: string
+    created_at: string
+    updated_at: string
   }[]
   subTasks: {
     id: string
@@ -26,4 +30,6 @@ export interface Task {
     name: string
   }[]
   progress: number
+  created_at: string
+  updated_at: string
 }
