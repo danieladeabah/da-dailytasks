@@ -25,14 +25,20 @@ export default defineEventHandler(async event => {
         tasks.description,
         tasks.isPrivate,
         tasks.progress,
+        tasks.created_at,
+        tasks.updated_at,
         users.first_name AS user_first_name,
         users.last_name AS user_last_name,
         users.profile_image AS user_profile_image,
+        users.created_at AS user_created_at,
+        users.updated_at AS user_updated_at,
         assignees.id AS assignee_id,
         assignees.first_name AS assignee_first_name,
         assignees.last_name AS assignee_last_name,
         assignees.email AS assignee_email,
         assignees.profile_image AS assignee_profile_image,
+        assignees.created_at AS assignee_created_at,
+        assignees.updated_at AS assignee_updated_at,
         subtasks.id AS subtask_id,
         subtasks.name AS subtask_name,
         subtasks.isChecked AS subtask_isChecked
@@ -56,10 +62,14 @@ export default defineEventHandler(async event => {
           description: task.description,
           isPrivate: task.isPrivate,
           progress: task.progress,
+          created_at: task.created_at,
+          updated_at: task.updated_at,
           user: {
             first_name: task.user_first_name,
             last_name: task.user_last_name,
-            profile_image: task.user_profile_image
+            profile_image: task.user_profile_image,
+            created_at: task.user_created_at,
+            updated_at: task.user_updated_at
           },
           assignees: [],
           subTasks: []
@@ -78,7 +88,9 @@ export default defineEventHandler(async event => {
           first_name: task.assignee_first_name,
           last_name: task.assignee_last_name,
           email: task.assignee_email,
-          profile_image: task.assignee_profile_image
+          profile_image: task.assignee_profile_image,
+          created_at: task.assignee_created_at,
+          updated_at: task.assignee_updated_at
         })
       }
 
