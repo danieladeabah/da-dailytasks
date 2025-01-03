@@ -39,6 +39,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-5">
           <img
+            v-if="isLoggedIn && String(task.user_id) === String(userInfo?.id)"
             src="/assets/icons/edit-icon.svg"
             alt="edit"
             class="h-4 w-4 cursor-pointer"
@@ -46,11 +47,13 @@
             @click="openCreateModal"
           />
           <UDropdown
+            v-if="isLoggedIn && String(task.user_id) === String(userInfo?.id)"
             mode="click"
             :popper="{ placement: 'right-start' }"
             :items="deleteLists"
           >
             <img
+              v-if="isLoggedIn && String(task.user_id) === String(userInfo?.id)"
               src="/assets/icons/delete-icon.svg"
               alt="edit"
               class="h-4 w-4 cursor-pointer"
@@ -71,13 +74,14 @@
 <script setup lang="ts">
 import { getProgressColor } from '@/utils/progressColor'
 import { useTasksStore } from '@/store/tasks'
-import { useAuthenticationStore } from '~/store/auth'
+import { useUser } from '~/composables/useUser'
+import { useAuth } from '~/composables/useAuth'
 
 const tasksStore = useTasksStore()
 const route = useRoute()
 const taskModal = ref()
-const authStore = useAuthenticationStore()
-const isLoggedIn = computed(() => !!authStore.token)
+const { userInfo } = useUser()
+const { isLoggedIn } = useAuth()
 const viewedFromHome = computed(() => route.query.h === 'true')
 
 const task = computed(() => {

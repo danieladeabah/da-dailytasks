@@ -3,7 +3,11 @@
   <UiKitsUiSlotsDashboardSlot>
     <template #header>
       <h1 class="font-bold">{{ texts.tasksProgress }}</h1>
-      <UDropdown :items="dropdownLists" :popper="{ arrow: true }">
+      <UDropdown
+        v-if="isLoggedIn && task && isUserTask"
+        :items="dropdownLists"
+        :popper="{ arrow: true }"
+      >
         <UButton
           color="white"
           variant="ghost"
@@ -30,7 +34,6 @@
     @closeDialog="addATasks = false"
   >
     <UInput placeholder="Task Name" v-model="newSubTaskName" maxLength="100" />
-
     <div class="flex justify-end">
       <UButton class="w-fit" color="blue" variant="solid" @click="addSubTask"
         >Add</UButton
@@ -46,34 +49,27 @@ import {
 } from '@/constants/texts.json'
 import { useTasksStore } from '@/store/tasks'
 import type { Task } from '@/types/types'
+import { useUser } from '~/composables/useUser'
+import { useAuth } from '~/composables/useAuth'
 
 const addATasks = ref(false)
 const newSubTaskName = ref('')
 const tasksStore = useTasksStore()
 const route = useRoute()
 const selectedTaskId = route.params.tasksId as string
+const { userInfo } = useUser()
+const { isLoggedIn } = useAuth()
+const viewedFromHome = computed(() => route.query.h === 'true')
 
-const addTaskModel = () => {
-  addATasks.value = !addATasks.value
+// get the task details
+const task = computed(
+  () => tasksStore.findTaskById(route.params.tasksId as string) || null
+)
+const isUserTask = computed(
+  () => task.value && String(task.value.user_id) === String(userInfo.value?.id)
+)
 
-  if (addATasks.value) {
-    newSubTaskName.value = ''
-  }
-}
-
-const addSubTask = () => {
-  if (!newSubTaskName.value) {
-    return
-  }
-  const task = {
-    id: encodeBase62(Date.now()),
-    name: newSubTaskName.value,
-    isChecked: 0
-  }
-
-  tasksStore.addSubTask(selectedTaskId, task as unknown as Task)
-  addTaskModel()
-}
+const subTasks = computed(() => task.value?.subTasks || [])
 
 const dropdownLists = [
   [
@@ -86,9 +82,29 @@ const dropdownLists = [
   ]
 ]
 
-const subTasks = computed(() => {
-  const taskId = route.params.tasksId as string
-  const task = tasksStore.findTaskById(taskId)
-  return task ? task.subTasks : []
+onMounted(() => {
+  if (!isLoggedIn.value || viewedFromHome.value) {
+    tasksStore.fetchAllTasks()
+  } else {
+    tasksStore.fetchTasksById()
+  }
 })
+
+const addTaskModel = () => {
+  addATasks.value = !addATasks.value
+  if (addATasks.value) newSubTaskName.value = ''
+}
+
+const addSubTask = () => {
+  if (!newSubTaskName.value) return
+
+  const task = {
+    id: encodeBase62(Date.now()),
+    name: newSubTaskName.value,
+    isChecked: 0
+  }
+
+  tasksStore.addSubTask(selectedTaskId, task as unknown as Task)
+  addTaskModel()
+}
 </script>
