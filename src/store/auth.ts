@@ -10,7 +10,8 @@ const API_PATHS = {
   updateProfileImage: '/api/auth/update-profile-image',
   updateFirstName: '/api/auth/update-first-name',
   updateLastName: '/api/auth/update-last-name',
-  deleteUser: '/api/auth/delete-user'
+  deleteUser: '/api/auth/delete-user',
+  getAllUsers: '/api/auth/get-all-users'
 }
 
 const STATUS_CODES = {
@@ -34,7 +35,16 @@ export const useAuthenticationStore = defineStore('authentication', {
       last_name: '',
       email: '',
       profile_image: ''
-    }
+    },
+    users: [] as Array<{
+      id: number
+      first_name: string
+      last_name: string
+      profile_image: string
+      email: string
+      created_at: string
+      updated_at: string
+    }>
   }),
 
   actions: {
@@ -130,6 +140,35 @@ export const useAuthenticationStore = defineStore('authentication', {
         last_name: this.user.last_name,
         email: this.user.email,
         profile_image: this.user.profile_image
+      }
+    },
+
+    async getAllUsers() {
+      try {
+        const data = await $fetch<{
+          statusCode: number
+          users?: Array<{
+            id: number
+            first_name: string
+            last_name: string
+            profile_image: string
+            email: string
+            created_at: string
+            updated_at: string
+          }>
+          message?: string
+        }>(API_PATHS.getAllUsers, {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${this.token}` }
+        })
+
+        if (data.statusCode === STATUS_CODES.SUCCESS && data.users) {
+          this.users = data.users
+        } else {
+          this.handleError(data)
+        }
+      } catch (err: any) {
+        this.handleError(err)
       }
     },
 
