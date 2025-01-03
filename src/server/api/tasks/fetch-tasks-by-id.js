@@ -94,13 +94,18 @@ export default defineEventHandler(async event => {
         })
       }
 
-      // Add subtasks to the task
+      // Add subtasks to the task (avoid duplicates)
       if (task.subtask_id) {
-        acc[taskId].subTasks.push({
-          id: task.subtask_id,
-          name: task.subtask_name,
-          isChecked: task.subtask_isChecked
-        })
+        const existingSubtask = acc[taskId].subTasks.find(
+          subtask => subtask.id === task.subtask_id
+        )
+        if (!existingSubtask) {
+          acc[taskId].subTasks.push({
+            id: task.subtask_id,
+            name: task.subtask_name,
+            isChecked: task.subtask_isChecked
+          })
+        }
       }
 
       return acc
