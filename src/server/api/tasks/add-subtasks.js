@@ -26,8 +26,8 @@ export default defineEventHandler(async event => {
 
     // Insert the subtask into the database
     const [result] = await connection.query(
-      `INSERT INTO subtasks (task_id, name, isChecked) VALUES (?, ?, ?)`,
-      [body.task_id, body.name, body.isChecked]
+      `INSERT INTO subtasks (id, task_id, name, isChecked) VALUES (?, ?, ?, ?)`,
+      [body.id, body.task_id, body.name, body.isChecked]
     )
 
     return {
