@@ -154,6 +154,7 @@ export const useTasksStore = defineStore('tasks', {
     async addSubTask(taskId: string, subTask: Task) {
       try {
         const data = await this.authHeaders('/api/tasks/add-subtasks', 'POST', {
+          id: subTask.id,
           task_id: taskId,
           name: subTask.name,
           isChecked: subTask.isChecked
