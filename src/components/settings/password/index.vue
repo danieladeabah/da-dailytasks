@@ -23,37 +23,19 @@
 </template>
 
 <script setup lang="ts">
+import { useUser } from '@/composables/useUser'
 import { useAuthenticationStore } from '@/store/auth'
 import { isValidEmail } from '@/utils/isValidEmail'
 
+const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
-const userInfo = ref<{
-  id: number | null
-  first_name: string
-  last_name: string
-  email: string
-} | null>(null)
 
-const email = ref('')
+const email = ref(userInfo?.value?.email)
 const errorMessage = ref<string | null>(null)
 
-onMounted(async () => {
-  authStore.loadToken()
-  if (authStore.token) {
-    await authStore.fetchUserDetails()
-    userInfo.value = authStore.getUserInfo()
-  }
+watch(email, newEmail => {
+  email.value = newEmail
 })
-
-watch(
-  userInfo,
-  newUserInfo => {
-    if (newUserInfo) {
-      email.value = newUserInfo.email
-    }
-  },
-  { immediate: true }
-)
 
 const forgotPassword = () => {
   if (!email.value) {

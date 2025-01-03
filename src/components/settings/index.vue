@@ -27,14 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthenticationStore } from '@/store/auth'
+import { useAuth } from '@/composables/useAuth'
 
-const authStore = useAuthenticationStore()
-const isLoggedIn = computed(() => !!authStore.token)
-
-onMounted(async () => {
-  authStore.loadToken()
-})
+const { isLoggedIn } = useAuth()
 
 const tabItems = computed(() => [
   { slot: 'me', label: `Me` },

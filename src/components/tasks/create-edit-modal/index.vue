@@ -49,13 +49,13 @@
 
 <script setup lang="ts">
 import { useTasksStore } from '@/store/tasks'
-import { useAuthenticationStore } from '@/store/auth'
 import { createATask as texts_a } from '@/constants/texts.json'
 import { encodeBase62 } from '@/utils/encodeBase62'
 import type { Task } from '~/types/types'
+import { useUser } from '@/composables/useUser'
 
 const tasksStore = useTasksStore()
-const authStore = useAuthenticationStore()
+const { userInfo } = useUser()
 
 const isOpen = ref(false)
 const taskName = ref('')
@@ -65,18 +65,6 @@ const isPrivate = ref<number>(0)
 const minDate = ref(getMinDate())
 const formTitle = ref('Create Task')
 const buttonText = ref(texts_a.buttonAddTask)
-
-const userInfo = ref<{
-  id: number | null
-} | null>(null)
-
-onMounted(async () => {
-  authStore.loadToken()
-  if (authStore.token) {
-    await authStore.fetchUserDetails()
-    userInfo.value = authStore.getUserInfo()
-  }
-})
 
 const isPrivateComputed = computed({
   get: () => isPrivate.value === 1,
@@ -152,7 +140,7 @@ const submitTask = () => {
       progress: 0,
       isChecked: 0
     }
-    tasksStore.createTask(newTask)
+    tasksStore.createTask(newTask as any)
   }
 
   closeModal()

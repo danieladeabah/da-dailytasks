@@ -39,12 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthenticationStore } from '@/store/auth'
+import { useAuth } from '@/composables/useAuth'
 
-const authStore = useAuthenticationStore()
-onMounted(() => {
-  authStore.loadToken()
-})
-
-const isLoggedIn = computed(() => !!authStore.token)
+const { isLoggedIn } = useAuth()
 </script>

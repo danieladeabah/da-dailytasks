@@ -48,6 +48,8 @@
 </template>
 
 <script setup lang="ts">
+import { useUser } from '@/composables/useUser'
+import { useAuth } from '@/composables/useAuth'
 import { useAuthenticationStore } from '@/store/auth'
 
 const greeting = computed(() => {
@@ -58,22 +60,9 @@ const greeting = computed(() => {
 })
 
 const currentDate = new Date().toDateString()
+const { userInfo } = useUser()
+const { isLoggedIn } = useAuth()
 const authStore = useAuthenticationStore()
-const isLoggedIn = computed(() => !!authStore.token)
-const userInfo = ref<{
-  id: number | null
-  first_name: string
-  last_name: string
-  profile_image: string
-} | null>(null)
-
-onMounted(async () => {
-  authStore.loadToken()
-  if (authStore.token) {
-    await authStore.fetchUserDetails()
-    userInfo.value = authStore.getUserInfo()
-  }
-})
 
 const logout = () => {
   authStore.logout()

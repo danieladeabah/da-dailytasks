@@ -51,15 +51,11 @@
 </template>
 
 <script setup lang="ts">
+import { useUser } from '@/composables/useUser'
 import { useAuthenticationStore } from '@/store/auth'
 
+const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
-const userInfo = ref<{
-  id: number | null
-  first_name: string
-  last_name: string
-  profile_image: string
-} | null>(null)
 
 const first_name = ref('')
 const last_name = ref('')
@@ -128,14 +124,6 @@ const profileImageSrc = computed(() => {
       ? `https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${userInfo.value.profile_image}`
       : '')
   )
-})
-
-onMounted(async () => {
-  authStore.loadToken()
-  if (authStore.token) {
-    await authStore.fetchUserDetails()
-    userInfo.value = authStore.getUserInfo()
-  }
 })
 
 watch(

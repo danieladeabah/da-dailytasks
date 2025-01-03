@@ -56,9 +56,8 @@ import {
   Filler
 } from 'chart.js/auto'
 import heartIcon from '~/assets/icons/heart-icon.vue'
-import { useAuthenticationStore } from '@/store/auth'
+import { useUser } from '@/composables/useUser'
 
-// Register Chart.js components
 Chart.register(
   RadarController,
   RadialLinearScale,
@@ -70,14 +69,7 @@ Chart.register(
 const isOpen = ref(false)
 const formTitle = ref('Analytics')
 const radarChart = ref<Chart | null>(null)
-
-const authStore = useAuthenticationStore()
-const userInfo = ref<{
-  id: number | null
-  first_name: string
-  last_name: string
-  profile_image: string
-} | null>(null)
+const { userInfo } = useUser()
 
 const initializeRadarChart = () => {
   const radarCtx = document.getElementById('radar') as HTMLCanvasElement
@@ -120,14 +112,6 @@ watch(isOpen, newValue => {
     nextTick(() => {
       initializeRadarChart()
     })
-  }
-})
-
-onMounted(async () => {
-  authStore.loadToken()
-  if (authStore.token) {
-    await authStore.fetchUserDetails()
-    userInfo.value = authStore.getUserInfo()
   }
 })
 

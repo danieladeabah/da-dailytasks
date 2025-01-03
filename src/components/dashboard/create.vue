@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div v-if="isLoggedIn" class="flex items-center justify-center">
     <div
       class="absolute bottom-5 flex items-center justify-center p-5 text-center"
     >
@@ -15,6 +15,9 @@
 </template>
 
 <script setup lang="ts">
+import { useAuth } from '@/composables/useAuth'
+
+const { isLoggedIn } = useAuth()
 const taskModal = ref()
 
 const openCreateModal = () => {

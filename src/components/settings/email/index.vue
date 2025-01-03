@@ -19,24 +19,12 @@
 
 <script setup lang="ts">
 import { useAuthenticationStore } from '@/store/auth'
+import { useUser } from '@/composables/useUser'
 
 const authStore = useAuthenticationStore()
-const userInfo = ref<{
-  id: number | null
-  first_name: string
-  last_name: string
-  email: string
-} | null>(null)
+const { userInfo } = useUser()
 
 const email = ref('')
-
-onMounted(async () => {
-  authStore.loadToken()
-  if (authStore.token) {
-    await authStore.fetchUserDetails()
-    userInfo.value = authStore.getUserInfo()
-  }
-})
 
 watch(
   userInfo,
