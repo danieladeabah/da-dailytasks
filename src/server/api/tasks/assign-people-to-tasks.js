@@ -31,12 +31,19 @@ export default defineEventHandler(async event => {
       if (uniqueAssignees.length > 0) {
         // Prepare values for batch insertion
         const assigneeValues = uniqueAssignees.map(
-          ({ id, name, image, email }) => [id, name, image, email, taskId]
+          ({ id, name, image, email, user_id }) => [
+            id,
+            name,
+            image,
+            email,
+            user_id,
+            taskId
+          ]
         )
 
         // Insert new assignees into the database
         await connection.query(
-          `INSERT INTO assignees (id, name, image, email, task_id) VALUES ?`,
+          `INSERT INTO assignees (id, name, image, email, user_id, task_id) VALUES ?`,
           [assigneeValues]
         )
       }

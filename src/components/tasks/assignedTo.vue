@@ -120,7 +120,8 @@ const options = ref([
     id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
     name: '',
     email: '',
-    image: ''
+    image: '',
+    user_id: ''
   }
 ])
 const warningMessage = ref('')
@@ -131,7 +132,8 @@ const addOption = () => {
       id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
       name: '',
       email: '',
-      image: ''
+      image: '',
+      user_id: ''
     })
 }
 
@@ -141,6 +143,7 @@ const removeOption = (index: number) => {
     options.value[index].name = ''
     options.value[index].email = ''
     options.value[index].image = ''
+    options.value[index].user_id = ''
   }
 }
 
@@ -150,6 +153,7 @@ const fetchUserDetails = async (email: string, index: number) => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       options.value[index].name = ''
       options.value[index].image = ''
+      options.value[index].user_id = ''
       return
     }
 
@@ -160,20 +164,23 @@ const fetchUserDetails = async (email: string, index: number) => {
     const data = await response.json()
 
     if (data?.user) {
-      const { first_name, last_name, profile_image } = data.user
+      const { first_name, last_name, profile_image, id } = data.user
 
       // Set full name and image in the fields
       options.value[index].name = `${first_name} ${last_name}`
       options.value[index].image = profile_image
+      options.value[index].user_id = id
     } else {
       // Clear fields if no valid user data is returned
       options.value[index].name = ''
       options.value[index].image = ''
+      options.value[index].user_id = ''
     }
   } catch (error) {
     console.error('Error fetching user details:', error)
     options.value[index].name = ''
     options.value[index].image = ''
+    options.value[index].user_id = ''
   }
 }
 
@@ -188,7 +195,8 @@ const assignToModel = () => {
         id: assignee.id,
         name: assignee.name,
         email: assignee.email,
-        image: assignee.image
+        image: assignee.image,
+        user_id: assignee.user_id
       }))
     } else {
       options.value = [
@@ -196,7 +204,8 @@ const assignToModel = () => {
           id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
           name: '',
           email: '',
-          image: ''
+          image: '',
+          user_id: ''
         }
       ]
     }
@@ -236,7 +245,8 @@ const assignToubmit = () => {
         id: option.id,
         name: option.name,
         email: option.email,
-        image: option.image
+        image: option.image,
+        user_id: option.user_id
       }))
     tasksStore.assignPeopleToTask(task)
   }

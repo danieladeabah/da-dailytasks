@@ -13,6 +13,7 @@ export interface Task {
     profile_image: string
   }
   assignees: {
+    user_id: string
     id: string
     name: string
     email: string
