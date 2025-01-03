@@ -163,7 +163,7 @@ const deleteOptions = [
     {
       label: 'Yes, Remove',
       click: () => {
-        if (isDisabled.value) return // Prevent deletion if disabled
+        if (isDisabled.value) return
         editATasks.value = !editATasks.value
         tasksStore.deleteSubTask(trackId, props.task.id)
 
