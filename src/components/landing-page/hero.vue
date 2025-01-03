@@ -6,7 +6,10 @@
       <div class="text-center md:pr-8 md:text-left">
         <h1 class="text-4xl font-bold leading-snug text-white md:text-5xl">
           Simplify Your Day
-          <p class="my-4 text-yellow-200">Create Tasks Effortlessly</p>
+          <p class="my-4 text-yellow-200">
+            Create ./dailyTasks
+            <span class="sm:block md:hidden lg:block">Effortlessly</span>
+          </p>
         </h1>
         <ul class="mx-12 mt-6 space-y-3 text-left text-white md:mx-0 lg:mx-0">
           <li>Plan your day by creating tasks in just a few clicks.</li>

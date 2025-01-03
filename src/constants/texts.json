@@ -38,14 +38,14 @@
   "authentication": {
     "login": {
       "login": "Sign in to DailyTasks",
-      "loginGreet": "Welcome",
+      "loginGreet": "./dailyTasks",
       "newHere": "New here?",
       "or": "or",
       "signup": "Sign up"
     },
     "signup": {
       "signup": "Create an account",
-      "signUpGreet": "Welcome",
+      "signUpGreet": "./dailyTasks",
       "termsInfo": "By providing your email, you agree to our",
       "termsOfService": "Terms of Service",
       "privacyPolicy": "Privacy Policy",
