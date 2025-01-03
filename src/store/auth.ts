@@ -9,7 +9,8 @@ const API_PATHS = {
   updateEmail: '/api/auth/update-email',
   updateProfileImage: '/api/auth/update-profile-image',
   updateFirstName: '/api/auth/update-first-name',
-  updateLastName: '/api/auth/update-last-name'
+  updateLastName: '/api/auth/update-last-name',
+  deleteUser: '/api/auth/delete-user'
 }
 
 const STATUS_CODES = {
@@ -217,6 +218,28 @@ export const useAuthenticationStore = defineStore('authentication', {
         if (response.statusCode === STATUS_CODES.SUCCESS) {
           this.user[field] = value
           this.success = successMessage
+        } else {
+          this.handleError(response)
+        }
+      } catch (err: any) {
+        this.handleError(err)
+      }
+    },
+
+    async deleteUser() {
+      try {
+        const response = await $fetch<{ statusCode: number; message?: string }>(
+          API_PATHS.deleteUser,
+          {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${this.token}` }
+          }
+        )
+
+        if (response.statusCode === STATUS_CODES.SUCCESS) {
+          this.success = 'Account deleted successfully.'
+          this.logout()
+          navigateTo('/')
         } else {
           this.handleError(response)
         }

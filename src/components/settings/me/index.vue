@@ -41,7 +41,7 @@
 
   <div class="flex justify-end">
     <UDropdown
-      mode="hover"
+      mode="click"
       :popper="{ placement: 'right-start' }"
       :items="deleteLists"
     >
@@ -112,6 +112,15 @@ const updateLastName = async () => {
   }
 }
 
+const deleteAccount = async () => {
+  try {
+    await authStore.deleteUser()
+    authStore.logout()
+  } catch (error) {
+    console.error('Error deleting account:', error)
+  }
+}
+
 const profileImageSrc = computed(() => {
   return (
     preview.value ||
@@ -141,13 +150,6 @@ watch(
 )
 
 const deleteLists = [
-  [
-    {
-      label: 'Cancel'
-    },
-    {
-      label: 'Yes, Irreversible!'
-    }
-  ]
+  [{ label: 'Cancel' }, { label: 'Yes, Irreversible!', click: deleteAccount }]
 ]
 </script>
