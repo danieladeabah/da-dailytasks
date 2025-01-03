@@ -72,6 +72,12 @@ export default defineEventHandler(async event => {
       decoded.id
     ])
 
+    // Update the database with the new filename
+    await connection.query(
+      `UPDATE assignees SET profile_image = ? WHERE user_id = ?`,
+      [profileImageFilename, decoded.id]
+    )
+
     return {
       statusCode: 200,
       message: 'Profile image updated successfully',

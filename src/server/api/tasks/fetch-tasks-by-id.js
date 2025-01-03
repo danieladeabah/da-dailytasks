@@ -29,9 +29,10 @@ export default defineEventHandler(async event => {
         users.last_name AS user_last_name,
         users.profile_image AS user_profile_image,
         assignees.id AS assignee_id,
-        assignees.name AS assignee_name,
+        assignees.first_name AS assignee_first_name,
+        assignees.last_name AS assignee_last_name,
         assignees.email AS assignee_email,
-        assignees.image AS assignee_image,
+        assignees.profile_image AS assignee_profile_image,
         subtasks.id AS subtask_id,
         subtasks.name AS subtask_name,
         subtasks.isChecked AS subtask_isChecked
@@ -74,9 +75,10 @@ export default defineEventHandler(async event => {
       ) {
         acc[taskId].assignees.push({
           id: task.assignee_id,
-          name: task.assignee_name,
+          first_name: task.assignee_first_name,
+          last_name: task.assignee_last_name,
           email: task.assignee_email,
-          image: task.assignee_image
+          profile_image: task.assignee_profile_image
         })
       }
 

@@ -22,11 +22,17 @@ export default defineEventHandler(async event => {
     // Verify the token
     const decoded = jwt.verify(token, secretKey)
 
-    // Update last name in the database
+    // Update last name in the users
     await connection.query(`UPDATE users SET last_name = ? WHERE id = ?`, [
       last_name,
       decoded.id
     ])
+
+    // Update first name in the assignees
+    await connection.query(
+      `UPDATE assignees SET last_name = ? WHERE user_id = ?`,
+      [last_name, decoded.id]
+    )
 
     return {
       statusCode: 200,

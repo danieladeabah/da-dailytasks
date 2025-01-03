@@ -15,9 +15,10 @@ export interface Task {
   assignees: {
     user_id: string
     id: string
-    name: string
+    first_name: string
+    last_name: string
+    profile_image: string
     email: string
-    image: string
   }[]
   subTasks: {
     id: string
