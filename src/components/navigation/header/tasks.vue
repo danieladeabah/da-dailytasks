@@ -1,13 +1,16 @@
 <template>
   <UiKitsUiSlotsHeaderSlot>
     <span>
-      <NuxtLink to="/dashboard" class="text-2xl font-bold">
+      <button
+        @click="$router.back()"
+        class="flex items-center text-2xl font-bold"
+      >
         <img
           src="/assets/icons/back-icon.svg"
-          class="h-5 w-5"
+          class="mr-2 h-5 w-5"
           alt="Back Icon"
         />
-      </NuxtLink>
+      </button>
     </span>
     <span>
       <UButton
