@@ -32,7 +32,7 @@ export default defineEventHandler(async event => {
        FROM tasks
        LEFT JOIN users ON tasks.user_id = users.id
        LEFT JOIN assignees ON tasks.id = assignees.task_id
-       LEFT JOIN subtasks ON tasks.id = subtasks.task_id ORDER BY tasks.deadline DESC`
+       LEFT JOIN subtasks ON tasks.id = subtasks.task_id WHERE tasks.isPrivate = 1 ORDER BY tasks.deadline DESC`
     )
 
     // Group tasks, assignees, and subtasks
