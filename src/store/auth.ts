@@ -318,7 +318,7 @@ export const useAuthenticationStore = defineStore('authentication', {
         return err.message || 'Invalid credentials'
       if (err.statusCode === STATUS_CODES.NOT_FOUND) return 'User not found'
       if (err.statusCode === STATUS_CODES.SERVER_ERROR)
-        return 'Server not hosted online. Come back later or just browse around'
+        return 'Server not hosted online'
       return 'Error: ' + err.message
     },
 
