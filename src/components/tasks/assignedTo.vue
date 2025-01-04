@@ -185,7 +185,7 @@ function removeOption(index: number) {
 }
 
 async function fetchUserDetails(email: string, index: number) {
-  if (!validateEmail(email)) return resetOptionFields(index)
+  if (!isValidEmail(email)) return resetOptionFields(index)
 
   try {
     const data = await fetchUser(email)
@@ -215,11 +215,6 @@ async function fetchUser(email: string) {
 }
 
 const debouncedFetchUserDetails = debounce(fetchUserDetails, 300)
-
-function validateEmail(email: string) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
 
 function submitAssignees() {
   const invalidImages = getMissingImages()
