@@ -82,14 +82,17 @@ export const useAuthenticationStore = defineStore('authentication', {
     ) {
       try {
         this.error = ''
-        const data = await $fetch<any>(apiPath, {
-          method: 'POST',
-          body
-        })
+        const data = await $fetch<{ statusCode: number; token?: string }>(
+          apiPath,
+          {
+            method: 'POST',
+            body
+          }
+        )
 
         if (data.statusCode === successCode) {
           if ('token' in data && data.token) {
-            this.token = data.token as string
+            this.token = data.token
             localStorage.setItem('authToken', this.token)
           }
           this.success = successMessage
@@ -188,13 +191,27 @@ export const useAuthenticationStore = defineStore('authentication', {
         this.clearErrorAfterDelay()
         return
       }
-      await this.authenticateUser(
-        API_PATHS.newPassword,
-        { password, token: this.token },
-        STATUS_CODES.SUCCESS,
-        'Password changed successfully. You can now log in.',
-        '/auth/login'
-      )
+      try {
+        const data = await $fetch<{ statusCode: number }>(
+          API_PATHS.newPassword,
+          {
+            method: 'POST',
+            body: { password, token: location.pathname.split('/').pop() }
+          }
+        )
+
+        if (data.statusCode === STATUS_CODES.SUCCESS) {
+          this.success = 'Password changed successfully!'
+          navigateTo('/auth/login')
+        } else if (data.statusCode === STATUS_CODES.BAD_REQUEST) {
+          this.error = 'Invalid or expired token.'
+          this.clearErrorAfterDelay()
+        } else {
+          this.handleError(data)
+        }
+      } catch (err) {
+        this.handleError(err)
+      }
     },
 
     async updateEmail(newEmail: string) {
