@@ -23,7 +23,7 @@
             {{ isLoggedIn ? 'Go to Dashboard' : 'Get Started Now' }}
           </NuxtLink>
           <p class="mx-6 mt-2 text-sm text-white">
-            {{ authStore.users.length }}+ people using
+            +{{ authStore.users.length }} people using
           </p>
         </div>
       </div>

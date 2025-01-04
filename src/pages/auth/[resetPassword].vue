@@ -1,5 +1,6 @@
 <template>
   <UiKitsUiSlotsAuthWrapper>
+    <template #greet> {{ text.login.loginGreet }} </template>
     <template #title>{{ text.resetPassword }}</template>
     <template #forgotPassword>
       {{ text.resetPasswordNewEmail }}
