@@ -130,7 +130,9 @@ const users = computed(() => {
   return task?.assignees || []
 })
 
-const canManageTask = computed(() => isLoggedIn && taskDetails && isTaskAdmin)
+const canManageTask = computed(
+  () => isLoggedIn.value && taskDetails.value && isTaskAdmin.value
+)
 
 function createEmptyOption() {
   return {

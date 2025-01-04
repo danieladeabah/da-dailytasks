@@ -4,7 +4,7 @@
     <template #header>
       <h1 class="font-bold">{{ texts.tasksProgress }}</h1>
       <UDropdown
-        v-if="isLoggedIn && taskDetails && isTaskAdmin"
+        v-if="canManageTask"
         :items="dropdownLists"
         :popper="{ arrow: true }"
       >
@@ -62,6 +62,10 @@ const { isLoggedIn } = useAuth()
 const tasksStore = useTasksStore()
 const { taskDetails, isTaskAdmin } = useTaskDetails()
 const viewedFromHome = computed(() => route.query.h === 'true')
+
+const canManageTask = computed(
+  () => isLoggedIn.value && taskDetails.value && isTaskAdmin.value
+)
 
 const subTasks = computed(() => taskDetails.value?.subTasks || [])
 
