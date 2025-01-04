@@ -4,11 +4,11 @@
     <template #header>
       <h1 class="font-bold">{{ texts.assignTo }}</h1>
       <UButton
-        v-if="isLoggedIn && taskDetails && isTaskAdmin"
+        v-if="canManageTask"
         color="white"
         variant="ghost"
         trailing-icon="i-heroicons-plus-20-solid"
-        @click="assignToModel"
+        @click="toggleAssignToModal"
       />
     </template>
     <div class="flex items-center space-x-2 overflow-auto">
@@ -16,8 +16,8 @@
         <UiKitsUserAvatar
           v-for="user in users"
           :key="user.id"
-          :src="`https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${user.profile_image}`"
-          :alt="user.first_name + ' ' + user.last_name"
+          :src="getUserProfileImage(user.profile_image)"
+          :alt="getUserFullName(user)"
         />
       </template>
       <p v-else class="text-gray-500">{{ texts.noAssignedUsers }}</p>
@@ -26,18 +26,17 @@
 
   <UiKitsUiSlotsFormModelSlot
     form-title="Assign To"
-    @close-modal="assignToModel"
-    v-if="assignTo"
-    v-model="assignTo"
-    @closeDialog="assignTo = false"
+    v-model="assignToModal"
+    @closeDialog="assignToModal = false"
+    v-if="assignToModal"
   >
     <div
       v-for="(option, index) in options"
-      :key="index"
+      :key="option.id"
       class="flex items-center gap-5"
     >
       <span>{{ index + 1 }}.</span>
-      <div class="flex flex-grow items-center gap-5 rounded-2xl pr-2">
+      <div class="flex flex-grow items-center gap-5 pr-2">
         <UInput
           size="sm"
           class="lg:w-40vw w-full"
@@ -45,36 +44,20 @@
           type="email"
           placeholder="Email address"
           maxLength="250"
-          @keyup.enter="fetchUserDetails(option.email, index)"
+          @keyup.enter="debouncedFetchUserDetails(option.email, index)"
         />
-        <UInput
-          size="sm"
-          class="lg:w-40vw hidden w-full"
-          v-model="option.first_name"
-          placeholder="Full name"
-          maxLength="250"
-          :readonly="true"
-          :disabled="true"
-        />
-        <UInput
-          size="sm"
-          class="lg:w-40vw hidden w-full"
-          v-model="option.last_name"
-          placeholder="Full name"
-          maxLength="250"
-          :readonly="true"
-          :disabled="true"
-        />
-        <UInput
-          size="sm"
-          class="lg:w-40vw hidden w-full"
-          v-model="option.profile_image"
-          maxLength="250"
-          type="url"
-          placeholder="Image URL"
-          :readonly="true"
-          :disabled="true"
-        />
+        <template v-for="field in userDetailFields">
+          <UInput
+            v-if="field.visible"
+            :key="field.key"
+            size="sm"
+            class="lg:w-40vw hidden w-full"
+            :placeholder="field.placeholder"
+            :value="option[field.key as keyof typeof option]"
+            readonly
+            disabled
+          />
+        </template>
         <img
           src="/assets/icons/delete-icon.svg"
           alt="delete"
@@ -88,7 +71,7 @@
       >[Press Enter to confirm user details]</span
     >
     <UButton
-      v-if="options.length < 9"
+      v-if="options.length < maxAssignees"
       size="sm"
       color="gray"
       variant="ghost"
@@ -106,185 +89,199 @@
         class="w-fit"
         color="blue"
         variant="solid"
-        @click="assignToubmit"
-        >{{ texts_a.buttonAssign }}</UButton
+        @click="submitAssignees"
       >
+        {{ texts_a.buttonAssign }}
+      </UButton>
     </div>
   </UiKitsUiSlotsFormModelSlot>
 </template>
 
 <script setup lang="ts">
+import debounce from 'lodash.debounce'
 import {
   dashboard as texts,
   createATask as texts_a
 } from '@/constants/texts.json'
 import { useTasksStore } from '@/store/tasks'
 import { useTaskDetails } from '~/composables/useTaskDetails'
+import { useAuth } from '@/composables/useAuth'
 
 const route = useRoute()
-const { isLoggedIn } = useAuth()
 const tasksStore = useTasksStore()
+const { isLoggedIn } = useAuth()
 const { taskDetails, isTaskAdmin } = useTaskDetails()
-const assignTo = ref(false)
+const assignToModal = ref(false)
 const warningMessage = ref('')
-
+const maxAssignees = 9
 const optionIndex = ref(0)
-const options = ref([
-  {
-    id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
+
+const options = ref([createEmptyOption()])
+
+const userDetailFields = [
+  { key: 'first_name', placeholder: 'First Name', visible: false },
+  { key: 'last_name', placeholder: 'Last Name', visible: false },
+  { key: 'profile_image', placeholder: 'Image URL', visible: false }
+]
+
+const users = computed(() => {
+  const taskId = route.params.tasksId as string
+  const task = tasksStore.findTaskById(taskId)
+  return task?.assignees || []
+})
+
+const canManageTask = computed(() => isLoggedIn && taskDetails && isTaskAdmin)
+
+function createEmptyOption() {
+  return {
+    id: generateAssigneeId(),
     first_name: '',
     last_name: '',
     email: '',
     profile_image: '',
     user_id: ''
   }
-])
-
-const addOption = () => {
-  if (options.value.length < 9)
-    options.value.push({
-      id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
-      first_name: '',
-      last_name: '',
-      email: '',
-      profile_image: '',
-      user_id: ''
-    })
 }
 
-const removeOption = (index: number) => {
-  if (options.value.length > 1) options.value.splice(index, 1)
-  else {
-    options.value[index].first_name = ''
-    options.value[index].last_name = ''
-    options.value[index].email = ''
-    options.value[index].profile_image = ''
-    options.value[index].user_id = ''
+function generateAssigneeId() {
+  return assigneesEncodeBase62(Date.now(), optionIndex.value++)
+}
+
+function toggleAssignToModal() {
+  assignToModal.value = !assignToModal.value
+  if (assignToModal.value) loadAssignees()
+}
+
+function loadAssignees() {
+  const taskId = route.params.tasksId as string
+  const task = tasksStore.findTaskById(taskId)
+  options.value = task?.assignees?.length
+    ? task.assignees.map(mapToOption)
+    : [createEmptyOption()]
+}
+
+function mapToOption(assignee: any) {
+  return {
+    id: assignee.id,
+    first_name: assignee.first_name,
+    last_name: assignee.last_name,
+    email: assignee.email,
+    profile_image: assignee.profile_image,
+    user_id: assignee.user_id
   }
 }
 
-const fetchUserDetails = async (email: string, index: number) => {
+function addOption() {
+  if (options.value.length < maxAssignees)
+    options.value.push(createEmptyOption())
+}
+
+function removeOption(index: number) {
+  if (options.value.length > 1) {
+    options.value.splice(index, 1)
+  } else {
+    Object.assign(options.value[index], createEmptyOption())
+  }
+}
+
+async function fetchUserDetails(email: string, index: number) {
+  if (!validateEmail(email)) return resetOptionFields(index)
+
   try {
-    // Validate email format
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      options.value[index].first_name = ''
-      options.value[index].last_name = ''
-      options.value[index].profile_image = ''
-      options.value[index].user_id = ''
-      return
-    }
-
-    // Simulate API call to fetch user details
-    const response = await fetch(
-      `../../api/auth/get-user-by-email?email=${encodeURIComponent(email)}`
-    )
-    const data = await response.json()
-
+    const data = await fetchUser(email)
     if (data?.user) {
       const { first_name, last_name, profile_image, id } = data.user
-
-      // Set full name and image in the fields
-      options.value[index].first_name = `${first_name}`
-      options.value[index].last_name = `${last_name}`
-      options.value[index].profile_image = profile_image
-      options.value[index].user_id = id
-    } else {
-      // Clear fields if no valid user data is returned
-      options.value[index].first_name = ''
-      options.value[index].last_name = ''
-      options.value[index].profile_image = ''
-      options.value[index].user_id = ''
-    }
-  } catch (error) {
-    console.error('Error fetching user details:', error)
-    options.value[index].first_name = ''
-    options.value[index].last_name = ''
-    options.value[index].profile_image = ''
-    options.value[index].user_id = ''
+      Object.assign(options.value[index], {
+        first_name,
+        last_name,
+        profile_image,
+        user_id: id
+      })
+    } else resetOptionFields(index)
+  } catch {
+    resetOptionFields(index)
   }
 }
 
-const assignToModel = () => {
-  assignTo.value = !assignTo.value
-
-  if (assignTo.value) {
-    const taskId = route.params.tasksId as string
-    const task = tasksStore.findTaskById(taskId)
-    if (task && task.assignees.length > 0) {
-      options.value = task.assignees.map(assignee => ({
-        id: assignee.id,
-        first_name: assignee.first_name,
-        last_name: assignee.last_name,
-        email: assignee.email,
-        profile_image: assignee.profile_image,
-        user_id: assignee.user_id
-      }))
-    } else {
-      options.value = [
-        {
-          id: assigneesEncodeBase62(Date.now(), optionIndex.value++),
-          first_name: '',
-          last_name: '',
-          email: '',
-          profile_image: '',
-          user_id: ''
-        }
-      ]
-    }
-  }
+function resetOptionFields(index: number) {
+  Object.assign(options.value[index], createEmptyOption())
 }
 
-const assignToubmit = () => {
-  const missingImageAssignees = options.value
-    .map((option, index) => {
-      if (
-        (option.first_name?.trim() !== '' ||
-          option.last_name?.trim() !== '' ||
-          option.email?.trim() !== '') &&
-        (!option.profile_image || option.profile_image.trim() === '')
-      ) {
-        return `#${index + 1}`
-      }
-      return null
-    })
-    .filter(assignee => assignee !== null) as string[]
+async function fetchUser(email: string) {
+  const response = await fetch(
+    `../../api/auth/get-user-by-email?email=${encodeURIComponent(email)}`
+  )
+  return response.json()
+}
 
-  if (missingImageAssignees.length > 0) {
-    warningMessage.value = `${missingImageAssignees.join(', ')} ${missingImageAssignees.length > 1 ? 'do not have images' : 'does not have an image'}.`
+const debouncedFetchUserDetails = debounce(fetchUserDetails, 300)
+
+function validateEmail(email: string) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+function submitAssignees() {
+  const invalidImages = getMissingImages()
+  if (invalidImages.length) {
+    warningMessage.value = formatWarningMessage(
+      invalidImages.filter(image => image !== null)
+    )
     return
   }
-
-  const taskId = route.params.tasksId as string
-  const task = tasksStore.findTaskById(taskId)
-  if (task) {
-    task.assignees = options.value
-      .filter(
-        option =>
-          option.first_name?.trim() !== '' &&
-          option.last_name?.trim() !== '' &&
-          option.email?.trim() !== '' &&
-          option.profile_image?.trim() !== '' &&
-          option.profile_image !== null
-      )
-      .map(option => ({
-        id: option.id,
-        first_name: option.first_name,
-        last_name: option.last_name,
-        email: option.email,
-        profile_image: option.profile_image,
-        user_id: option.user_id,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }))
-    tasksStore.assignPeopleToTask(task)
-  }
-  warningMessage.value = ''
-  assignToModel()
+  assignValidAssignees()
 }
 
-const users = computed(() => {
+function getMissingImages() {
+  return options.value
+    .map((option, index) => (optionRequiresImage(option) ? index + 1 : null))
+    .filter(Boolean)
+}
+
+function optionRequiresImage(option: any) {
+  return (
+    (option.first_name || option.last_name || option.email) &&
+    !option.profile_image?.trim()
+  )
+}
+
+function formatWarningMessage(missingImages: number[]) {
+  const plural = missingImages.length > 1
+  return `#${missingImages.join(', ')} ${plural ? 'do not have images' : 'does not have an image'}.`
+}
+
+function assignValidAssignees() {
   const taskId = route.params.tasksId as string
   const task = tasksStore.findTaskById(taskId)
-  return task ? task.assignees : []
-})
+  if (!task) return
+  task.assignees = options.value.filter(isValidOption).map(prepareAssigneeData)
+  tasksStore.assignPeopleToTask(task)
+  warningMessage.value = ''
+  assignToModal.value = false
+}
+
+function isValidOption(option: any) {
+  return (
+    option.first_name?.trim() &&
+    option.last_name?.trim() &&
+    option.email?.trim() &&
+    option.profile_image?.trim()
+  )
+}
+
+function prepareAssigneeData(option: any) {
+  return {
+    ...option,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  }
+}
+
+function getUserFullName(user: any) {
+  return `${user.first_name} ${user.last_name}`
+}
+
+function getUserProfileImage(profileImage: string) {
+  return `https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${profileImage}`
+}
 </script>
