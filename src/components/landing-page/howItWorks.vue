@@ -15,7 +15,7 @@
       "
     >
       <iframe
-        src="https://demo.arcade.software/BAJD41Bd8ylCIn0Djst3?embed&embed_mobile=tab&embed_desktop=tab&show_copy_link=true"
+        src="https://demo.arcade.software/BAJD41Bd8ylCIn0Djst3?embed&embed_mobile=inline&embed_desktop=tab&show_copy_link=true"
         title="./dailyTasks"
         loading="lazy"
         webkitallowfullscreen

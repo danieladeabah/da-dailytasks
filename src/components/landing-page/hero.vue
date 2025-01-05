@@ -1,9 +1,9 @@
 <template>
   <section class="bg-gradient-to-r from-red-500 to-blue-300 py-16 md:p-16">
     <div
-      class="container mx-auto flex flex-col items-center justify-between md:flex-row"
+      class="container mx-auto flex flex-col items-center justify-between md:flex-col lg:flex-row"
     >
-      <div class="text-center md:pr-8 md:text-left">
+      <div class="text-center lg:pr-8 lg:text-left">
         <h1 class="text-4xl font-bold leading-snug text-white md:text-5xl">
           Simplify Your Day
           <p class="my-4 text-yellow-200">
@@ -27,7 +27,7 @@
           </p>
         </div>
       </div>
-      <div class="mt-8 flex gap-4 md:ml-8 md:mt-0">
+      <div class="mt-8 flex gap-4 md:ml-8 md:mt-8">
         <img
           src="/assets/icons/mobile-dashboard.png"
           alt="Task management"
@@ -36,7 +36,7 @@
         <img
           src="/assets/icons/mobile-viewed-tasks.png"
           alt="Task management"
-          class="h-[20rem] w-[10rem] rounded-md object-cover sm:block md:hidden lg:block"
+          class="h-[20rem] w-[10rem] rounded-md object-cover"
         />
       </div>
     </div>

@@ -3,4 +3,5 @@
   <LandingPageBenefit />
   <LandingPageHowItWorks />
   <LandingPageTasks />
+  <LandingPageReviews />
 </template>

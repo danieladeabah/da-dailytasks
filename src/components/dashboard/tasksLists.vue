@@ -1,18 +1,12 @@
 <template>
-  <div
-    class="grid gap-5"
-    :class="{
-      'grid-cols-1': route.path !== '/',
-      'grid-cols-1 lg:grid-cols-2': route.path === '/'
-    }"
-  >
+  <div class="grid grid-cols-1 gap-5">
     <template v-if="props.tasks.length > 0">
       <NuxtLink
         v-for="task in props.tasks"
         :key="task.id"
         :to="getTaskLink(task)"
         :title="`Admin: ${task.user.first_name} ${task.user.last_name}`"
-        class="flex items-center justify-between rounded-xl border p-5 hover:translate-y-[-5px] hover:transform hover:shadow-md hover:transition-all hover:duration-300"
+        class="flex items-center justify-between rounded-xl border bg-white p-5 hover:translate-y-[-5px] hover:transform hover:shadow-md hover:transition-all hover:duration-300"
       >
         <div class="flex flex-col gap-1">
           <p>{{ task.name }}</p>

@@ -32,7 +32,7 @@ export default defineEventHandler(async event => {
        FROM tasks
        LEFT JOIN users ON tasks.user_id = users.id
        LEFT JOIN assignees ON tasks.id = assignees.task_id
-       LEFT JOIN subtasks ON tasks.id = subtasks.task_id WHERE tasks.isPrivate = 1 ORDER BY tasks.deadline DESC`
+       LEFT JOIN subtasks ON tasks.id = subtasks.task_id WHERE tasks.isPrivate = 1 ORDER BY rand()`
     )
 
     // Group tasks, assignees, and subtasks
@@ -100,7 +100,7 @@ export default defineEventHandler(async event => {
     const result = Object.values(groupedTasks)
 
     // Limit the number of tasks to 10
-    const limitedResult = result.slice(0, 10)
+    const limitedResult = result.slice(0, 1)
 
     return {
       statusCode: 200,

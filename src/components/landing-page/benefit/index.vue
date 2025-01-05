@@ -7,7 +7,7 @@
       Explore the unique advantages that make managing tasks seamless with
       AI-powered features.
     </p>
-    <div class="grid gap-8 md:grid-cols-4">
+    <div class="mx-4 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
       <div
         v-for="(benefit, index) in benefits"
         :key="index"
