@@ -11,7 +11,8 @@
       <div
         v-for="(benefit, index) in benefits"
         :key="index"
-        class="rounded-lg border bg-white p-6 text-center hover:translate-y-[-5px] hover:transform hover:shadow-xl hover:transition-all hover:duration-300"
+        class="rounded-lg border bg-white p-6 text-center"
+        ref="benefitRefs"
       >
         <div class="mb-4 text-5xl">{{ benefit.icon }}</div>
         <h3 class="mb-2 text-xl font-semibold text-gray-800">
@@ -24,5 +25,19 @@
 </template>
 
 <script setup>
+import anime from 'animejs'
 import { benefits } from '~/constants/landing-page/tasks_benefits'
+
+const benefitRefs = ref([])
+
+onMounted(() => {
+  anime({
+    targets: benefitRefs.value,
+    opacity: [0, 1],
+    translateY: [30, 0],
+    easing: 'easeOutQuad',
+    duration: 1000,
+    delay: anime.stagger(200)
+  })
+})
 </script>
