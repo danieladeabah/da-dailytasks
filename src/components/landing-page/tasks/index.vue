@@ -1,6 +1,6 @@
 <template>
   <UiKitsUiSlotsProjectActivitySlot v-if="tasks.length > 0">
-    <div class="container my-2 mt-8 text-center">
+    <div class="container my-10 text-center">
       <h2 class="text-2xl font-bold text-gray-800">
         Trending ({{ tasks.length }})
       </h2>
