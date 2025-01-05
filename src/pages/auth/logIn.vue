@@ -14,6 +14,7 @@
         v-model="email"
         maxLength="250"
         size="xl"
+        :class="{ 'border-red-600': !isValidEmail(email) }"
       />
       <div class="relative">
         <UInput
@@ -53,6 +54,7 @@
           variant="solid"
           size="xl"
           @click="login"
+          :disabled="!isValidEmail(email) || !password"
         />
       </div>
     </template>
