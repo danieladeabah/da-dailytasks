@@ -82,7 +82,6 @@ const route = useRoute()
 const taskModal = ref()
 const { userInfo } = useUser()
 const { isLoggedIn } = useAuth()
-const viewedFromHome = computed(() => route.query.h === 'true')
 
 const task = computed(() => {
   const taskId = Array.isArray(route.params.tasksId)
@@ -90,16 +89,6 @@ const task = computed(() => {
     : route.params.tasksId
 
   return tasksStore.findTaskById(taskId) || null
-})
-
-onMounted(() => {
-  if (!isLoggedIn.value) {
-    tasksStore.fetchAllTasks()
-  } else if (viewedFromHome.value) {
-    tasksStore.fetchAllTasks()
-  } else {
-    tasksStore.fetchTasksById()
-  }
 })
 
 const openCreateModal = () => {
