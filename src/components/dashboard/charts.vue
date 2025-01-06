@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex items-center justify-center">
     <div v-if="totalTasks > 0">
       <canvas id="chart" width="350" height="350"></canvas>
     </div>

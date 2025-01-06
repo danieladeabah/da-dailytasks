@@ -1,5 +1,4 @@
 <template>
-  <UiKitsHorizontalLine />
   <UiKitsUiSlotsProjectActivitySlot>
     <h1 class="text-xl font-bold">
       {{ texts_c.projectActivity }} ({{ tasks.length + completedTasks.length }})
