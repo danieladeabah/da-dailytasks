@@ -22,9 +22,6 @@
           >
             {{ isLoggedIn ? 'Go to Dashboard' : 'Get Started Now' }}
           </NuxtLink>
-          <p class="mx-6 mt-2 text-sm text-white">
-            +{{ authStore.users.length }} people using
-          </p>
         </div>
       </div>
       <div class="mt-8 flex gap-4 md:ml-8 md:mt-8">
@@ -45,10 +42,6 @@
 
 <script setup lang="ts">
 import { useAuth } from '@/composables/useAuth'
-import { useAuthenticationStore } from '~/store/auth'
-
-const authStore = useAuthenticationStore()
-authStore.getAllUsers()
 
 const { isLoggedIn } = useAuth()
 </script>
