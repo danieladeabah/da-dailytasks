@@ -1,5 +1,5 @@
 <template>
-  <UiKitsHorizontalLine />
+  <CommonHorizontalLine />
   <UiKitsUiSlotsDashboardSlot>
     <template #header>
       <h1 class="font-bold">{{ texts.tasksProgress }}</h1>

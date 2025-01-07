@@ -55,11 +55,11 @@
         </span>
         <span>
           {{ text.signup.termsInfo }}
-          <ULink :to="'/auth/learn-more/termsOfService'" class="underline">{{
+          <ULink :to="'/learn-more/termsOfService'" class="underline">{{
             text.signup.termsOfService
           }}</ULink>
           {{ text.signup.and }}
-          <ULink :to="'/auth/learn-more/privacyPolicy'" class="underline">{{
+          <ULink :to="'/learn-more/privacyPolicy'" class="underline">{{
             text.signup.privacyPolicy
           }}</ULink>
         </span>

@@ -1,5 +1,5 @@
 <template>
-  <UiKitsHorizontalLine />
+  <CommonHorizontalLine />
   <UiKitsUiSlotsDashboardSlot>
     <template #header>
       <h1 class="font-bold">{{ texts.assignTo }}</h1>
@@ -13,7 +13,7 @@
     </template>
     <div class="flex items-center space-x-2 overflow-auto">
       <template v-if="users.length > 0">
-        <UiKitsUserAvatar
+        <UiKitsCommonUserAvatar
           v-for="user in users"
           :key="user.id"
           :src="getUserProfileImage(user.profile_image)"
