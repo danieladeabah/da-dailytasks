@@ -9,13 +9,13 @@
     <div
       style="
         position: relative;
-        padding-bottom: calc(49.635416666666664% + 41px);
+        padding-bottom: calc(56.25% + 41px);
         height: 0;
         width: 100%;
       "
     >
       <iframe
-        src="https://demo.arcade.software/BAJD41Bd8ylCIn0Djst3?embed&embed_mobile=inline&embed_desktop=tab&show_copy_link=true"
+        src="https://demo.arcade.software/l4Q3vVW3TeM4SrwAVErX?embed&embed_mobile=inline&embed_desktop=tab&show_copy_link=true"
         title="./dailyTasks"
         loading="lazy"
         webkitallowfullscreen
