@@ -13,7 +13,7 @@
     </template>
     <div class="flex items-center space-x-2 overflow-auto">
       <template v-if="users.length > 0">
-        <UiKitsCommonUserAvatar
+        <CommonUserAvatar
           v-for="user in users"
           :key="user.id"
           :src="getUserProfileImage(user.profile_image)"

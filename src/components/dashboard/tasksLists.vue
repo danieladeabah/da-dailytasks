@@ -14,7 +14,7 @@
             {{ texts_c.deadline }} {{ formatDate(task.deadline) }}
           </p>
           <div class="flex w-40 items-center space-x-2 overflow-auto">
-            <UiKitsCommonUserAvatar
+            <CommonUserAvatar
               v-for="user in task.assignees.slice(0, 3)"
               :key="user.id"
               :src="`https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${user.profile_image}`"
