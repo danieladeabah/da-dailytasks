@@ -2,7 +2,7 @@
   <div
     class="container mx-auto w-full rounded-none bg-white shadow-none md:rounded-xl lg:w-full lg:rounded-xl"
   >
-    <UiKitsCommonLoaderSkeleton v-if="loading" />
+    <CommonLoaderSkeleton v-if="loading" />
     <div v-else>
       <slot></slot>
     </div>
