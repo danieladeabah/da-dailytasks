@@ -1,6 +1,6 @@
 <template>
   <div
-    class="my-10 bg-slate-900 p-20 text-center text-white lg:mx-20 lg:rounded-lg"
+    class="my-10 bg-slate-900 p-5 lg:p-20 text-center text-white lg:mx-20 lg:rounded-lg"
   >
     <h1 class="text-3xl">Crafting Stunning Digital Experiences</h1>
     <p class="my-8 text-sm text-[#b0b0b3] lg:mx-20">
