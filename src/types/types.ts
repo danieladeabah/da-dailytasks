@@ -1,11 +1,10 @@
 export interface Task {
-  isChecked: any
   id: string
   user_id: string
   name: string
   deadline: string
   description: string
-  isPrivate: number
+  isPrivate: boolean
   user: {
     id: string
     first_name: string
@@ -26,7 +25,7 @@ export interface Task {
   }[]
   subTasks: {
     id: string
-    isChecked?: number
+    isChecked?: boolean
     name: string
   }[]
   progress: number

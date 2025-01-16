@@ -9,7 +9,7 @@
       :class="{ 'line-through': isChecked, 'cursor-not-allowed': isDisabled }"
     >
       <UCheckbox
-        v-model="isCheckedBoolean"
+        v-model="isChecked"
         :label="task.name"
         color="sky"
         id="switch"
@@ -81,12 +81,6 @@ const { isDisabled } = useTaskDetails()
 const isChecked = ref(props.task.isChecked)
 const editATasks = ref(false)
 
-const isCheckedBoolean = computed({
-  get: () => isChecked.value === 1,
-  set: (val: boolean) => {
-    isChecked.value = val ? 1 : 0
-  }
-})
 const editedTaskName = ref(props.task.name || '')
 const currentTask = ref<Task | null>(null)
 
@@ -137,7 +131,7 @@ const editTaskSubmit = () => {
 watch(
   () => props.task.isChecked,
   value => {
-    isChecked.value = value ? 1 : 0
+    isChecked.value = value
   }
 )
 
