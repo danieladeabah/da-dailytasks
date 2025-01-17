@@ -1,5 +1,6 @@
 export interface Task {
   id: string
+  isChecked?: boolean
   user_id: string
   name: string
   deadline: string
