@@ -32,29 +32,24 @@ See the
 
 ## Project setup
 
-First, install the dependencies:
+```bash
+# yarn
+yarn install # install dependencies
 
-```
-yarn install
-```
+yarn run dev # start the development server
 
-### Compiles and hot-reloads for development
+yarn build # build the application for production
 
-```
-yarn run dev
-```
-
-### Compiles and minifies for production
-
-```
-yarn build
+yarn preview # locally preview production build
 ```
 
-### Lints and fixes files
+Look at the
+[Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to
+learn more.
 
-```
-yarn lint
-```
+Check out the
+[deployment documentation](https://nuxt.com/docs/getting-started/deployment) for
+more information.
 
 ### Customize configuration
 
